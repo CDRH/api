@@ -1,0 +1,397 @@
+swagger: "2.0"
+
+info:
+  version: 0.1.0
+  title: CDRH API
+  description: API to access all public Center for Digital Research in the Humanities resources
+
+schemes:
+  - https
+  #- http make Greg ;_;  Also this http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api#ssl
+host: cdrhapi.unl.edu
+basePath: /v1
+
+
+# TODO: Add extra response codes like 202, 204 no content?
+paths:
+  /:
+    get:
+      summary: API data
+      description: Returns information about the API itself
+      responses:
+        200:
+          description: Information about the API
+          schema:
+            $ref: '#/definitions/root'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/error'
+  /collection/{slug}:
+    get:
+      summary: Gets a specific collection
+      description: List Items
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          description: The slug of the requested collection
+          type: string
+      responses:
+        200:
+          description: A list of items for a specific collection
+          schema:
+            $ref: '#/definitions/items'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/error'
+  /collection/{slug}/info/:
+    get:
+      summary: Gets a specific collection
+      description: List information about the collection, including the fields/schema. 
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          description: The slug of the requested document
+          type: string
+      responses:
+        200:
+          description: A Collection
+          schema:
+            required:
+              - slug
+            properties:
+              full_name:
+                type: string
+              url:
+                type: string
+              slug:
+                type: string
+        default:
+          description: The Collection does not exist.
+  /collection/{slug}/item/{id}/:
+    get:
+      summary: Gets a specific collection
+      description: Return 
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          description: The slug of the requested document
+          type: string
+        - name: id
+          in: path
+          required: true
+          description: The id of the requested document
+          type: string
+      responses:
+        200:
+          description: A list of items
+          schema:
+            $ref: '#/definitions/items'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/error'
+  /collections:
+    get:
+      summary: Retrieves a list of collections
+      description: Returns a list of all CDRH collections.
+      responses:
+        200:
+          description: A list of collections
+          schema:
+            $ref: '#/definitions/collections'
+  /item/{id}:
+    get:
+      summary: Gets a specific document
+      description: Returns a single document by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The id of the requested document
+          type: string
+      responses:
+        200:
+          description: A list of items
+          schema:
+            $ref: '#/definitions/items'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/error'
+  /items:
+    get:
+      summary: Retrieves items
+      description: Returns a list of all CDRH items (documents).
+      parameters:
+       - $ref: '#/parameters/f'
+       - $ref: '#/parameters/facets'
+       - $ref: '#/parameters/hl'
+       - $ref: '#/parameters/min'
+       - $ref: '#/parameters/num'
+       - $ref: '#/parameters/start'
+       - $ref: '#/parameters/sort'
+       - $ref: '#/parameters/sort_desc'
+      responses:
+        200:
+          description: A list of items
+          schema:
+            $ref: '#/definitions/items'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/error'
+
+parameters:
+  f:
+    name: f
+    in: query
+    description: 'field names to query (ex: f.subcategory=photography&f.collection=neihardt)'
+    required: false
+    # Not sure how to define this with changing fields, but this seems to fit their spec
+    type: array
+    items:
+      type: string
+  facets:
+    name: facets
+    in: query
+    description: 'fields to facet items (ex: facets[]=novel&facets[]=author'
+    required: false
+    type: array
+    items:
+      type: string
+  hl:
+    name: hl
+    in: query
+    description: disable highlighting
+    required: false
+    type: boolean
+  min:
+    name: min
+    in: query
+    description: minimize meta API fields returned
+    required: false
+    type: boolean
+  num:
+    name: num
+    in: query
+    description: number of items returned
+    required: false
+    type: integer
+  sort:
+    name: sort
+    in: query
+    description: field to sort ascending
+    required: false
+    type: string
+  # I forgot how we decided to do this, so just copied this quick
+  sort_desc:
+    name: sort_desc
+    in: query
+    description: field to sort descending
+    required: false
+    type: string
+  start:
+    name: start
+    in: query
+    description: index of first item to return in pagination
+    required: false
+    type: integer
+
+
+# TODO: Check if can mark fields required
+definitions:
+  error:
+    type: object
+    properties:
+      req:
+        type: object
+        properties:
+          query_string: 
+            type: string
+            description: the query sent by the user
+      res:
+        type: object
+        properties:
+          code:
+            type: integer
+            description: response code
+          message:
+            type: string
+            description: http error message
+      info:
+        type: object
+        properties:
+          documentation:
+            type: string
+            description: Link to endpoint documentation
+          error:
+            type: string
+            description: friendly error message
+          suggestion:
+            type: string
+            description: Link to a fuzzified query or next level up endpoint
+
+  collection_info:
+    type: object
+    properties:
+      # TODO should there be req?
+      res:
+        type: object
+        properties:
+          code:
+            type: integer
+      info:
+        type: object
+        properties:
+          collection:
+            $ref: '#/definitions/_collection'
+          endpoints:
+            type: array
+            items:
+              type: string
+              description: endpoint
+          fields:
+            type: array
+            description: field information
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: field name
+                type:
+                  type: string
+                  description: field type
+
+  collections:
+    type: object
+    properties:
+      # TODO should there be req?
+      res:
+        type: object
+        properties:
+          code:
+            type: integer
+      info:
+        type: object
+        properties:
+          endpoints:
+            type: array
+            items:
+              type: string
+              description: endpoint
+          collections:
+            type: array
+            items:
+              $ref: '#/definitions/_collection'
+
+  items:
+    type: object
+    properties:
+      req:
+        type: object
+        properties:
+          query_string:
+            type: string
+            description: the query sent by the user
+      res:
+        type: object
+        properties:
+          code:
+            type: integer
+            description: '200'
+          count:
+            type: integer
+            description: number of items found
+
+      items:
+        type: array
+        # items below refers to array elements, not api response items
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+              description: unique identifier for item
+            item_url:
+              type: string
+              description: canonical location of item in api
+            collection:
+              type: string
+              description: the slug of a collection
+            highlights:
+              type: array
+              items:
+                type: string
+                description: highlight element
+            language:
+              type: string
+              description: language of item (default English)
+            project:
+              type: string
+              description: full name of a project
+            more_fields:
+              type: string
+              description: how to tell users that they're going to get back loads of fields?
+
+  root:
+    type: object
+    properties:
+      # TODO should there be a req element?
+      res:
+        type: object
+        properties:
+          code:
+            type: integer
+      info:
+        type: object
+        properties:
+          version:
+            type: string
+            description: major.minor.patch
+          api_updated:
+            type: string
+            format: date
+            description: date api code was altered
+          index_updated:
+            type: string
+            format: date
+            description: date that the contents of the api were last updated
+          documentation:
+            type: string
+            description: link to github
+          endpoints:
+            type: array
+            items:
+              type: string
+              description: list of available endpoints
+          maintainer:
+            type: string
+            description: cdrh.unl.edu
+          fields:
+            type: array
+            items:
+              type: string
+              description: list of available (general) API fields
+
+  # Partial definitions
+  _collection:
+    type: object
+    properties:
+      blurb:
+        type: string
+        description: collection description
+      image:
+        type: string
+        description: URL to project image (if exists)
+      project:
+        type: string
+        description: full name of a project
+      site_url:
+        type: string
+        description: URL to project site (if exists)
