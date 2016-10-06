@@ -55,6 +55,23 @@ security:
 
 # Reference Objects
 parameters:
+  # Path
+  id:
+    name: id
+    in: path
+    type: string
+    description: id of the requested document
+    required: true
+
+  slug:
+    name: slug
+    in: path
+    type: string
+    description: slug of the requested collection
+    required: true
+
+
+  # Query
   f:
     name: f
     in: query
@@ -64,6 +81,7 @@ parameters:
     type: array
     items:
       type: string
+
   facets:
     name: facets
     in: query
@@ -72,30 +90,42 @@ parameters:
     type: array
     items:
       type: string
+
   hl:
     name: hl
     in: query
     description: disable highlighting
     required: false
     type: boolean
+
   min:
     name: min
     in: query
     description: minimize meta API fields returned
     required: false
     type: boolean
+
   num:
     name: num
     in: query
-    description: number of items returned
+    description: max number of items to return per query (default 10)
     required: false
     type: integer
+
+  q:
+    name: q
+    in: query
+    description: query string
+    required: false
+    type: string
+
   sort:
     name: sort
     in: query
     description: field to sort ascending
     required: false
     type: string
+
   # I forgot how we decided to do this, so just copied this quick
   sort_desc:
     name: sort_desc
@@ -103,6 +133,7 @@ parameters:
     description: field to sort descending
     required: false
     type: string
+
   start:
     name: start
     in: query
