@@ -143,6 +143,16 @@ parameters:
 
 
 
+tags:
+-
+  name: collection
+  description: operations with collections
+-
+  name: item
+  description: operations with items
+
+
+
 # TODO: Add extra response codes like 202, 204 no content?
 paths:
   /:
@@ -158,16 +168,15 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/error'
+
   /collection/{slug}:
     get:
       summary: Gets a specific collection
       description: List Items
+      tags:
+      - collection
       parameters:
-        - name: slug
-          in: path
-          required: true
-          description: The slug of the requested collection
-          type: string
+      - $ref: '#/parameters/slug'
       responses:
         200:
           description: A list of items for a specific collection
@@ -177,46 +186,35 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/error'
+
   /collection/{slug}/info/:
     get:
       summary: Gets a specific collection
-      description: List information about the collection, including the fields/schema. 
+      description: List information about the collection, including the fields/schema.
+      tags:
+      - collection
       parameters:
-        - name: slug
-          in: path
-          required: true
-          description: The slug of the requested document
-          type: string
+      - $ref: '#/parameters/slug'
       responses:
         200:
           description: A Collection
           schema:
-            required:
-              - slug
-            properties:
-              full_name:
-                type: string
-              url:
-                type: string
-              slug:
-                type: string
+            $ref: '#/definitions/collection_info'
         default:
-          description: The Collection does not exist.
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/error'
+
   /collection/{slug}/item/{id}/:
     get:
-      summary: Gets a specific collection
-      description: Return 
+      summary: Gets a specific item
+      description: Return a specific item from a CDRH collection.
+      tags:
+      - collection
+      - item
       parameters:
-        - name: slug
-          in: path
-          required: true
-          description: The slug of the requested document
-          type: string
-        - name: id
-          in: path
-          required: true
-          description: The id of the requested document
-          type: string
+      - $ref: '#/parameters/slug'
+      - $ref: '#/parameters/id'
       responses:
         200:
           description: A list of items
@@ -226,6 +224,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/error'
+
   /collections:
     get:
       summary: Retrieves a list of collections
@@ -235,16 +234,15 @@ paths:
           description: A list of collections
           schema:
             $ref: '#/definitions/collections'
+
   /item/{id}:
     get:
       summary: Gets a specific document
       description: Returns a single document by id
+      tags:
+      - item
       parameters:
-        - name: id
-          in: path
-          required: true
-          description: The id of the requested document
-          type: string
+      - $ref: '#/parameters/id'
       responses:
         200:
           description: A list of items
@@ -254,19 +252,23 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/error'
+
   /items:
     get:
       summary: Retrieves items
       description: Returns a list of all CDRH items (documents).
+      tags:
+      - item
       parameters:
-       - $ref: '#/parameters/f'
-       - $ref: '#/parameters/facets'
-       - $ref: '#/parameters/hl'
-       - $ref: '#/parameters/min'
-       - $ref: '#/parameters/num'
-       - $ref: '#/parameters/start'
-       - $ref: '#/parameters/sort'
-       - $ref: '#/parameters/sort_desc'
+      - $ref: '#/parameters/f'
+      - $ref: '#/parameters/facets'
+      - $ref: '#/parameters/hl'
+      - $ref: '#/parameters/min'
+      - $ref: '#/parameters/num'
+      - $ref: '#/parameters/q'
+      - $ref: '#/parameters/sort'
+      - $ref: '#/parameters/sort_desc'
+      - $ref: '#/parameters/start'
       responses:
         200:
           description: A list of items
