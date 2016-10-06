@@ -1,15 +1,55 @@
 swagger: "2.0"
 
 info:
-  version: 0.1.0
   title: CDRH API
   description: API to access all public Center for Digital Research in the Humanities resources
+  version: 0.1.0
+  contact:
+    name: CDRH Dev Team
+    url: https://cdrhapi.unl.edu/contact
+  termsOfService: https://cdrhapi.unl.edu/terms
+#  license:
+#    name:
+#    url:
 
+externalDocs:
+  description: GitHub Repository
+  url: https://github.com/cdrh/api
+
+
+
+# HTTP Specs
 schemes:
   - https
-  #- http make Greg ;_;  Also this http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api#ssl
 host: cdrhapi.unl.edu
 basePath: /v1
+
+# Global MIME Types
+consumes:
+- application/json
+- text/plain; charset=utf-8
+produces:
+- application/json
+- text/plain; charset=utf-8
+
+
+
+# Security
+securityDefinitions:
+  api_key:
+    type: apiKey
+    name: api_key
+    in: header
+    description: API Key security/throttling scheme
+  basic:
+    type: basic
+    description: Basic HTTP Auth
+
+security:
+-
+  api_key: []
+-
+  basic: []
 
 
 
