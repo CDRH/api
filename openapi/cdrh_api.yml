@@ -12,6 +12,66 @@ host: cdrhapi.unl.edu
 basePath: /v1
 
 
+
+# Reference Objects
+parameters:
+  f:
+    name: f
+    in: query
+    description: 'field names to query (ex: f.subcategory=photography&f.collection=neihardt)'
+    required: false
+    # Not sure how to define this with changing fields, but this seems to fit their spec
+    type: array
+    items:
+      type: string
+  facets:
+    name: facets
+    in: query
+    description: 'fields to facet items (ex: facets[]=novel&facets[]=author'
+    required: false
+    type: array
+    items:
+      type: string
+  hl:
+    name: hl
+    in: query
+    description: disable highlighting
+    required: false
+    type: boolean
+  min:
+    name: min
+    in: query
+    description: minimize meta API fields returned
+    required: false
+    type: boolean
+  num:
+    name: num
+    in: query
+    description: number of items returned
+    required: false
+    type: integer
+  sort:
+    name: sort
+    in: query
+    description: field to sort ascending
+    required: false
+    type: string
+  # I forgot how we decided to do this, so just copied this quick
+  sort_desc:
+    name: sort_desc
+    in: query
+    description: field to sort descending
+    required: false
+    type: string
+  start:
+    name: start
+    in: query
+    description: index of first item to return in pagination
+    required: false
+    type: integer
+
+
+
 # TODO: Add extra response codes like 202, 204 no content?
 paths:
   /:
@@ -146,63 +206,9 @@ paths:
           schema:
             $ref: '#/definitions/error'
 
-parameters:
-  f:
-    name: f
-    in: query
-    description: 'field names to query (ex: f.subcategory=photography&f.collection=neihardt)'
-    required: false
-    # Not sure how to define this with changing fields, but this seems to fit their spec
-    type: array
-    items:
-      type: string
-  facets:
-    name: facets
-    in: query
-    description: 'fields to facet items (ex: facets[]=novel&facets[]=author'
-    required: false
-    type: array
-    items:
-      type: string
-  hl:
-    name: hl
-    in: query
-    description: disable highlighting
-    required: false
-    type: boolean
-  min:
-    name: min
-    in: query
-    description: minimize meta API fields returned
-    required: false
-    type: boolean
-  num:
-    name: num
-    in: query
-    description: number of items returned
-    required: false
-    type: integer
-  sort:
-    name: sort
-    in: query
-    description: field to sort ascending
-    required: false
-    type: string
-  # I forgot how we decided to do this, so just copied this quick
-  sort_desc:
-    name: sort_desc
-    in: query
-    description: field to sort descending
-    required: false
-    type: string
-  start:
-    name: start
-    in: query
-    description: index of first item to return in pagination
-    required: false
-    type: integer
 
 
+# Models
 # TODO: Check if can mark fields required
 definitions:
   error:
@@ -379,7 +385,7 @@ definitions:
               type: string
               description: list of available (general) API fields
 
-  # Partial definitions
+  # Partial Definitions
   _collection:
     type: object
     properties:
@@ -395,3 +401,4 @@ definitions:
       site_url:
         type: string
         description: URL to project site (if exists)
+
