@@ -75,19 +75,23 @@ parameters:
   f:
     name: f
     in: query
-    description: 'field names to query (ex: f.subcategory=photography&f.collection=neihardt)'
+    description: 'field names to query; value is two-element array with field name and query string separated by pipe (ex: f=subcategory|photography&f=collection|neihardt)'
     required: false
-    # Not sure how to define this with changing fields, but this seems to fit their spec
     type: array
+    collectionFormat: multi
     items:
-      type: string
+      type: array
+      collectionFormat: pipes
+      items:
+        type: string
 
-  facets:
-    name: facets
+  facet:
+    name: facet
     in: query
-    description: 'fields to facet items (ex: facets[]=novel&facets[]=author'
+    description: 'fields to facet items (ex: facet=novel&facet=author'
     required: false
     type: array
+    collectionFormat: multi
     items:
       type: string
 
@@ -97,6 +101,7 @@ parameters:
     description: disable highlighting
     required: false
     type: boolean
+    allowEmptyValue: true
 
   min:
     name: min
@@ -104,13 +109,15 @@ parameters:
     description: minimize meta API fields returned
     required: false
     type: boolean
+    allowEmptyValue: true
 
   num:
     name: num
     in: query
-    description: max number of items to return per query (default 10)
+    description: max number of items to return per query
     required: false
     type: integer
+    default: 10
 
   q:
     name: q
@@ -125,6 +132,7 @@ parameters:
     description: field to sort ascending
     required: false
     type: string
+    default: title
 
   # I forgot how we decided to do this, so just copied this quick
   sort_desc:
@@ -261,7 +269,7 @@ paths:
       - item
       parameters:
       - $ref: '#/parameters/f'
-      - $ref: '#/parameters/facets'
+      - $ref: '#/parameters/facet'
       - $ref: '#/parameters/hl'
       - $ref: '#/parameters/min'
       - $ref: '#/parameters/num'
