@@ -282,7 +282,6 @@ paths:
 
 
 # Models
-# TODO: Check if can mark fields required
 definitions:
   error:
     type: object
@@ -290,9 +289,9 @@ definitions:
       req:
         type: object
         properties:
-          query_string: 
+          query_string:
             type: string
-            description: the query sent by the user
+            description: request query
       res:
         type: object
         properties:
@@ -304,6 +303,8 @@ definitions:
             description: http error message
       info:
         type: object
+        required:
+        - error
         properties:
           documentation:
             type: string
@@ -318,7 +319,12 @@ definitions:
   collection_info:
     type: object
     properties:
-      # TODO should there be req?
+      req:
+        type: object
+        properties:
+          query_string:
+            type: string
+            description: request query
       res:
         type: object
         properties:
@@ -326,14 +332,18 @@ definitions:
             type: integer
       info:
         type: object
+        required:
+        - collection
+        - endpoints
+        - fields
         properties:
           collection:
             $ref: '#/definitions/_collection'
           endpoints:
             type: array
+            description: collection endpoints
             items:
               type: string
-              description: endpoint
           fields:
             type: array
             description: field information
@@ -350,7 +360,6 @@ definitions:
   collections:
     type: object
     properties:
-      # TODO should there be req?
       res:
         type: object
         properties:
@@ -358,12 +367,15 @@ definitions:
             type: integer
       info:
         type: object
+        required:
+        - endpoints
+        - collections
         properties:
           endpoints:
             type: array
+            description: collection endpoints
             items:
               type: string
-              description: endpoint
           collections:
             type: array
             items:
@@ -377,7 +389,7 @@ definitions:
         properties:
           query_string:
             type: string
-            description: the query sent by the user
+            description: request query
       res:
         type: object
         properties:
@@ -390,9 +402,13 @@ definitions:
 
       items:
         type: array
-        # items below refers to array elements, not api response items
         items:
           type: object
+          required:
+          - id
+          - item_url
+          - collection
+          - collection_name
           properties:
             id:
               type: string
@@ -403,25 +419,24 @@ definitions:
             collection:
               type: string
               description: the slug of a collection
+            collection_name:
+              type: string
+              description: full name of a collection
+            fields_other:
+              type: boolean
+              description: indicate more than common fields are present
             highlights:
               type: array
+              description: list of highlight element
               items:
                 type: string
-                description: highlight element
             language:
               type: string
               description: language of item (default English)
-            project:
-              type: string
-              description: full name of a project
-            more_fields:
-              type: string
-              description: how to tell users that they're going to get back loads of fields?
 
   root:
     type: object
     properties:
-      # TODO should there be a req element?
       res:
         type: object
         properties:
@@ -430,48 +445,64 @@ definitions:
       info:
         type: object
         properties:
-          version:
-            type: string
-            description: major.minor.patch
           api_updated:
             type: string
             format: date
-            description: date api code was altered
+            description: date api code was last updated
+          contact:
+            type: string
+            description: https://cdrhapi.unl.edu/contact
+          description:
+            type: string
+            description: API to access all public Center for Digital Research in the Humanities resources
+          documentation:
+            type: string
+            description: https://cdrhapi.unl.edu/docs
+          endpoints:
+            type: array
+            description: list of endpoints
+            items:
+              type: string
+          fields:
+            type: array
+            description: list of common fields
+            items:
+              type: string
           index_updated:
             type: string
             format: date
-            description: date that the contents of the api were last updated
-          documentation:
+            description: date api contents were last updated
+          license:
             type: string
-            description: link to github
-          endpoints:
-            type: array
-            items:
-              type: string
-              description: list of available endpoints
-          maintainer:
+            description: software license applied to API code and contents (name | url)
+          terms_of_service:
             type: string
-            description: cdrh.unl.edu
-          fields:
-            type: array
-            items:
-              type: string
-              description: list of available (general) API fields
+            description: API terms of service agreed to upon use of non-root endpoint
+          version:
+            type: string
+            description: major.minor.patch
 
   # Partial Definitions
   _collection:
     type: object
+    required:
+    - collection_name
+    - description
+    - slug
     properties:
-      blurb:
+      collection_name:
+        type: string
+        description: full name of collection
+      description:
         type: string
         description: collection description
-      image:
+      image_url:
         type: string
-        description: URL to project image (if exists)
-      project:
-        type: string
-        description: full name of a project
+        description: URL to collection image
       site_url:
         type: string
-        description: URL to project site (if exists)
+        description: URL to collection site
+      slug:
+        type: string
+        description: short name of collection
 
