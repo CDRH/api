@@ -345,17 +345,71 @@ definitions:
             items:
               type: string
           fields:
-            type: array
-            description: field information
-            items:
-              type: object
-              properties:
-                name:
-                  type: string
-                  description: field name
-                type:
-                  type: string
-                  description: field type
+            allOf:
+            - $ref: '#/definitions/_fields_common'
+            - type: object
+              # Collection-specific fields
+              additionalProperties:
+                $ref: '#/definitions/_field'
+        example:
+          collection:
+            collection_name: Star Trek Scripts
+            description: "Scripts of Star Trek: The Original Series"
+            slug: trek_scripts
+          endpoints:
+          - item/{id}
+          fields:
+            id:
+              data_type: integer
+              description: unique identifier
+              indexed: false
+              required: true
+            data_type:
+              data_type: string
+              description: data type of field
+              indexed: false
+              required: true
+            collection:
+              data_type: string
+              description: full name of containing collection
+              indexed: false
+              required: true
+            slug:
+              data_type: string
+              description: short name of containing collection
+              indexed: true
+              required: true
+            title:
+              data_type: string
+              description: title of item
+              indexed: true
+              required: true
+            uri:
+              data_type: string
+              description: URI to item page in UI
+              indexed: true
+              required: true
+            trek_scripts_air_date_d:
+              data_type: date
+              description: original air date of script's episode
+              indexed: true
+              required: true
+            trek_scripts_deleted_scenes_b:
+              data_type: boolean
+              description: whether script's episode has deleted scenes
+              indexed: true
+              required: false
+              trek_scripts_deleted_scenes.scene_is:
+              -
+                data_type: string
+                description: description of script's episode's deleted scene
+                indexed: true
+                required: false
+            trek_scripts_storyboards_b:
+              description: whether script's episode has storyboards
+              data_type: boolean
+              indexed: true
+              required: false
 
   collections:
     type: object
@@ -505,4 +559,76 @@ definitions:
       slug:
         type: string
         description: short name of collection
+
+  _field:
+    type: object
+    required:
+    - data_type
+    - description
+    - indexed
+    - required
+    properties:
+      data_type:
+        type: string
+        description: field data type
+        enum:
+        - binary
+        - boolean
+        - date
+        - geo_point
+        - geo_shape
+        - integer
+        - list
+        - number
+        - string
+      description:
+        type: string
+        description: field description
+      filters:
+        type: array
+        description: list of language filters used when indexing data
+        items:
+          type: string
+      indexed:
+        type: boolean
+        description: whether field is indexed or not
+      required:
+        type: boolean
+        description: whether field is required or not
+    additionalProperties:
+      type: array
+      description: Nested Objects
+      items:
+        $ref: '#/definitions/_field'
+
+  _fields_common:
+    type: object
+    required:
+    - collection
+    - data_type
+    - id
+    - slug
+    - title
+    - uri
+    properties:
+      collection:
+        $ref: '#/definitions/_field'
+      data_type:
+        $ref: '#/definitions/_field'
+      id:
+        $ref: '#/definitions/_field'
+      image_id:
+        $ref: '#/definitions/_field'
+      image_location:
+        $ref: '#/definitions/_field'
+      slug:
+        $ref: '#/definitions/_field'
+      title:
+        $ref: '#/definitions/_field'
+      uri:
+        $ref: '#/definitions/_field'
+      uri_html:
+        $ref: '#/definitions/_field'
+      uri_xml:
+        $ref: '#/definitions/_field'
 
