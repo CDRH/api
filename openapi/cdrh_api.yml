@@ -54,6 +54,9 @@ security:
 
 
 # Reference Objects
+# TODO
+# - Add formats
+# - Add validation properties (min, max, etc)
 parameters:
   # Path
   id:
@@ -151,6 +154,11 @@ parameters:
 
 
 
+# TODO
+# Add responses reference objects?
+
+
+
 tags:
 -
   name: collection
@@ -161,7 +169,13 @@ tags:
 
 
 
-# TODO: Add extra response codes like 202, 204 no content?
+# TODO
+# - Consider adding paths for only returning collection(s') or items' images
+# - Consider removal of /items path so no redundant paths
+#   - Where would it be used if /collection/{slug}/item/{id} is canonical?
+# - Consider /collection/{slug}/item/{title|title_abbrev} for pretty URLs + SEO
+#   - Any non-integer value triggers retrieval based on title|title_abbrev
+# - Brainstorm any other initial operations and response codes
 paths:
   /:
     get:
@@ -290,6 +304,11 @@ paths:
 
 
 # Models
+# TODO
+# - Add defaults
+# - Add enums
+# - Add formats
+# - Finalize set of common fields and field properties
 definitions:
   error:
     type: object
