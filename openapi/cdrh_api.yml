@@ -66,11 +66,11 @@ parameters:
     description: id of the requested document
     required: true
 
-  slug:
-    name: slug
+  shortname:
+    name: shortname
     in: path
     type: string
-    description: slug of the requested collection
+    description: shortname of the requested collection
     required: true
 
 
@@ -91,7 +91,7 @@ parameters:
   facet:
     name: facet
     in: query
-    description: 'fields to facet items (ex: facet=novel&facet=author'
+    description: 'fields to facet items (ex: facet=novel&facet=author)'
     required: false
     type: array
     collectionFormat: multi
@@ -172,8 +172,8 @@ tags:
 # TODO
 # - Consider adding paths for only returning collection(s') or items' images
 # - Consider removal of /items path so no redundant paths
-#   - Where would it be used if /collection/{slug}/item/{id} is canonical?
-# - Consider /collection/{slug}/item/{title|title_abbrev} for pretty URLs + SEO
+#   - Where would it be used if /collection/{shortname}/item/{id} is canonical?
+# - Consider /collection/{shortname}/item/{title|title_abbrev} for pretty URLs + SEO
 #   - Any non-integer value triggers retrieval based on title|title_abbrev
 # - Brainstorm any other initial operations and response codes
 paths:
@@ -191,14 +191,14 @@ paths:
           schema:
             $ref: '#/definitions/error'
 
-  /collection/{slug}:
+  /collection/{shortname}:
     get:
       summary: Gets a specific collection
       description: List Items
       tags:
       - collection
       parameters:
-      - $ref: '#/parameters/slug'
+      - $ref: '#/parameters/shortname'
       responses:
         200:
           description: A list of items for a specific collection
@@ -209,14 +209,14 @@ paths:
           schema:
             $ref: '#/definitions/error'
 
-  /collection/{slug}/info/:
+  /collection/{shortname}/info/:
     get:
       summary: Gets a specific collection
       description: List information about the collection, including the fields/schema.
       tags:
       - collection
       parameters:
-      - $ref: '#/parameters/slug'
+      - $ref: '#/parameters/shortname'
       responses:
         200:
           description: A Collection
@@ -227,7 +227,7 @@ paths:
           schema:
             $ref: '#/definitions/error'
 
-  /collection/{slug}/item/{id}/:
+  /collection/{shortname}/item/{id}/:
     get:
       summary: Gets a specific item
       description: Return a specific item from a CDRH collection.
@@ -235,7 +235,7 @@ paths:
       - collection
       - item
       parameters:
-      - $ref: '#/parameters/slug'
+      - $ref: '#/parameters/shortname'
       - $ref: '#/parameters/id'
       responses:
         200:
@@ -382,57 +382,58 @@ definitions:
           collection:
             collection_name: Star Trek Scripts
             description: "Scripts of Star Trek: The Original Series"
-            slug: trek_scripts
+            shortname: trek_scripts
           endpoints:
           - item/{id}
           fields:
-            id:
+            cdrh-identifier:
               data_type: integer
               description: unique identifier
               indexed: false
               required: true
-            data_type:
+            cdrh-data_type:
               data_type: string
               description: data type of field
               indexed: false
               required: true
+            # is this essentially the "project" field from the api schema?
             collection:
               data_type: string
               description: full name of containing collection
               indexed: false
               required: true
-            slug:
+            cdrh-shortname:
               data_type: string
               description: short name of containing collection
               indexed: true
               required: true
-            title:
+            dc-title:
               data_type: string
               description: title of item
               indexed: true
               required: true
-            uri:
+            cdrh-uri:
               data_type: string
               description: URI to item page in UI
               indexed: true
               required: true
-            trek_scripts_air_date_d:
+            project-trek_scripts_air_date_d:
               data_type: date
               description: original air date of script's episode
               indexed: true
               required: true
-            trek_scripts_deleted_scenes_b:
+            project-trek_scripts_deleted_scenes_b:
               data_type: boolean
               description: whether script's episode has deleted scenes
               indexed: true
               required: false
-              trek_scripts_deleted_scenes.scene_is:
+              project-trek_scripts_deleted_scenes.scene_is:
               -
                 data_type: string
                 description: description of script's episode's deleted scene
                 indexed: true
                 required: false
-            trek_scripts_storyboards_b:
+            project-trek_scripts_storyboards_b:
               description: whether script's episode has storyboards
               data_type: boolean
               indexed: true
@@ -486,20 +487,21 @@ definitions:
         items:
           type: object
           required:
-          - id
-          - item_url
+          - cdrh-identifier
+          - cdrh-uri_data
           - collection
           - collection_name
           properties:
-            id:
+            cdrh-identifier:
               type: string
               description: unique identifier for item
-            item_url:
+            cdrh-uri_data:
               type: string
               description: canonical location of item in api
+            # TODO same question as above, is this actually cdrh-project ?
             collection:
               type: string
-              description: the slug of a collection
+              description: the shortname of a collection
             collection_name:
               type: string
               description: full name of a collection
@@ -568,22 +570,24 @@ definitions:
     type: object
     required:
     - collection_name
-    - description
-    - slug
+    - dc-description
+    - cdrh-shortname
     properties:
+      # TODO maybe collection_name is cdrh-project and otherwise
+      # it is using cdrh-shortname for the "slug"
       collection_name:
         type: string
         description: full name of collection
-      description:
+      dc-description:
         type: string
         description: collection description
-      image_url:
+      cdrh-image_id:
         type: string
         description: URL to collection image
-      site_url:
+      cdrh-uri:
         type: string
         description: URL to collection site
-      slug:
+      cdrh-shortname:
         type: string
         description: short name of collection
 
@@ -631,31 +635,102 @@ definitions:
   _fields_common:
     type: object
     required:
+    # TODO same question as above
     - collection
-    - data_type
-    - id
-    - slug
-    - title
-    - uri
+    - cdrh-data_type
+    - cdrh-identifier
+    - cdrh-shortname
+    - dc-title
+    - cdrh-uri
     properties:
       collection:
         $ref: '#/definitions/_field'
-      data_type:
+      cdrh-data_type:
         $ref: '#/definitions/_field'
-      id:
+      cdrh-identifier:
         $ref: '#/definitions/_field'
-      image_id:
+      dc-identifier:
         $ref: '#/definitions/_field'
-      image_location:
+      cdrh-category:
         $ref: '#/definitions/_field'
-      slug:
+      cdrh-subcategory:
         $ref: '#/definitions/_field'
-      title:
+      cdrh-image_id:
         $ref: '#/definitions/_field'
-      uri:
+      cdrh-fig_location:
         $ref: '#/definitions/_field'
-      uri_html:
+      cdrh-shortname:
         $ref: '#/definitions/_field'
-      uri_xml:
+      dc-title:
         $ref: '#/definitions/_field'
-
+      cdrh-title_sort:
+        $ref: '#/definitions/_field'
+      cdrh-uri:
+        $ref: '#/definitions/_field'
+      cdrh-uri_html:
+        $ref: '#/definitions/_field'
+      cdrh-uri_xml:
+        $ref: '#/definitions/_field'
+      dc-subject:
+        $ref: '#/definitions/_field'
+      dc-description:
+        $ref: '#/definitions/_field'
+      cdrh-topics:
+        $ref: '#/definitions/_field'
+      dcterms-alternative:
+        $ref: '#/definitions/_field'
+      dc-format:
+        $ref: '#/definitions/_field'
+      dc-language:
+        $ref: '#/definitions/_field'
+      dc-relation:
+        $ref: '#/definitions/_field'
+      dc-type:
+        $ref: '#/definitions/_field'
+      dcterms-extent:
+        $ref: '#/definitions/_field'
+      dcterms-medium:
+        $ref: '#/definitions/_field'
+      cdrh-date_display:
+        $ref: '#/definitions/_field'
+      dc-date:
+        $ref: '#/definitions/_field'
+      cdrh-date_not_before:
+        $ref: '#/definitions/_field'
+      cdrh-date_not_after:
+        $ref: '#/definitions/_field'
+      cdrh-rights_uri:
+        $ref: '#/definitions/_field'
+      dc-publisher:
+        $ref: '#/definitions/_field'
+      dc-rights:
+        $ref: '#/definitions/_field'
+      dc-source:
+        $ref: '#/definitions/_field'
+      dcterms-rights_holder:
+        $ref: '#/definitions/_field'
+      cdrh-creator_sort:
+        $ref: '#/definitions/_field'
+      # TODO container fields
+      cdrh-people:
+        $ref: '#/definitions/_field'
+      dc-contributor:
+        $ref: '#/definitions/_field'
+      dc-creator:
+        $ref: '#/definitions/_field'
+      # TODO spatial container field
+      dcterms-coverage-spatial:
+        $ref: '#/definitions/_field'
+      cdrh-keywords:
+        $ref: '#/definitions/_field'
+      cdrh-places:
+        $ref: '#/definitions/_field'
+      cdrh-works:
+        $ref: '#/definitions/_field'
+      cdrh-annotations:
+        $ref: '#/definitions/_field'
+      # TODO are text fields treated differently?
+      cdrh-text:
+        $ref: '#/definitions/_field'
+      dc-abstract:
+        $ref: '#/definitions/_field'
