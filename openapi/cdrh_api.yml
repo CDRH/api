@@ -547,8 +547,8 @@ definitions:
             items:
               type: string
           fields:
-            type: array
-            description: list of common fields
+            type: object
+            description: globally used fields and descriptions
             items:
               type: string
           index_updated:
