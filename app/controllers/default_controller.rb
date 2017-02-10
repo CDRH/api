@@ -37,6 +37,9 @@ class DefaultController < ApplicationController
         ],
         # TODO get descriptions from ES mapping?
         # would rather not manually type in somewhere
+        # or possibly by reading in the YML file for the
+        # schema definitions, which would prevent project
+        # specific fields from popping up in this result
         "fields" => {},
       }
     })

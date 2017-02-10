@@ -62,21 +62,16 @@ class CollectionController < ApplicationController
     end
   end
 
+  def info
+    # Your code here
+
+    render json: {"message" => "yes, it worked"}
+  end
+
   def show
     # Your code here
 
     render json: {"message" => "yes, it worked"}
   end
 
-  def collection_shortname_info_get
-    # Your code here
-
-    render json: {"message" => "yes, it worked"}
-  end
-
-  def collection_shortname_item_id_get
-    # Your code here
-
-    render json: {"message" => "yes, it worked"}
-  end
 end

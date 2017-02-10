@@ -596,6 +596,7 @@ definitions:
     required:
     - data_type
     - description
+    - context
     - indexed
     - required
     properties:
@@ -615,6 +616,9 @@ definitions:
       description:
         type: string
         description: field description
+      context:
+        type: string
+        description: link to schema source (dublin core element uri, etc)
       filters:
         type: array
         description: list of language filters used when indexing data
