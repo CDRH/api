@@ -65,13 +65,13 @@ class CollectionController < ApplicationController
   def info
     # Your code here
 
-    render json: {"message" => "yes, it worked"}
+    render json: {"message" => "collection info"}
   end
 
   def show
     # Your code here
 
-    render json: {"message" => "yes, it worked"}
+    render json: {"message" => "collection show"}
   end
 
 end

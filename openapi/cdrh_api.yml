@@ -76,9 +76,9 @@ parameters:
 
   # Query
   f:
-    name: f
+    name: f[]
     in: query
-    description: 'field names to query; value is two-element array with field name and query string separated by pipe (ex: f=subcategory|photography&f=collection|neihardt)'
+    description: 'field names to query; value is two-element array with field name and query string separated by pipe (ex: f[]=subcategory|photography&f[]=collection|neihardt)'
     required: false
     type: array
     collectionFormat: multi
@@ -89,9 +89,9 @@ parameters:
         type: string
 
   facet:
-    name: facet
+    name: facet[]
     in: query
-    description: 'fields to facet items (ex: facet=novel&facet=author)'
+    description: 'fields to facet items (ex: facet[]=novel&facet[]=author)'
     required: false
     type: array
     collectionFormat: multi
