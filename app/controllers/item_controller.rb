@@ -60,10 +60,7 @@ class ItemController < ApplicationController
     if !params["facet"].blank?
       aggs = {}
       params["facet"].each do |f|
-        # TODO the mapping is incorrect for keywords
-        # they should be keywords ONLY and not a multitype
-        # the multitype requires the .keyword seen below
-        aggs[f] = { "terms" => { "field" => "#{f}.keyword" } }
+        aggs[f] = { "terms" => { "field" => f } }
       end
       req["aggs"] = aggs
     end
@@ -93,7 +90,7 @@ class ItemController < ApplicationController
       # TODO is this the way we want to handle sorting?
       dir = sort_asc ? "asc" : "desc"
       sort_field = sort_asc ? sort_asc : sort_desc
-      sort = { "#{sort_field}.keyword" => { "order" => dir } }
+      sort = { sort_field => { "order" => dir } }
       req["sort"].unshift(sort)
     end
 
