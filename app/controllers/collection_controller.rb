@@ -51,12 +51,12 @@ class CollectionController < ApplicationController
         "req" => {},
         "res" => {
           "code" => 500,
-          "message" => "Something went wrong with the request"
-        },
-        "info" => {
-          "documentation" => "TODO",
-          "error" => e.inspect,
-          "suggestion" => "TODO"
+          "message" => "Something went wrong with the request",
+          "info" => {
+            "documentation" => "TODO",
+            "error" => e.inspect,
+            "suggestion" => "TODO"
+          }
         }
       })
     end

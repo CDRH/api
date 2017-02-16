@@ -229,7 +229,7 @@ paths:
 
   /collection/{shortname}/item/{id}/:
     get:
-      summary: Gets a specific item
+      summary: Gets a specific document
       description: Return a specific item from a CDRH collection.
       tags:
       - collection
@@ -328,20 +328,20 @@ definitions:
           message:
             type: string
             description: http error message
-      info:
-        type: object
-        required:
-        - error
-        properties:
-          documentation:
-            type: string
-            description: Link to endpoint documentation
-          error:
-            type: string
-            description: friendly error message
-          suggestion:
-            type: string
-            description: Link to a fuzzified query or next level up endpoint
+          info:
+            type: object
+            required:
+            - error
+            properties:
+              documentation:
+                type: string
+                description: Link to endpoint documentation
+              error:
+                type: string
+                description: friendly error message
+              suggestion:
+                type: string
+                description: Link to a fuzzified query or next level up endpoint
 
   collection_info:
     type: object
@@ -357,27 +357,27 @@ definitions:
         properties:
           code:
             type: integer
-      info:
-        type: object
-        required:
-        - collection
-        - endpoints
-        - fields
-        properties:
-          collection:
-            $ref: '#/definitions/_collection'
-          endpoints:
-            type: array
-            description: collection endpoints
-            items:
-              type: string
-          fields:
-            allOf:
-            - $ref: '#/definitions/_fields_common'
-            - type: object
+          info:
+            type: object
+            required:
+            - collection
+            - endpoints
+            - fields
+            properties:
+              collection:
+                $ref: '#/definitions/_collection'
+              endpoints:
+                type: array
+                description: collection endpoints
+                items:
+                  type: string
+              fields:
+                allOf:
+                - $ref: '#/definitions/_fields_common'
+                - type: object
               # Collection-specific fields
-              additionalProperties:
-                $ref: '#/definitions/_field'
+                  additionalProperties:
+                    $ref: '#/definitions/_field'
         example:
           collection:
             collection_name: Star Trek Scripts
@@ -447,21 +447,21 @@ definitions:
         properties:
           code:
             type: integer
-      info:
-        type: object
-        required:
-        - endpoints
-        - collections
-        properties:
-          endpoints:
-            type: array
-            description: collection endpoints
-            items:
-              type: string
-          collections:
-            type: array
-            items:
-              $ref: '#/definitions/_collection'
+          info:
+            type: object
+            required:
+            - endpoints
+            - collections
+            properties:
+              endpoints:
+                type: array
+                description: collection endpoints
+                items:
+                  type: string
+              collections:
+                type: array
+                items:
+                  $ref: '#/definitions/_collection'
 
   items:
     type: object
@@ -482,40 +482,10 @@ definitions:
             type: integer
             description: number of items found
 
-      items:
-        type: array
-        items:
-          type: object
-          required:
-          - cdrh-identifier
-          - cdrh-uri_data
-          - collection
-          - collection_name
-          properties:
-            cdrh-identifier:
-              type: string
-              description: unique identifier for item
-            cdrh-uri_data:
-              type: string
-              description: canonical location of item in api
-            # TODO same question as above, is this actually cdrh-project ?
-            collection:
-              type: string
-              description: the shortname of a collection
-            collection_name:
-              type: string
-              description: full name of a collection
-            fields_other:
-              type: boolean
-              description: indicate more than common fields are present
-            highlights:
-              type: array
-              description: list of highlight element
-              items:
-                type: string
-            language:
-              type: string
-              description: language of item (default English)
+          items:
+            type: array
+            items:
+              $ref: '#/definitions/_fields_common'
 
   root:
     type: object
@@ -525,45 +495,45 @@ definitions:
         properties:
           code:
             type: integer
-      info:
-        type: object
-        properties:
-          api_updated:
-            type: string
-            format: date
-            description: date api code was last updated
-          contact:
-            type: string
-            description: https://cdrhapi.unl.edu/contact
-          description:
-            type: string
-            description: API to access all public Center for Digital Research in the Humanities resources
-          documentation:
-            type: string
-            description: https://cdrhapi.unl.edu/docs
-          endpoints:
-            type: array
-            description: list of endpoints
-            items:
-              type: string
-          fields:
+          info:
             type: object
-            description: globally used fields and descriptions
-            items:
-              type: string
-          index_updated:
-            type: string
-            format: date
-            description: date api contents were last updated
-          license:
-            type: string
-            description: software license applied to API code and contents (name | url)
-          terms_of_service:
-            type: string
-            description: API terms of service agreed to upon use of non-root endpoint
-          version:
-            type: string
-            description: major.minor.patch
+            properties:
+              api_updated:
+                type: string
+                format: date
+                description: date api code was last updated
+              contact:
+                type: string
+                description: https://cdrhapi.unl.edu/contact
+              description:
+                type: string
+                description: API to access all public Center for Digital Research in the Humanities resources
+              documentation:
+                type: string
+                description: https://cdrhapi.unl.edu/docs
+              endpoints:
+                type: array
+                description: list of endpoints
+                items:
+                  type: string
+              fields:
+                type: object
+                description: globally used fields and descriptions
+                items:
+                  type: string
+              index_updated:
+                type: string
+                format: date
+                description: date api contents were last updated
+              license:
+                type: string
+                description: software license applied to API code and contents (name | url)
+              terms_of_service:
+                type: string
+                description: API terms of service agreed to upon use of non-root endpoint
+              version:
+                type: string
+                description: major.minor.patch
 
   # Partial Definitions
   _collection:

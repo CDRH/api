@@ -115,19 +115,37 @@ class ItemController < ApplicationController
     req = {
       "query" => {
         "ids" => {
-          # "type" => params["shortname"]
           "values" => [params["id"]]
         }
       }
     }
+
+    if params["shortname"]
+      req["query"]["ids"]["type"] = params["shortname"]
+    end
+
     begin
       res = RestClient.post("#{ES_URI}/_search", req.to_json, { "content-type" => "json" })
       body = JSON.parse(res.body)
       count = body["hits"]["total"]
-      # TODO this is NOT the way that we are expecting the response
-      # but I'm just woodshedding it in for the moment!
-      item = body["hits"]["hits"][0]["_source"]
-      render json: JSON.pretty_generate({ "count" => count, "item" => item })
+      if count > 0
+        # TODO this is NOT the way that we are expecting the response
+        # but I'm just woodshedding it in for the moment!
+        item = body["hits"]["hits"][0]["_source"]
+      else
+        item = {}
+      end
+      render json: JSON.pretty_generate({
+        "req" => {
+          "query_string" => request.fullpath
+        },
+        "res" => {
+          "code" => 200,
+          "count" => count,
+          "item" => item
+        }
+      })
+
     rescue => e
       # TODO handle this in the open api method
       puts "ERROR: #{e}"
