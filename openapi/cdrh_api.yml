@@ -314,11 +314,7 @@ definitions:
     type: object
     properties:
       req:
-        type: object
-        properties:
-          query_string:
-            type: string
-            description: request query
+        $ref: '#/definitions/_req'
       res:
         type: object
         properties:
@@ -347,11 +343,7 @@ definitions:
     type: object
     properties:
       req:
-        type: object
-        properties:
-          query_string:
-            type: string
-            description: request query
+        $ref: '#/definitions/_req'
       res:
         type: object
         properties:
@@ -442,6 +434,8 @@ definitions:
   collections:
     type: object
     properties:
+      req:
+        $ref: '#/definitions/_req'
       res:
         type: object
         properties:
@@ -467,11 +461,7 @@ definitions:
     type: object
     properties:
       req:
-        type: object
-        properties:
-          query_string:
-            type: string
-            description: request query
+        $ref: '#/definitions/_req'
       res:
         type: object
         properties:
@@ -490,6 +480,8 @@ definitions:
   root:
     type: object
     properties:
+      req:
+        $ref: '#/definitions/_req'
       res:
         type: object
         properties:
@@ -605,7 +597,12 @@ definitions:
       description: Nested Objects
       items:
         $ref: '#/definitions/_field'
-
+  _req:
+    type: object
+    properties:
+      query_string:
+        type: string
+        description: request query
   _fields_common:
     type: object
     required:
