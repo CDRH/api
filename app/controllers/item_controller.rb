@@ -96,17 +96,19 @@ class ItemController < ApplicationController
 
     req["query"]["bool"] = bool
 
-    begin
-      puts req
-      res = RestClient.post("#{ES_URI}/_search", req.to_json, { "content-type" => "json" })
-      body = JSON.parse(res.body)
-      # TODO will need to correctly format this for api expected results
-      render json: JSON.pretty_generate(body)
-    rescue => e
-      puts "ERROR: #{e}"
-      # TODO correctly format this for api expected results
-      render json: { "error" => e }
-    end
+    body = post_search req
+    # display error and do not continue
+    return true if !body
+    count = body["hits"]["total"]
+    # TODO make this API format
+    render json: JSON.pretty_generate({
+      "req" => { "query_string" => request.fullpath },
+      "res" => {
+        "code" => 200,
+        "count" => count,
+        "items" => body["hits"]["hits"]
+      }
+    })
   end
 
   def show
@@ -124,32 +126,26 @@ class ItemController < ApplicationController
       req["query"]["ids"]["type"] = params["shortname"]
     end
 
-    begin
-      res = RestClient.post("#{ES_URI}/_search", req.to_json, { "content-type" => "json" })
-      body = JSON.parse(res.body)
-      count = body["hits"]["total"]
-      if count > 0
-        # TODO this is NOT the way that we are expecting the response
-        # but I'm just woodshedding it in for the moment!
-        item = body["hits"]["hits"][0]["_source"]
-      else
-        item = {}
-      end
-      render json: JSON.pretty_generate({
-        "req" => {
-          "query_string" => request.fullpath
-        },
-        "res" => {
-          "code" => 200,
-          "count" => count,
-          "item" => item
-        }
-      })
-
-    rescue => e
-      # TODO handle this in the open api method
-      puts "ERROR: #{e}"
-      render json: { "error" => e }
+    body = post_search req
+    return true if !body
+    count = body["hits"]["total"]
+    if count > 0
+      # TODO this is NOT the way that we are expecting the response
+      # but I'm just woodshedding it in for the moment!
+      item = body["hits"]["hits"][0]["_source"]
+    else
+      item = {}
     end
+    render json: JSON.pretty_generate({
+      "req" => {
+        "query_string" => request.fullpath
+      },
+      "res" => {
+        "code" => 200,
+        "count" => count,
+        "item" => item
+      }
+    })
+
   end
 end

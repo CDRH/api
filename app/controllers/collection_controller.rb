@@ -24,42 +24,26 @@ class CollectionController < ApplicationController
       },
       "size" => 0
     }
-    begin
-      res = RestClient.post("#{ES_URI}/_search", req.to_json, { "content-type" => "json" })
-      body = JSON.parse(res.body)
-      collections = body["aggregations"]["typesAgg"]["buckets"]
+    body = post_search req
+    # display error and do not continue
+    return true if !body
 
-      render json: JSON.pretty_generate({
-        "res" => { "code" => 200 },
-        # TODO would we rather that collection -> endpoint was a key value pair
-        # instead of separate arrays?
-        # TODO also elasticsearch returns the documents from each one in this query
-        # so it would be easy to return if we built that in, also
-        # technically the commented out below is what is in our open api schema atm
-        # "info" => {
-        #   "endpoints" => [],
-        #   "collections" => [],
-        # }
-        "info" => {
-          "collections" => collections
-        }
-      })
-    rescue => e
-      # TODO this should be abstracted out somewhere to that we can call it from multiple
-      # controller actions, or possibly alter middleware / rails default error handling??
-      render json: JSON.pretty_generate({
-        "req" => {},
-        "res" => {
-          "code" => 500,
-          "message" => "Something went wrong with the request",
-          "info" => {
-            "documentation" => "TODO",
-            "error" => e.inspect,
-            "suggestion" => "TODO"
-          }
-        }
-      })
-    end
+    collections = body["aggregations"]["typesAgg"]["buckets"]
+    render json: JSON.pretty_generate({
+      "res" => { "code" => 200 },
+      # TODO would we rather that collection -> endpoint was a key value pair
+      # instead of separate arrays?
+      # TODO also elasticsearch returns the documents from each one in this query
+      # so it would be easy to return if we built that in, also
+      # technically the commented out below is what is in our open api schema atm
+      # "info" => {
+      #   "endpoints" => [],
+      #   "collections" => [],
+      # }
+      "info" => {
+        "collections" => collections
+      }
+    })
   end
 
   def info
