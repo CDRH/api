@@ -28,7 +28,9 @@ class CollectionController < ApplicationController
     # display error and do not continue
     return true if !body
 
-    collections = body["aggregations"]["typesAgg"]["buckets"]
+    collections = body.dig("aggregations", "typesAgg", "buckets")
+    collections = {} if !collections
+
     render json: JSON.pretty_generate({
       "res" => { "code" => 200 },
       # TODO would we rather that collection -> endpoint was a key value pair
@@ -46,14 +48,14 @@ class CollectionController < ApplicationController
     })
   end
 
-  def info
-    # Your code here
-
-    render json: {"message" => "collection info"}
-  end
-
   def show
-    # Your code here
+    # code
+    # info
+    #   collection # def collection
+    #   endpoints []
+    #   fields
+    #     # common
+    #     # collection specific
 
     render json: {"message" => "collection show"}
   end

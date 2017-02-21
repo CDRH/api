@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   # collections
   get '/collections' => 'collection#index', as: :collections
-  get '/collection/:shortname/info' => 'collection#info', as: :collection_info
+  get '/collection/:shortname/info' => 'collection#show', as: :collection
 
   # items
   get '/items' => 'item#index', as: :items
