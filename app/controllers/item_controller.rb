@@ -164,7 +164,7 @@ class ItemController < ApplicationController
     if hits
       return hits.map do |hit|
         hit["_source"]["highlight"] = hit["highlight"]
-        return hit["_source"]
+        hit["_source"]
       end
     else
       return []
@@ -177,7 +177,7 @@ class ItemController < ApplicationController
       formatted = {}
       facets.each do |field, info|
         formatted[field] = {}
-        stats = info["buckets"].each do |b|
+        info["buckets"].each do |b|
           key = b["key"]
           val = b["doc_count"]
           formatted[field][key] = val
