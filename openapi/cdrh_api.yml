@@ -98,6 +98,27 @@ parameters:
     items:
       type: string
 
+  facet_sort:
+    name: facet_sort
+    in: query
+    description: order to return facets (default "score", otherwise "term")
+    type: string
+    required: false
+
+  facet_num:
+    name: facet_num
+    in: query
+    description: number of facets
+    type: integer
+    required: false
+
+  facet_start:
+    name: facet_start
+    in: query
+    description: index of first facet to return in pagination
+    type: integer
+    required: false
+
   hl:
     name: hl
     in: query
@@ -130,20 +151,17 @@ parameters:
     type: string
 
   sort:
-    name: sort
+    name: sort[]
     in: query
-    description: field to sort ascending
+    description: 'sort field and order (ex: sort=title+asc&date+desc)'
     required: false
-    type: string
-    default: title
-
-  # I forgot how we decided to do this, so just copied this quick
-  sort_desc:
-    name: sort_desc
-    in: query
-    description: field to sort descending
-    required: false
-    type: string
+    type: array
+    collectionFormat: multi
+    items:
+      type: array
+      collectionFormat: pipes
+      items:
+        type: string
 
   start:
     name: start
@@ -191,7 +209,7 @@ paths:
           schema:
             $ref: '#/definitions/error'
 
-  /collection/{shortname}:
+  /collection/{shortname}/items:
     get:
       summary: Gets a specific collection
       description: List Items
@@ -209,7 +227,7 @@ paths:
           schema:
             $ref: '#/definitions/error'
 
-  /collection/{shortname}/info/:
+  /collection/{shortname}:
     get:
       summary: Gets a specific collection
       description: List information about the collection, including the fields/schema.
@@ -284,12 +302,14 @@ paths:
       parameters:
       - $ref: '#/parameters/f'
       - $ref: '#/parameters/facet'
+      - $ref: '#/parameters/facet_sort'
+      - $ref: '#/parameters/facet_num'
+      - $ref: '#/parameters/facet_start'
       - $ref: '#/parameters/hl'
       - $ref: '#/parameters/min'
       - $ref: '#/parameters/num'
       - $ref: '#/parameters/q'
       - $ref: '#/parameters/sort'
-      - $ref: '#/parameters/sort_desc'
       - $ref: '#/parameters/start'
       responses:
         200:
@@ -444,14 +464,8 @@ definitions:
           info:
             type: object
             required:
-            - endpoints
             - collections
             properties:
-              endpoints:
-                type: array
-                description: collection endpoints
-                items:
-                  type: string
               collections:
                 type: array
                 items:
@@ -534,6 +548,7 @@ definitions:
     - collection_name
     - dc-description
     - cdrh-shortname
+    - item_count
     properties:
       # TODO maybe collection_name is cdrh-project and otherwise
       # it is using cdrh-shortname for the "slug"
@@ -552,6 +567,12 @@ definitions:
       cdrh-shortname:
         type: string
         description: short name of collection
+      item_count:
+        type: integer
+        description: number of items in a given collection
+      endpoint:
+        type: string
+        description: api url to access resource
 
   _field:
     type: object
