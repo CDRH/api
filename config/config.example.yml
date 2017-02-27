@@ -1,0 +1,17 @@
+default: &default
+  # api metadata / description
+  api_updated: "TODO 2017"
+  contact: "cdrh@unl.edu"
+  description: "API to acess all public Center for Digital Research in the Humanities resources"
+  documentation: "https://cdrhapi.unl.edu/docs"
+  license: "TODO"
+  terms_of_service: "TODO"
+  version: 0.1.0
+test:
+  <<: *default
+development:
+  <<: *default
+  es_path: somepath:port
+  es_index: test1
+production:
+  <<: *default

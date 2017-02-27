@@ -62,7 +62,7 @@ class ItemController < ApplicationController
     end
 
     # FACETS[]
-    if !params["facet"].blank?
+    if !params["facet"].blank? && params["facet"].class == Array
       aggs = {}
       params["facet"].each do |f|
         aggs[f] = { "terms" => { "field" => f } }
