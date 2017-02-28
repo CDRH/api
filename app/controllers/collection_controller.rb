@@ -57,15 +57,21 @@ class CollectionController < ApplicationController
   end
 
   def show
-    # code
-    # info
-    #   collection # def collection
-    #   endpoints []
-    #   fields
-    #     # common
-    #     # collection specific
+    # TODO finish this endpoint
 
-    render json: {"message" => "collection show"}
+    render json: JSON.pretty_generate({
+      "req" => {
+        "query_string" => request.fullpath
+      },
+      "res" => {
+        "code" => 200,
+        "info" => {
+          "collection" => {},
+          "endpoints" => [],
+          "fields" => {}
+        }
+      }
+    })
   end
 
 end
