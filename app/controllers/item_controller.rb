@@ -16,16 +16,21 @@ class ItemController < ApplicationController
   @@item = ["hits", "hits", 0, "_source"]
   @@items = ["hits", "hits"]
 
+  # whether request comes in as a pipe character or encoded pipe
+  # make sure that it is being split correctly
+  @@separator = /[|(%7C)]/
+
   def index
     # Expected parameters
     # q
     # f[]
     # facet[]
+    # facet_sort
+    # facet_num
     # hl
     # min  # TODO implement
     # num
-    # sort
-    # sort_desc
+    # sort[]
     # start
 
     start = params["start"].blank? ? START : params["start"]
@@ -42,8 +47,6 @@ class ItemController < ApplicationController
         }
       },
       "size" => num,
-      # sort by _score by default
-      "sort" => ["_score"],
       "query" => {},
     }
     bool = {}
@@ -63,17 +66,14 @@ class ItemController < ApplicationController
 
     # FACETS[]
     if !params["facet"].blank? && params["facet"].class == Array
-      aggs = {}
-      params["facet"].each do |f|
-        aggs[f] = { "terms" => { "field" => f } }
-      end
+      aggs = prepare_facets
       req["aggs"] = aggs
     end
 
     # FILTER FIELDS F[]
     if !params["f"].blank?
       fields = params["f"]
-      pairs = fields.map { |f| f.split("|") }
+      pairs = fields.map { |f| f.split(@@separator) }
       filter = []
       pairs.each do |pair|
         filter << { "term" => { pair[0] => pair[1] } }
@@ -88,19 +88,21 @@ class ItemController < ApplicationController
     end
 
     # SORT
-    sort_asc = params["sort"].blank? ? nil : params["sort"]
-    sort_desc = params["sort_desc"].blank? ? nil : params["sort_desc"]
-    if sort_asc || sort_desc
-      # default to using asc if sent both sort and sort_desc params
-      # TODO is this the way we want to handle sorting?
-      dir = sort_asc ? "asc" : "desc"
-      sort_field = sort_asc ? sort_asc : sort_desc
-      sort = { sort_field => { "order" => dir } }
-      req["sort"].unshift(sort)
+    req["sort"] = []
+    sort_param = params["sort"].blank? ? [] : params["sort"]
+    sort_param.each do |sort|
+      term, dir = sort.split(@@separator)
+      # default to ascending if nothing specified
+      dir = (dir == "asc" || dir == "desc") ? dir : "asc"
+      req["sort"] << { term => dir }
     end
+    # add default _score after everything else
+    req["sort"] << "_score"
 
     req["query"]["bool"] = bool
 
+    # debug line:
+    # puts "req: #{req}"
     body = post_search req
     # display error and do not continue
     return true if !body
@@ -113,7 +115,6 @@ class ItemController < ApplicationController
     render json: JSON.pretty_generate({
       "req" => { "query_string" => request.fullpath },
       "res" => {
-        # "test" => body,
         "facets" => facets,
         "code" => 200,
         "count" => count,
@@ -187,6 +188,39 @@ class ItemController < ApplicationController
     else
       return []
     end
+  end
+
+  def prepare_facets
+    # FACET_SORT
+    order = { "_count" => "desc" }
+    if !params["facet_sort"].blank?
+      type, dir = params["facet_sort"].split(@@separator)
+      dir = (dir == "asc" || dir == "desc") ? dir : "desc"
+      type = type == "term" ? "_term" : "_count"
+      order = { type => dir }
+    end
+
+    # FACET_START
+    # Note: facet pagination not available currently, use -1 for "all"
+    size = NUM
+    size = params["facet_num"].blank? ? NUM : params["facet_num"]
+
+    aggs = {}
+    params["facet"].each do |f|
+      aggs[f] = {
+        "terms" => {
+          # TODO if dataset is large, can implement partitions?
+          # "include" => {
+          #   "partition" => 0,
+          #   "num_partitions" => 10
+          # },
+          "field" => f,
+          "order" => order,
+          "size" => size
+        }
+      }
+    end
+    return aggs
   end
 
 end

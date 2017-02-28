@@ -101,7 +101,7 @@ parameters:
   facet_sort:
     name: facet_sort
     in: query
-    description: order to return facets (default "score", otherwise "term")
+    description: 'order to return facets. Default "score|desc", otherwise "term". (ex: facet_sort=term|asc)'
     type: string
     required: false
 
@@ -112,12 +112,12 @@ parameters:
     type: integer
     required: false
 
-  facet_start:
-    name: facet_start
-    in: query
-    description: index of first facet to return in pagination
-    type: integer
-    required: false
+  # facet_start:
+  #   name: facet_start
+  #   in: query
+  #   description: index of first facet to return in pagination
+  #   type: integer
+  #   required: false
 
   hl:
     name: hl
@@ -217,6 +217,17 @@ paths:
       - collection
       parameters:
       - $ref: '#/parameters/shortname'
+      - $ref: '#/parameters/f'
+      - $ref: '#/parameters/facet'
+      - $ref: '#/parameters/facet_sort'
+      - $ref: '#/parameters/facet_num'
+      # - $ref: '#/parameters/facet_start'
+      - $ref: '#/parameters/hl'
+      - $ref: '#/parameters/min'
+      - $ref: '#/parameters/num'
+      - $ref: '#/parameters/q'
+      - $ref: '#/parameters/sort'
+      - $ref: '#/parameters/start'
       responses:
         200:
           description: A list of items for a specific collection
@@ -304,7 +315,7 @@ paths:
       - $ref: '#/parameters/facet'
       - $ref: '#/parameters/facet_sort'
       - $ref: '#/parameters/facet_num'
-      - $ref: '#/parameters/facet_start'
+      # - $ref: '#/parameters/facet_start'
       - $ref: '#/parameters/hl'
       - $ref: '#/parameters/min'
       - $ref: '#/parameters/num'
