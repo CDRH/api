@@ -55,8 +55,17 @@ class ItemController < ApplicationController
     if !params["q"].blank?
       # default to searching text field
       # but can search _all field if necessary
-      if params["q"].include?("*")
-        bool["must"] = { "wildcard" => { "cdrh-text" => params["q"] } }
+
+      # TODO look into whether query_string syntax is appropriate
+      # for "advanced" or whether we should be toggling between several
+      advanced_search = is_advanced_query? params["q"]
+      if advanced_search
+        bool["must"] = {
+          "query_string" => {
+            "default_field" => "cdrh-text",
+            "query" => params["q"]
+            }
+          }
       else
         bool["must"] = { "match" => { "cdrh-text" => params["q"] } }
       end
@@ -187,6 +196,16 @@ class ItemController < ApplicationController
       return formatted
     else
       return []
+    end
+  end
+
+  def is_advanced_query? query
+    if query.include?("AND") ||
+      query.include?("OR") ||
+      query.include?("*")
+      return true
+    else
+      return false
     end
   end
 
