@@ -409,12 +409,12 @@ definitions:
           endpoints:
           - item/{id}
           fields:
-            cdrh-identifier:
+            identifier:
               data_type: integer
               description: unique identifier
               indexed: false
               required: true
-            cdrh-data_type:
+            data_type:
               data_type: string
               description: data type of field
               indexed: false
@@ -425,17 +425,17 @@ definitions:
               description: full name of containing collection
               indexed: false
               required: true
-            cdrh-shortname:
+            shortname:
               data_type: string
               description: short name of containing collection
               indexed: true
               required: true
-            dc-title:
+            title:
               data_type: string
               description: title of item
               indexed: true
               required: true
-            cdrh-uri:
+            uri:
               data_type: string
               description: URI to item page in UI
               indexed: true
@@ -557,25 +557,25 @@ definitions:
     type: object
     required:
     - collection_name
-    - dc-description
-    - cdrh-shortname
+    - description
+    - shortname
     - item_count
     properties:
-      # TODO maybe collection_name is cdrh-project and otherwise
-      # it is using cdrh-shortname for the "slug"
+      # TODO maybe collection_name is project and otherwise
+      # it is using shortname for the "slug"
       collection_name:
         type: string
         description: full name of collection
-      dc-description:
+      description:
         type: string
         description: collection description
-      cdrh-image_id:
+      image_id:
         type: string
         description: URL to collection image
-      cdrh-uri:
+      uri:
         type: string
         description: URL to collection site
-      cdrh-shortname:
+      shortname:
         type: string
         description: short name of collection
       item_count:
@@ -640,100 +640,100 @@ definitions:
     required:
     # TODO same question as above
     - collection
-    - cdrh-data_type
-    - cdrh-identifier
-    - cdrh-shortname
-    - dc-title
-    - cdrh-uri
+    - data_type
+    - identifier
+    - shortname
+    - title
+    - uri
     properties:
       collection:
         $ref: '#/definitions/_field'
-      cdrh-data_type:
+      data_type:
         $ref: '#/definitions/_field'
-      cdrh-identifier:
+      identifier:
         $ref: '#/definitions/_field'
-      dc-identifier:
+      identifier:
         $ref: '#/definitions/_field'
-      cdrh-category:
+      category:
         $ref: '#/definitions/_field'
-      cdrh-subcategory:
+      subcategory:
         $ref: '#/definitions/_field'
-      cdrh-image_id:
+      image_id:
         $ref: '#/definitions/_field'
-      cdrh-fig_location:
+      fig_location:
         $ref: '#/definitions/_field'
-      cdrh-shortname:
+      shortname:
         $ref: '#/definitions/_field'
-      dc-title:
+      title:
         $ref: '#/definitions/_field'
-      cdrh-title_sort:
+      title_sort:
         $ref: '#/definitions/_field'
-      cdrh-uri:
+      uri:
         $ref: '#/definitions/_field'
-      cdrh-uri_html:
+      uri_html:
         $ref: '#/definitions/_field'
-      cdrh-uri_xml:
+      uri_xml:
         $ref: '#/definitions/_field'
-      dc-subject:
+      subject:
         $ref: '#/definitions/_field'
-      dc-description:
+      description:
         $ref: '#/definitions/_field'
-      cdrh-topics:
+      topics:
         $ref: '#/definitions/_field'
-      dcterms-alternative:
+      alternative:
         $ref: '#/definitions/_field'
-      dc-format:
+      format:
         $ref: '#/definitions/_field'
-      dc-language:
+      language:
         $ref: '#/definitions/_field'
-      dc-relation:
+      relation:
         $ref: '#/definitions/_field'
-      dc-type:
+      type:
         $ref: '#/definitions/_field'
-      dcterms-extent:
+      extent:
         $ref: '#/definitions/_field'
-      dcterms-medium:
+      medium:
         $ref: '#/definitions/_field'
-      cdrh-date_display:
+      date_display:
         $ref: '#/definitions/_field'
-      dc-date:
+      date:
         $ref: '#/definitions/_field'
-      cdrh-date_not_before:
+      date_not_before:
         $ref: '#/definitions/_field'
-      cdrh-date_not_after:
+      date_not_after:
         $ref: '#/definitions/_field'
-      cdrh-rights_uri:
+      rights_uri:
         $ref: '#/definitions/_field'
-      dc-publisher:
+      publisher:
         $ref: '#/definitions/_field'
-      dc-rights:
+      rights:
         $ref: '#/definitions/_field'
-      dc-source:
+      source:
         $ref: '#/definitions/_field'
-      dcterms-rights_holder:
+      rights_holder:
         $ref: '#/definitions/_field'
-      cdrh-creator_sort:
+      creator_sort:
         $ref: '#/definitions/_field'
       # TODO container fields
-      cdrh-people:
+      people:
         $ref: '#/definitions/_field'
-      dc-contributor:
+      contributor:
         $ref: '#/definitions/_field'
-      dc-creator:
+      creator:
         $ref: '#/definitions/_field'
       # TODO spatial container field
-      dcterms-coverage-spatial:
+      coverage-spatial:
         $ref: '#/definitions/_field'
-      cdrh-keywords:
+      keywords:
         $ref: '#/definitions/_field'
-      cdrh-places:
+      places:
         $ref: '#/definitions/_field'
-      cdrh-works:
+      works:
         $ref: '#/definitions/_field'
-      cdrh-annotations:
+      annotations:
         $ref: '#/definitions/_field'
       # TODO are text fields treated differently?
-      cdrh-text:
+      text:
         $ref: '#/definitions/_field'
-      dc-abstract:
+      abstract:
         $ref: '#/definitions/_field'

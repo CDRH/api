@@ -41,7 +41,7 @@ class ItemController < ApplicationController
       # always include highlights by default
       "highlight" => {
         "fields" => {
-          "cdrh-text" => {
+          "text" => {
             "fragment_size" => 100, "number_of_fragments" => 3
           }
         }
@@ -62,12 +62,12 @@ class ItemController < ApplicationController
       if advanced_search
         bool["must"] = {
           "query_string" => {
-            "default_field" => "cdrh-text",
+            "default_field" => "text",
             "query" => params["q"]
-            }
           }
+        }
       else
-        bool["must"] = { "match" => { "cdrh-text" => params["q"] } }
+        bool["must"] = { "match" => { "text" => params["q"] } }
       end
     else
       bool["must"] = { "match_all" => {} }
