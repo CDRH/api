@@ -52,7 +52,7 @@ class ItemController < ApplicationController
     bool = {}
 
     # TEXT SEARCH Q
-    if !params["q"].blank?
+    if params["q"].present?
       # default to searching text field
       # but can search _all field if necessary
 
@@ -74,13 +74,13 @@ class ItemController < ApplicationController
     end
 
     # FACETS[]
-    if !params["facet"].blank? && params["facet"].class == Array
+    if params["facet"].present? && params["facet"].class == Array
       aggs = prepare_facets
       req["aggs"] = aggs
     end
 
     # FILTER FIELDS F[]
-    if !params["f"].blank?
+    if params["f"].present?
       fields = params["f"]
       pairs = fields.map { |f| f.split(@@separator) }
       filter = []
@@ -91,7 +91,7 @@ class ItemController < ApplicationController
     end
 
     # HIGHLIGHT
-    if !params["hl"].blank? && params["hl"] == "false"
+    if params["hl"].present? && params["hl"] == "false"
       # remove highlighting from request if they don't want it
       req.delete("highlight")
     end
@@ -214,7 +214,7 @@ class ItemController < ApplicationController
   def prepare_facets
     # FACET_SORT
     order = { "_count" => "desc" }
-    if !params["facet_sort"].blank?
+    if params["facet_sort"].present?
       type, dir = params["facet_sort"].split(@@separator)
       dir = (dir == "asc" || dir == "desc") ? dir : "desc"
       type = type == "term" ? "_term" : "_count"
