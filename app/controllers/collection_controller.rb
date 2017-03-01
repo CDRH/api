@@ -34,10 +34,10 @@ class CollectionController < ApplicationController
     collections.map! do |coll|
       {
         "collection_name" => coll["key"],
-        "dc-description" => "TODO",
-        "cdrh-image_id" => "TODO",
-        "cdrh-uri" => "TODO",
-        "cdrh-shortname" => coll["key"],
+        "description" => "TODO",
+        "image_id" => "TODO",
+        "uri" => "TODO",
+        "shortname" => coll["key"],
         "item_count" => coll["doc_count"],
         "endpoint" => collection_path(coll["key"])
       }
