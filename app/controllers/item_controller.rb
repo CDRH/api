@@ -18,7 +18,7 @@ class ItemController < ApplicationController
 
   # whether request comes in as a pipe character or encoded pipe
   # make sure that it is being split correctly
-  @@separator = /[|(%7C)]/
+  @@separator = /(?:\||%7C){1}/
 
   def index
     # Expected parameters
