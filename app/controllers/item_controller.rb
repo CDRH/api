@@ -149,11 +149,11 @@ class ItemController < ApplicationController
     return true if !body
 
     count = body.dig(*@@count)
-    if count > 0
-      item = body.dig(*@@item)
-    else
-      item = {}
-    end
+    # /item/id probably doesn't have highlights at this
+    # point but it could include them in the feature
+    # if we build onto the api's functionality
+    items = combine_items_highlights(body)
+
     render json: JSON.pretty_generate({
       "req" => {
         "query_string" => request.fullpath
@@ -161,7 +161,9 @@ class ItemController < ApplicationController
       "res" => {
         "code" => 200,
         "count" => count,
-        "item" => item
+        # return as array so that accessible in same
+        # way as /items results
+        "items" => items
       }
     })
 
