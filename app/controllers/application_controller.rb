@@ -6,17 +6,14 @@ class ApplicationController < ActionController::API
     res = RestClient.post("#{ES_URI}/_search", json.to_json, { "content-type" => "json" })
     return JSON.parse(res.body)
   rescue => e
-    error_method.call(e)
+    error_method.call(e, json)
     return nil
   end
 
   # I am so pleased that this works
   # as a default error handler
-  def display_error error
+  def display_error error, req_body
     render json: JSON.pretty_generate({
-      "req" => {
-        "query_string" => request.fullpath
-      },
       "res" => {
         "code" => 500,
         "message" => "TODO",
@@ -25,6 +22,10 @@ class ApplicationController < ActionController::API
           "error" => error.inspect,
           "suggestion" => "TODO"
         }
+      },
+      "req" => {
+        "query_string" => request.fullpath,
+        "query_obj" => req_body
       }
     })
   end

@@ -22,13 +22,13 @@ class ItemController < ApplicationController
 
   def index
     # Expected parameters
+    # debug  # TODO implement
     # q
     # f[]
     # facet[]
     # facet_sort
     # facet_num
     # hl
-    # min  # TODO implement
     # num
     # sort[]
     # start
@@ -52,42 +52,17 @@ class ItemController < ApplicationController
     bool = {}
 
     # TEXT SEARCH Q
-    if params["q"].present?
-      # default to searching text field
-      # but can search _all field if necessary
-
-      # TODO look into whether query_string syntax is appropriate
-      # for "advanced" or whether we should be toggling between several
-      advanced_search = is_advanced_query? params["q"]
-      if advanced_search
-        bool["must"] = {
-          "query_string" => {
-            "default_field" => "text",
-            "query" => params["q"]
-          }
-        }
-      else
-        bool["must"] = { "match" => { "text" => params["q"] } }
-      end
-    else
-      bool["must"] = { "match_all" => {} }
-    end
+    bool["must"] = build_text_search
 
     # FACETS[]
     if params["facet"].present? && params["facet"].class == Array
-      aggs = prepare_facets
+      aggs = build_facets
       req["aggs"] = aggs
     end
 
     # FILTER FIELDS F[]
     if params["f"].present?
-      fields = params["f"]
-      pairs = fields.map { |f| f.split(@@separator) }
-      filter = []
-      pairs.each do |pair|
-        filter << { "term" => { pair[0] => pair[1] } }
-      end
-      bool["filter"] = filter
+      bool["filter"] = build_filters
     end
 
     # HIGHLIGHT
@@ -97,17 +72,9 @@ class ItemController < ApplicationController
     end
 
     # SORT
-    req["sort"] = []
-    sort_param = params["sort"].blank? ? [] : params["sort"]
-    sort_param.each do |sort|
-      term, dir = sort.split(@@separator)
-      # default to ascending if nothing specified
-      dir = (dir == "asc" || dir == "desc") ? dir : "asc"
-      req["sort"] << { term => dir }
-    end
-    # add default _score after everything else
-    req["sort"] << "_score"
+    req["sort"] = build_sort
 
+    # add bool to request body
     req["query"]["bool"] = bool
 
     # debug line:
@@ -121,14 +88,24 @@ class ItemController < ApplicationController
     items = combine_items_highlights(body)
     facets = get_facets(body)
 
+    # build user info about request
+    if params["debug"].present?
+      request_info = {
+        "query_string" => request.fullpath,
+        "query_obj" => req
+      }
+    else
+      request_info = {}
+    end
+
     render json: JSON.pretty_generate({
-      "req" => { "query_string" => request.fullpath },
       "res" => {
         "facets" => facets,
         "code" => 200,
         "count" => count,
         "items" => items,
-      }
+      },
+      "req" => request_info
     })
   end
 
@@ -171,6 +148,103 @@ class ItemController < ApplicationController
 
   private
 
+  def build_facets
+    # FACET_SORT
+    order = { "_count" => "desc" }
+    if params["facet_sort"].present?
+      type, dir = params["facet_sort"].split(@@separator)
+      dir = (dir == "asc" || dir == "desc") ? dir : "desc"
+      type = type == "term" ? "_term" : "_count"
+      order = { type => dir }
+    end
+
+    # FACET_START
+    size = NUM
+    size = params["facet_num"].blank? ? NUM : params["facet_num"]
+
+    aggs = {}
+    params["facet"].each do |f|
+      aggs[f] = {
+        "terms" => {
+          # TODO if dataset is large, can implement partitions?
+          # "include" => {
+          #   "partition" => 0,
+          #   "num_partitions" => 10
+          # },
+          "field" => f,
+          "order" => order,
+          "size" => size
+        }
+      }
+    end
+    return aggs
+  end
+
+  def build_filters
+    filter = []
+    fields = params["f"]
+    pairs = fields.map { |f| f.split(@@separator) }
+    pairs.each do |pair|
+      if pair[0].include?(".")
+        path = pair[0].split(".").first
+        # this is a nested field and must be treated differently
+        nested = {
+          "nested" => {
+            "path" => path,
+            "query" => {
+              "term" => {
+                pair[0] => pair[1]
+              }
+            }
+          }
+        }
+        filter << nested
+      else
+        filter << { "term" => { pair[0] => pair[1] } }
+      end
+    end
+    return filter
+  end
+
+  def build_sort
+    sort_obj = []
+    sort_param = params["sort"].blank? ? [] : params["sort"]
+    sort_param.each do |sort|
+      term, dir = sort.split(@@separator)
+      # default to ascending if nothing specified
+      dir = (dir == "asc" || dir == "desc") ? dir : "asc"
+      sort_obj << { term => dir }
+    end
+    # add default _score after everything else
+    sort_obj << "_score"
+    return sort_obj
+  end
+
+  def build_text_search
+    must = {}
+    if params["q"].present?
+      # default to searching text field
+      # but can search _all field if necessary
+
+      # TODO look into whether query_string syntax is appropriate
+      # for "advanced" or whether we should be toggling between several
+      advanced_search = is_advanced_query? params["q"]
+      if advanced_search
+        must = {
+          "query_string" => {
+            "default_field" => "text",
+            "query" => params["q"]
+          }
+        }
+      else
+        must = { "match" => { "text" => params["q"] } }
+      end
+    else
+      must = { "match_all" => {} }
+    end
+    return must
+  end
+
   def combine_items_highlights body
     hits = body.dig(*@@items)
     if hits
@@ -209,39 +283,6 @@ class ItemController < ApplicationController
     else
       return false
     end
-  end
-
-  def prepare_facets
-    # FACET_SORT
-    order = { "_count" => "desc" }
-    if params["facet_sort"].present?
-      type, dir = params["facet_sort"].split(@@separator)
-      dir = (dir == "asc" || dir == "desc") ? dir : "desc"
-      type = type == "term" ? "_term" : "_count"
-      order = { type => dir }
-    end
-
-    # FACET_START
-    # Note: facet pagination not available currently, use -1 for "all"
-    size = NUM
-    size = params["facet_num"].blank? ? NUM : params["facet_num"]
-
-    aggs = {}
-    params["facet"].each do |f|
-      aggs[f] = {
-        "terms" => {
-          # TODO if dataset is large, can implement partitions?
-          # "include" => {
-          #   "partition" => 0,
-          #   "num_partitions" => 10
-          # },
-          "field" => f,
-          "order" => order,
-          "size" => size
-        }
-      }
-    end
-    return aggs
   end
 
 end
