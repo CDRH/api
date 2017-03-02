@@ -175,8 +175,8 @@ class ItemController < ApplicationController
             "name" => {
               "terms" => {
                 "field" => f,
-                # "order" => order,
-                # "size" => size
+                "order" => order,
+                "size" => size
               }
             }
           }
