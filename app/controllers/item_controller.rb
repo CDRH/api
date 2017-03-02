@@ -164,18 +164,37 @@ class ItemController < ApplicationController
 
     aggs = {}
     params["facet"].each do |f|
-      aggs[f] = {
-        "terms" => {
-          # TODO if dataset is large, can implement partitions?
-          # "include" => {
-          #   "partition" => 0,
-          #   "num_partitions" => 10
-          # },
-          "field" => f,
-          "order" => order,
-          "size" => size
+      # if nested, has extra syntax
+      if f.include?(".")
+        path = f.split(".").first
+        aggs[f] = {
+          "nested" => {
+            "path" => path
+          },
+          "aggs" => {
+            "name" => {
+              "terms" => {
+                "field" => f,
+                # "order" => order,
+                # "size" => size
+              }
+            }
+          }
         }
-      }
+      else
+        aggs[f] = {
+          "terms" => {
+            # TODO if dataset is large, can implement partitions?
+            # "include" => {
+            #   "partition" => 0,
+            #   "num_partitions" => 10
+            # },
+            "field" => f,
+            "order" => order,
+            "size" => size
+          }
+        }
+      end
     end
     return aggs
   end
@@ -263,10 +282,24 @@ class ItemController < ApplicationController
       formatted = {}
       facets.each do |field, info|
         formatted[field] = {}
-        info["buckets"].each do |b|
-          key = b["key"]
-          val = b["doc_count"]
-          formatted[field][key] = val
+        buckets = {}
+        # nested fields do not have buckets
+        # at this level in the response structure
+        if info.has_key?("buckets")
+          buckets = info["buckets"]
+        else
+          # get second half of field name
+          nested_field = field.split(".").last
+          buckets = info.dig(nested_field, "buckets")
+        end
+        if buckets
+          buckets.each do |b|
+            key = b["key"]
+            val = b["doc_count"]
+            formatted[field][key] = val
+          end
+        else
+          formatted[field] = {}
         end
       end
       return formatted
