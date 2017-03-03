@@ -18,7 +18,7 @@ class ItemController < ApplicationController
 
   # whether request comes in as a pipe character or encoded pipe
   # make sure that it is being split correctly
-  @@separator = /(?:\||%7C){1}/
+  @@separator = /(?:\||%7C)/
 
   def index
     # Expected parameters
@@ -118,7 +118,7 @@ class ItemController < ApplicationController
       }
     }
 
-    if params["shortname"]
+    if params["shortname"].present?
       req["query"]["ids"]["type"] = params["shortname"]
     end
 
