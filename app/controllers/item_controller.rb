@@ -164,8 +164,27 @@ class ItemController < ApplicationController
 
     aggs = {}
     params["facet"].each do |f|
+      if f.include?("date")
+        # NOTE: if nested fields will ever have dates we will
+        # need to refactor this to be available to both
+        if f.include?(".")
+          field, interval = f.split(".")
+        else
+          field = f
+          interval = "day"
+        end
+        formatted = interval == "year" ? "yyyy" : "yyyy-MM-dd"
+        aggs[f] = {
+          "date_histogram" => {
+            "field" => field,
+            "interval" => interval,
+            "format" => formatted,
+            "min_doc_count" => 1,
+            "order" => order,
+          }
+        }
       # if nested, has extra syntax
-      if f.include?(".")
+      elsif f.include?(".")
         path = f.split(".").first
         aggs[f] = {
           "nested" => {
@@ -179,25 +198,6 @@ class ItemController < ApplicationController
                 "size" => size
               }
             }
-          }
-        }
-      elsif f.include?("date")
-        # NOTE: if nested fields will ever have dates we will
-        # need to refactor this to be available to both
-        if f.include?("|")
-          field, interval = f.split("|")
-        else
-          field = f
-          interval = "day"
-        end
-        formatted = interval == "year" ? "yyyy" : "yyyy-MM-dd"
-        aggs[f] = {
-          "date_histogram" => {
-            "field" => field,
-            "interval" => interval,
-            "format" => formatted,
-            "min_doc_count" => 1,
-            "order" => order,
           }
         }
       else
