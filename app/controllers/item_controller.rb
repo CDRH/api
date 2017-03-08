@@ -181,6 +181,25 @@ class ItemController < ApplicationController
             }
           }
         }
+      elsif f.include?("date")
+        # NOTE: if nested fields will ever have dates we will
+        # need to refactor this to be available to both
+        if f.include?("|")
+          field, interval = f.split("|")
+        else
+          field = f
+          interval = "day"
+        end
+        formatted = interval == "year" ? "yyyy" : "yyyy-MM-dd"
+        aggs[f] = {
+          "date_histogram" => {
+            "field" => field,
+            "interval" => interval,
+            "format" => formatted,
+            "min_doc_count" => 1,
+            "order" => order,
+          }
+        }
       else
         aggs[f] = {
           "terms" => {
@@ -200,29 +219,69 @@ class ItemController < ApplicationController
   end
 
   def build_filters
-    filter = []
+    filter_list = []
     fields = params["f"]
-    pairs = fields.map { |f| f.split(@@separator) }
-    pairs.each do |pair|
-      if pair[0].include?(".")
-        path = pair[0].split(".").first
+    filters = fields.map { |f| f.split(@@separator) }
+    filters.each do |filter|
+      # NESTED FIELD FILTER
+      if filter[0].include?(".")
+        path = filter[0].split(".").first
         # this is a nested field and must be treated differently
         nested = {
           "nested" => {
             "path" => path,
             "query" => {
               "term" => {
-                pair[0] => pair[1]
+                filter[0] => filter[1]
               }
             }
           }
         }
-        filter << nested
+        filter_list << nested
+      # DATE FIELD FILTER
+      elsif filter[0].include?("date")
+        # TODO rethink how all of the below is functioning, it is terrible
+
+        # NOTE: if nested fields contain date this will have to be changed
+        # if there is not an end date specified, reuse start date
+
+        # this could come in as date|1884|1899
+        #   -- filter date field by year range 84 - 99
+        # or date|1969-05-01|1987-02-28
+
+        field = filter.shift
+
+        # now the remaining elements in filter should be dates
+        if filter.length == 1
+          start = filter[0]
+          stop = filter[0]
+        elsif filter.length == 2
+          start = filter[0]
+          stop = filter[1]
+        else
+          # TODO how to raise error here but not render twice?
+          # redirect to error action?
+        end
+
+        start = "#{start}-01-01" if start.length == 4
+        stop = "#{stop}-12-31" if stop.length == 4
+
+        range = {
+          "range" => {
+            field => {
+              "gte" => start,
+              "lte" => stop,
+              "format" => "yyyy-MM-dd",
+            }
+          }
+        }
+        filter_list << range
+      # TRADITIONAL FILTERS
       else
-        filter << { "term" => { pair[0] => pair[1] } }
+        filter_list << { "term" => { filter[0] => filter[1] } }
       end
     end
-    return filter
+    return filter_list
   end
 
   def build_sort
@@ -294,7 +353,7 @@ class ItemController < ApplicationController
         end
         if buckets
           buckets.each do |b|
-            key = b["key"]
+            key = b.has_key?("key_as_string") ? b["key_as_string"] : b["key"]
             val = b["doc_count"]
             formatted[field][key] = val
           end
