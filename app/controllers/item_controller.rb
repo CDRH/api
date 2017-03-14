@@ -363,7 +363,7 @@ class ItemController < ApplicationController
       end
       return formatted
     else
-      return []
+      return {}
     end
   end
 
