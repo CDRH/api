@@ -13,7 +13,7 @@ class ApplicationController < ActionController::API
   # I am so pleased that this works
   # as a default error handler
   def display_error error, req_body
-    render json: JSON.pretty_generate({
+    render status: 500, json: JSON.pretty_generate({
       "res" => {
         "code" => 500,
         "message" => "TODO",

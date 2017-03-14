@@ -35,6 +35,8 @@ class ItemController < ApplicationController
 
     start = params["start"].blank? ? START : params["start"]
     num = params["num"].blank? ? NUM : params["num"]
+    hl_num = params["hl_num"].blank? ? HL_NUM : params["hl_num"]
+    hl_chars = params["hl_chars"].blank? ? HL_CHARS : params["hl_chars"]
     req = {
       "aggs" => {},
       "from" => start,
@@ -42,7 +44,7 @@ class ItemController < ApplicationController
       "highlight" => {
         "fields" => {
           "text" => {
-            "fragment_size" => 100, "number_of_fragments" => 3
+            "fragment_size" => hl_chars, "number_of_fragments" => hl_num
           }
         }
       },
@@ -353,6 +355,8 @@ class ItemController < ApplicationController
         end
         if buckets
           buckets.each do |b|
+            # dates return in wonktastic ways, so grab key_as_string instead of gibberish number
+            # but otherwise just grab the key if key_as_string unavailable
             key = b.has_key?("key_as_string") ? b["key_as_string"] : b["key"]
             val = b["doc_count"]
             formatted[field][key] = val

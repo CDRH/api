@@ -7,6 +7,12 @@ default: &default
   license: "TODO"
   terms_of_service: "TODO"
   version: 0.1.0
+
+  # settings for app
+  start: 0
+  num: 20
+  hl_num: 3      # fragments returned
+  hl_chars: 100  # characters per fragment
 test:
   <<: *default
 development:
