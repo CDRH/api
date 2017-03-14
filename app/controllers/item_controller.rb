@@ -152,12 +152,10 @@ class ItemController < ApplicationController
 
   def build_facets
     # FACET_SORT
-    order = { "_count" => "desc" }
     if params["facet_sort"].present?
       type, dir = params["facet_sort"].split(@@separator)
       dir = (dir == "asc" || dir == "desc") ? dir : "desc"
       type = type == "term" ? "_term" : "_count"
-      order = { type => dir }
     end
 
     # FACET_START
@@ -166,6 +164,9 @@ class ItemController < ApplicationController
 
     aggs = {}
     params["facet"].each do |f|
+      # histograms use a different ordering terminology than normal aggs
+      f_type = type == "_term" ? "_key" : "_count"
+
       if f.include?("date")
         # NOTE: if nested fields will ever have dates we will
         # need to refactor this to be available to both
@@ -176,15 +177,16 @@ class ItemController < ApplicationController
           interval = "day"
         end
         formatted = interval == "year" ? "yyyy" : "yyyy-MM-dd"
-        aggs[f] = {
+        histogram = {
           "date_histogram" => {
             "field" => field,
             "interval" => interval,
             "format" => formatted,
             "min_doc_count" => 1,
-            "order" => order,
+            "order" => { f_type => dir },
           }
         }
+        aggs[f] = histogram
       # if nested, has extra syntax
       elsif f.include?(".")
         path = f.split(".").first
@@ -196,7 +198,7 @@ class ItemController < ApplicationController
             "name" => {
               "terms" => {
                 "field" => f,
-                "order" => order,
+                "order" => { type => dir },
                 "size" => size
               }
             }
@@ -211,7 +213,7 @@ class ItemController < ApplicationController
             #   "num_partitions" => 10
             # },
             "field" => f,
-            "order" => order,
+            "order" => { type => dir },
             "size" => size
           }
         }
