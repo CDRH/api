@@ -152,6 +152,9 @@ class ItemController < ApplicationController
 
   def build_facets
     # FACET_SORT
+    # by default also sort count desc
+    type = "_count"
+    dir = "desc"
     if params["facet_sort"].present?
       type, dir = params["facet_sort"].split(@@separator)
       dir = (dir == "asc" || dir == "desc") ? dir : "desc"
