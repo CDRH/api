@@ -18,6 +18,23 @@ class SearchService
     return nil
   end
 
+  def search_collections
+    req = {
+      "aggs" => {
+        "collections" => {
+          "terms" => {
+            "field" => "_type",
+            "size" => 200
+          }
+        }
+      },
+      "size" => 0
+    }
+    raw_res = post "_search", req
+    res = build_collections_response raw_res
+    on_success req, res
+  end
+
   def search_item id
     req = {
       "query" => {
@@ -30,22 +47,41 @@ class SearchService
       req["query"]["ids"]["type"] = @params["shortname"]
     end
     raw_res = post "_search", req
-    return build_response raw_res
+    res = build_item_response raw_res
+    on_success req, res
   end
 
   def search_items
-    req = build_request
+    req = build_item_request
     raw_res = post "_search", req
-    return build_response raw_res
+    res = build_item_response raw_res
+    on_success req, res
   end
 
   protected
 
-  def build_request
+  def on_success req, res
+    json = {
+      "req" => {
+        "query_string" => @user_req
+      },
+      "res" => res
+    }
+    if @params["debug"].present?
+      json["req"]["query_obj"] = req
+    end
+    return json
+  end
+
+  def build_collections_response res
+    SearchCollectionsResponseBuilder.new(res).build_response
+  end
+
+  def build_item_request
     SearchItemRequestBuilder.new(@params).build_request
   end
 
-  def build_response res
+  def build_item_response res
     SearchItemResponseBuilder.new(res).build_response
   end
 

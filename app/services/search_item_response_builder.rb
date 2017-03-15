@@ -18,24 +18,11 @@ class SearchItemResponseBuilder
     items = combine_highlights
     facets = reformat_facets
 
-    # build user info about request
-    if @debug
-      request_info = {
-        "query_string" => request.fullpath,
-        "query_obj" => req
-      }
-    else
-      request_info = {}
-    end
-
     return {
-      "res" => {
-        "facets" => facets,
-        "code" => 200,
-        "count" => count,
-        "items" => items,
-      },
-      "req" => request_info
+      "code" => 200,
+      "count" => count,
+      "facets" => facets,
+      "items" => items,
     }
   end
 
