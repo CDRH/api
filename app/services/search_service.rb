@@ -10,12 +10,11 @@ class SearchService
     @user_req = user_req
   end
 
-  def post url_ending, json, error_method=method(:display_error)
+  def post url_ending, json
     res = RestClient.post("#{@url}/#{url_ending}", json.to_json, { "content-type" => "json" } )
     return JSON.parse(res.body)
   rescue => e
-    error_method.call(e, json)
-    return nil
+    return e
   end
 
   def search_collections
@@ -31,8 +30,12 @@ class SearchService
       "size" => 0
     }
     raw_res = post "_search", req
-    res = build_collections_response raw_res
-    on_success req, res
+    if raw_res.class = RuntimeError
+      on_error raw_res, req
+    else
+      res = build_collections_response raw_res
+      on_success req, res
+    end
   end
 
   def search_item id
@@ -47,18 +50,44 @@ class SearchService
       req["query"]["ids"]["type"] = @params["shortname"]
     end
     raw_res = post "_search", req
-    res = build_item_response raw_res
-    on_success req, res
+    if raw_res.class == RuntimeError
+      on_error raw_res, req
+    else
+      res = build_item_response raw_res
+      on_success req, res
+    end
   end
 
   def search_items
     req = build_item_request
     raw_res = post "_search", req
-    res = build_item_response raw_res
-    on_success req, res
+    if raw_res.class == RuntimeError
+      on_error raw_res, req
+    else
+      res = build_item_response raw_res
+      on_success req, res
+    end
   end
 
   protected
+
+  def on_error error_msg, req, friendly_msg="Something went wrong"
+    {
+      "req" => {
+        "query_string" => @user_req,
+        "query_obj" => req
+      },
+      "res" => {
+        "code" => 500,
+        "message" => friendly_msg,
+        "info" => {
+          "documentation" => "TODO",
+          "error" => error_msg.inspect,
+          "suggestion" => "TODO"
+        }
+      }
+    }
+  end
 
   def on_success req, res
     json = {
@@ -83,27 +112,6 @@ class SearchService
 
   def build_item_response res
     SearchItemResponseBuilder.new(res).build_response
-  end
-
-  def display_error error, req_body
-    {
-      "something" => "is very wrong #{error}"
-    }
-    # render(status: 500, json: JSON.pretty_generate({
-    #   "res" => {
-    #     "code" => 500,
-    #     "message" => "TODO",
-    #     "info" => {
-    #       "documentation" => "TODO",
-    #       "error" => error.inspect,
-    #       "suggestion" => "TODO"
-    #     }
-    #   },
-    #   "req" => {
-    #     "query_string" => @user_req,
-    #     "query_obj" => req_body
-    #   }
-    # }))
   end
 
 end

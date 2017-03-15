@@ -3,7 +3,8 @@ class CollectionController < ApplicationController
   def index
     res = SearchService.new(ES_URI, params, request.fullpath)
       .search_collections
-    render json: JSON.pretty_generate(res)
+    code = res.dig("res", "code")
+    render status: code, json: JSON.pretty_generate(res)
   end
 
   def show
