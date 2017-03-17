@@ -79,7 +79,7 @@ class SearchItemRequestBuilder
       # histograms use a different ordering terminology than normal aggs
       f_type = type == "_term" ? "_key" : "_count"
 
-      if f.include?("date")
+      if f.include?("date") || f.include?("_d")
         # NOTE: if nested fields will ever have dates we will
         # need to refactor this to be available to both
         if f.include?(".")
@@ -155,7 +155,7 @@ class SearchItemRequestBuilder
         }
         filter_list << nested
       # DATE FIELD FILTER
-      elsif filter[0].include?("date")
+      elsif filter[0].include?("date") || filter[0].include?("_d")
         # TODO rethink how all of the below is functioning, it is terrible
 
         # NOTE: if nested fields contain date this will have to be changed

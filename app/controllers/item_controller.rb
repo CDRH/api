@@ -2,6 +2,10 @@ class ItemController < ApplicationController
 
 
   def index
+    if params["shortname"].present?
+      params["f"] = [] if params["f"].blank?
+      params["f"] << "shortname|#{params["shortname"]}"
+    end
     res = SearchService.new(ES_URI, params, request.fullpath)
       .search_items
     code = res.dig("res", "code")
