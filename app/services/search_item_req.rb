@@ -11,10 +11,13 @@ class SearchItemReq
   end
 
   def build_request
-    start = @params["start"].blank? ? START : @params["start"]
+    # pagination
     num = @params["num"].blank? ? NUM : @params["num"]
-    hl_num = @params["hl_num"].blank? ? HL_NUM : @params["hl_num"]
+    start = @params["start"].blank? ? START : @params["start"]
+    # highlighting
     hl_chars = @params["hl_chars"].blank? ? HL_CHARS : @params["hl_chars"]
+    hl_num = @params["hl_num"].blank? ? HL_NUM : @params["hl_num"]
+
     req = {
       "aggs" => {},
       "from" => start,
