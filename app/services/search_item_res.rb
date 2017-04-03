@@ -1,4 +1,4 @@
-class SearchItemResponseBuilder
+class SearchItemRes
 
   attr_reader :body, :debug
 

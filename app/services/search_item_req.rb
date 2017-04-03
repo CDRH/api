@@ -1,4 +1,4 @@
-class SearchItemRequestBuilder
+class SearchItemReq
 
   # whether request comes in as a pipe character or encoded pipe
   # make sure that it is being split correctly
