@@ -75,6 +75,10 @@ class SearchItemReqTest < ActiveSupport::TestCase
     filters = SearchItemReq.new({ "f" => "category|Writings" }).filters
     assert_equal filters, [{"term"=>{"category"=>"Writings"}}]
 
+    # where empty
+    filters = SearchItemReq.new({ "f" => "places|" }).filters
+    assert_equal filters, ["term"=>{"places"=>""}]
+
   end
 
   def test_sort

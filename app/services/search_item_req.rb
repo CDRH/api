@@ -140,7 +140,7 @@ class SearchItemReq
   def filters
     filter_list = []
     fields = arrayifier @params["f"]
-    filters = fields.map { |f| f.split(@@separator) }
+    filters = fields.map {|f| f.split(@@separator, 2) }
     filters.each do |filter|
       # NESTED FIELD FILTER
       if filter[0].include?(".")
