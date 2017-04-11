@@ -35,6 +35,10 @@ class SearchItemReqTest < ActiveSupport::TestCase
     }).facets
     assert_equal facets, {"creator.name"=>{"nested"=>{"path"=>"creator"}, "aggs"=>{"name"=>{"terms"=>{"field"=>"creator.name", "order"=>{"_term"=>"desc"}, "size"=>20}}}}}
 
+    # with non-array
+    facets = SearchItemReq.new({ "facet" => "title" }).facets
+    assert_equal facets, {"title"=>{"terms"=>{"field"=>"title", "order"=>{"_count"=>"desc"}, "size"=>20}}}
+
   end
 
   def test_filters
@@ -67,6 +71,10 @@ class SearchItemReqTest < ActiveSupport::TestCase
     filters = SearchItemReq.new({ "f" => ["publication_d|1900"] }).filters
     assert_equal filters, [{"range"=>{"publication_d"=>{"gte"=>"1900-01-01", "lte"=>"1900-12-31", "format"=>"yyyy-MM-dd"}}}]
 
+    # with non-array
+    filters = SearchItemReq.new({ "f" => "category|Writings" }).filters
+    assert_equal filters, [{"term"=>{"category"=>"Writings"}}]
+
   end
 
   def test_sort
@@ -79,17 +87,25 @@ class SearchItemReqTest < ActiveSupport::TestCase
     sort = SearchItemReq.new({ "sort" => ["title|desc", "author.name|asc"] }).sort
     assert_equal sort, [{"title"=>"desc"}, {"author.name"=>"asc"}, "_score"]
 
+    # with non-array
+    sort = SearchItemReq.new({ "sort" => "title|asc" }).sort
+    assert_equal sort, [{"title"=>"asc"}, "_score"]
+
   end
 
   def test_text_search
 
     # simple
     text = SearchItemReq.new({ "q" => "water" }).text_search
-    assert_equal text, {"match"=>{"text"=>"water"}}
+    assert_equal text, {"query_string"=>{"default_field"=>"text", "query"=>"water"}}
 
     # boolean
     text = SearchItemReq.new({ "q" => "water AND college" }).text_search
     assert_equal text, {"query_string"=>{"default_field"=>"text", "query"=>"water AND college"}}
+
+    # multiple fields
+    text = SearchItemReq.new({ "q" => "(text:water) AND (annotations:water)" }).text_search
+    assert_equal text, {"query_string"=>{"default_field"=>"text", "query"=>"(text:water) AND (annotations:water)"}}
 
     # none
     text = SearchItemReq.new({}).text_search

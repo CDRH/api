@@ -38,7 +38,7 @@ class SearchItemReq
     bool["must"] = text_search
 
     # FACETS[]
-    if @params["facet"].present? && @params["facet"].class == Array
+    if @params["facet"].present?
       aggs = facets
       req["aggs"] = aggs
     end
@@ -78,7 +78,7 @@ class SearchItemReq
     size = @params["facet_num"].blank? ? NUM : @params["facet_num"]
 
     aggs = {}
-    @params["facet"].each do |f|
+    arrayifier(@params["facet"]).each do |f|
       # histograms use a different ordering terminology than normal aggs
       f_type = type == "_term" ? "_key" : "_count"
 
@@ -139,7 +139,7 @@ class SearchItemReq
 
   def filters
     filter_list = []
-    fields = @params["f"]
+    fields = arrayifier @params["f"]
     filters = fields.map { |f| f.split(@@separator) }
     filters.each do |filter|
       # NESTED FIELD FILTER
@@ -203,19 +203,18 @@ class SearchItemReq
     return filter_list
   end
 
-  def is_advanced_query? query
-    if query.include?("AND") ||
-      query.include?("OR") ||
-      query.include?("*")
-      return true
+  # if non-array, return as single element array
+  def arrayifier input
+    if input.class != Array
+      return [input]
     else
-      return false
+      return input
     end
   end
 
   def sort
     sort_obj = []
-    sort_param = @params["sort"].blank? ? [] : @params["sort"]
+    sort_param = @params["sort"].blank? ? [] : arrayifier(@params["sort"])
     sort_param.each do |sort|
       term, dir = sort.split(@@separator)
       # default to ascending if nothing specified
@@ -232,19 +231,14 @@ class SearchItemReq
     if @params["q"].present?
       # default to searching text field
       # but can search _all field if necessary
-
-      # TODO look into whether query_string syntax is appropriate
-      # for "advanced" or whether we should be toggling between several
-      advanced_search = is_advanced_query? @params["q"]
-      if advanced_search
-        must = {
-          "query_string" => {
-            "default_field" => "text",
-            "query" => @params["q"]
-          }
+      must = {
+        "query_string" => {
+          "default_field" => "text",
+          "query" => @params["q"]
         }
-      else
-        must = { "match" => { "text" => @params["q"] } }
+      }
+      if @params["qfield"].present?
+        must["query_string"]["fields"] = arrayifier @params["qfield"]
       end
     else
       must = { "match_all" => {} }
