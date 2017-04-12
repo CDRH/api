@@ -160,8 +160,8 @@ q=word
 
 By default, this will search the "text" field, you can specify a different one to use or multiple fields
 
-- `q=field:word`
-- `q=field:word&otherfield:other`
+`q=field:word`  
+`q=field:word&otherfield:other`
 
 #### Advanced Search
 
