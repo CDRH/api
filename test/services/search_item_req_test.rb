@@ -117,4 +117,20 @@ class SearchItemReqTest < ActiveSupport::TestCase
 
   end
 
+  def test_source
+
+    # spaces, whitelist only
+    source = SearchItemReq.new({ "fl" => "title, creator.name" }).source
+    assert_equal source, {"includes"=>["title", "creator.name"]}
+
+    # blacklist only
+    source = SearchItemReq.new({ "fl" => "!title,!creator.name" }).source
+    assert_equal source, {"excludes"=>["title", "creator.name"]}
+
+    # both
+    source = SearchItemReq.new({ "fl" => "id, title, date, !dat*" }).source
+    assert_equal source, {"includes"=>["id", "title", "date"], "excludes"=>["dat*"]}
+
+  end
+
 end

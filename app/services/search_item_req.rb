@@ -2,7 +2,8 @@ class SearchItemReq
 
   # whether request comes in as a pipe character or encoded pipe
   # make sure that it is being split correctly
-  @@separator = /(?:\||%7C)/
+  @@filter_separator = /(?:\||%7C)/
+  @@fl_separator = /(?:,|%2C)\s?/
 
   attr_accessor :params
 
@@ -57,6 +58,10 @@ class SearchItemReq
     # SORT
     req["sort"] = sort
 
+    if @params["fl"].present?
+      req["_source"] = source
+    end
+
     # add bool to request body
     req["query"]["bool"] = bool
     return req
@@ -68,7 +73,7 @@ class SearchItemReq
     type = "_count"
     dir = "desc"
     if @params["facet_sort"].present?
-      type, dir = @params["facet_sort"].split(@@separator)
+      type, dir = @params["facet_sort"].split(@@filter_separator)
       dir = (dir == "asc" || dir == "desc") ? dir : "desc"
       type = type == "term" ? "_term" : "_count"
     end
@@ -140,7 +145,9 @@ class SearchItemReq
   def filters
     filter_list = []
     fields = arrayifier @params["f"]
-    filters = fields.map {|f| f.split(@@separator, 2) }
+    # each filter should be length 3 for field, type 1, type 2
+    # (type 2 will only be used for dates)
+    filters = fields.map {|f| f.split(@@filter_separator, 3) }
     filters.each do |filter|
       # NESTED FIELD FILTER
       if filter[0].include?(".")
@@ -216,7 +223,7 @@ class SearchItemReq
     sort_obj = []
     sort_param = @params["sort"].blank? ? [] : arrayifier(@params["sort"])
     sort_param.each do |sort|
-      term, dir = sort.split(@@separator)
+      term, dir = sort.split(@@filter_separator)
       # default to ascending if nothing specified
       dir = (dir == "asc" || dir == "desc") ? dir : "asc"
       sort_obj << { term => dir }
@@ -224,6 +231,16 @@ class SearchItemReq
     # add default _score after everything else
     sort_obj << "_score"
     return sort_obj
+  end
+
+  def source
+    all = @params["fl"].split(@@fl_separator)
+    blist, wlist = all.partition { |f| f.start_with?("!") }
+    blist.map! { |f| f[1..-1] }
+    criteria = {}
+    criteria["includes"] = wlist if !wlist.empty?
+    criteria["excludes"] = blist if !blist.empty?
+    return criteria
   end
 
   def text_search
