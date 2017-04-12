@@ -3,6 +3,14 @@ API to access all public Center for Digital Research in the Humanities resources
 
 ## item query
 
+- [Facets](facets)
+- [Field List](field-list)
+- [Filters](filters)
+- [Highlighting](highlighting)
+- [Sorting](sorting)
+- [Start and Rows](start-and-rows)
+- [Text Searches](text-search)
+
 ### facets
 
 Standard keyword fields
@@ -35,7 +43,17 @@ facet[]=date
   #=> { 01-02-1889 : 2, 03-04-1889 : 8 }
 ```
 
-### filter fields
+### field list
+
+Restrict the fields displayed per document in the response. Use `!` to exclude a field. Wildcards in fieldnames supported.
+
+`fl=yes,!no`
+
+```
+fl=title,!date*,date_written
+```
+
+### filters
 
 Standard keyword field
 
@@ -85,7 +103,7 @@ hl=false
 
 **Proposal:  Add parameter to adjust size and number of highlight fragments**
 
-### sort
+### sorting
 
 Document results:
 
