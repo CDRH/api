@@ -3,31 +3,39 @@ API to access all public Center for Digital Research in the Humanities resources
 
 ## item query
 
+- [Facets](#facets)
+- [Field List](#field-list)
+- [Filters](#filters)
+- [Highlighting](#highlighting)
+- [Sorting](#sorting)
+- [Start and Rows](#start-and-rows)
+- [Text Searches](#text-search)
+
 ### facets
 
 Standard keyword fields
 
-```
-facet[]=keyword_field
+`facet[]=keyword_field`
 
+```
 facet[]=category
 facet[]=category&facet[]=title
 ```
 
 Nested fields
 
-```
-facet[]=nested_field.keyword_field
+`facet[]=nested_field.keyword_field`
 
+```
 facet[]=creator.name
 facet[]=creator.name&facet[]=creator.role
 ```
 
 Date ranges (currently supports days or years)
 
-```
-facet[]=date_field.range
+`facet[]=date_field.range`
 
+```
 facet[]=date.year
   #=> { 1889 : 10, 1890 : 20 }
 
@@ -35,22 +43,32 @@ facet[]=date
   #=> { 01-02-1889 : 2, 03-04-1889 : 8 }
 ```
 
-### filter fields
+### field list
+
+Restrict the fields displayed per document in the response. Use `!` to exclude a field. Wildcards in fieldnames supported.
+
+`fl=yes,!no`
+
+```
+fl=title,!date*,date_written
+```
+
+### filters
 
 Standard keyword field
 
-```
-f[]=field|type
+`f[]=field|type`
 
+```
 f[]=category|Writings
 f[]=category|Writings&f[]=format|manuscript
 ```
 
 Nested fields
 
-```
-f[]=nested.keyword|type
+`f[]=nested.keyword|type`
 
+```
 f[]=creator.name|Cather, Willa
 f[]=contributor.role|Editor
 ```
@@ -61,9 +79,9 @@ If given one date, will use it has both start and end.
 
 Can give year range or specify date range
 
-```
-f[]=field|range_start|(range_end)
+`f[]=field|range_start|(range_end)`
 
+```
 f[]=date|1884
   #=> 01-01-1884 to 12-31-1884
 f[]=date|1884|1887
@@ -75,23 +93,30 @@ f[]=date|1884-02-01|1887-03-01
 
 ### highlighting
 
-Highlighting is turned on by default with `fragment_size` of 100, `number_of_fragments` of 3.
-
 If you wish to turn highlighting off:
 
 ```
 hl=false
 ```
 
-**Proposal:  Add parameter to adjust size and number of highlight fragments**
+If highlighting is on, it is set by default to return 3 occasions of a word match set among the 100 surrounding characters.  Change this with `hl_num` and `hl_chars`, respectively.
 
-### sort
+Changing the characters which appear around the highlighted word:
+
+`hl_chars=number`<br>
+`hl_num=number`
+
+```
+hl_chars=30&hl_num=10
+```
+
+### sorting
 
 Document results:
 
-```
-sort[]=field|direction
+`sort[]=field|direction`
 
+```
 sort[]=date|desc&sort[]=title|asc
 ```
 
@@ -99,9 +124,9 @@ Facet results:
 
 Always defaults to score (_count) and descending, so unnecessary to add unless overriding default
 
-```
-facet_sort=field|direction
+`facet_sort=field|direction`
 
+```
 facet_sort=term|desc
 facet_sort=anything_not_term|asc
 ```
@@ -110,22 +135,39 @@ facet_sort=anything_not_term|asc
 
 Note: Zero indexed
 
-```
-start=number
-num=number
+`start=number`<br>
+`num=number`
 
+```
 start=0&num=50   # returns first 50 results
 start=9&num=10   # returns second 10 results
 ```
 
 ### text search
 
+Please refer to [the Elasticsearch query string syntax](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax) for a list of all possibilities for text searching.
+
+#### Basic Search
+
+`q=word`
+
 ```
+q=multiple words
 q=word
-
-q=phrase search
-q=word OR phrase search
-q=wor*
 ```
 
-**Proposal:  Create `qfield[]` to specify the text field(s) which should be searched**
+#### Multiple Fields
+
+By default, this will search the "text" field, you can specify a different one to use or multiple fields
+
+`q=field:word`<br>
+`q=field:word AND otherfield:other`<br>
+`q=field:word OR otherfield:other`
+
+#### Advanced Search
+
+`q="phrase of words"`<br>
+`q=wildcard*`<br>
+`q=word OR other`<br>
+`q=word AND other`<br>
+`q=(word OR other) OR -nothanks`

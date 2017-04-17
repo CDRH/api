@@ -1,8 +1,9 @@
-class SearchItemRequestBuilder
+class SearchItemReq
 
   # whether request comes in as a pipe character or encoded pipe
   # make sure that it is being split correctly
-  @@separator = /(?:\||%7C)/
+  @@filter_separator = /(?:\||%7C)/
+  @@fl_separator = /(?:,|%2C)\s?/
 
   attr_accessor :params
 
@@ -11,10 +12,13 @@ class SearchItemRequestBuilder
   end
 
   def build_request
-    start = @params["start"].blank? ? START : @params["start"]
+    # pagination
     num = @params["num"].blank? ? NUM : @params["num"]
-    hl_num = @params["hl_num"].blank? ? HL_NUM : @params["hl_num"]
+    start = @params["start"].blank? ? START : @params["start"]
+    # highlighting
     hl_chars = @params["hl_chars"].blank? ? HL_CHARS : @params["hl_chars"]
+    hl_num = @params["hl_num"].blank? ? HL_NUM : @params["hl_num"]
+
     req = {
       "aggs" => {},
       "from" => start,
@@ -35,7 +39,7 @@ class SearchItemRequestBuilder
     bool["must"] = text_search
 
     # FACETS[]
-    if @params["facet"].present? && @params["facet"].class == Array
+    if @params["facet"].present?
       aggs = facets
       req["aggs"] = aggs
     end
@@ -54,6 +58,10 @@ class SearchItemRequestBuilder
     # SORT
     req["sort"] = sort
 
+    if @params["fl"].present?
+      req["_source"] = source
+    end
+
     # add bool to request body
     req["query"]["bool"] = bool
     return req
@@ -65,7 +73,7 @@ class SearchItemRequestBuilder
     type = "_count"
     dir = "desc"
     if @params["facet_sort"].present?
-      type, dir = @params["facet_sort"].split(@@separator)
+      type, dir = @params["facet_sort"].split(@@filter_separator)
       dir = (dir == "asc" || dir == "desc") ? dir : "desc"
       type = type == "term" ? "_term" : "_count"
     end
@@ -75,7 +83,7 @@ class SearchItemRequestBuilder
     size = @params["facet_num"].blank? ? NUM : @params["facet_num"]
 
     aggs = {}
-    @params["facet"].each do |f|
+    Array.wrap(@params["facet"]).each do |f|
       # histograms use a different ordering terminology than normal aggs
       f_type = type == "_term" ? "_key" : "_count"
 
@@ -136,8 +144,10 @@ class SearchItemRequestBuilder
 
   def filters
     filter_list = []
-    fields = @params["f"]
-    filters = fields.map { |f| f.split(@@separator) }
+    fields = Array.wrap(@params["f"])
+    # each filter should be length 3 for field, type 1, type 2
+    # (type 2 will only be used for dates)
+    filters = fields.map {|f| f.split(@@filter_separator, 3) }
     filters.each do |filter|
       # NESTED FIELD FILTER
       if filter[0].include?(".")
@@ -200,21 +210,11 @@ class SearchItemRequestBuilder
     return filter_list
   end
 
-  def is_advanced_query? query
-    if query.include?("AND") ||
-      query.include?("OR") ||
-      query.include?("*")
-      return true
-    else
-      return false
-    end
-  end
-
   def sort
     sort_obj = []
-    sort_param = @params["sort"].blank? ? [] : @params["sort"]
+    sort_param = @params["sort"].blank? ? [] : Array.wrap(@params["sort"])
     sort_param.each do |sort|
-      term, dir = sort.split(@@separator)
+      term, dir = sort.split(@@filter_separator)
       # default to ascending if nothing specified
       dir = (dir == "asc" || dir == "desc") ? dir : "asc"
       sort_obj << { term => dir }
@@ -224,24 +224,29 @@ class SearchItemRequestBuilder
     return sort_obj
   end
 
+  def source
+    all = @params["fl"].split(@@fl_separator)
+    blist, wlist = all.partition { |f| f.start_with?("!") }
+    blist.map! { |f| f[1..-1] }
+    criteria = {}
+    criteria["includes"] = wlist if !wlist.empty?
+    criteria["excludes"] = blist if !blist.empty?
+    return criteria
+  end
+
   def text_search
     must = {}
     if @params["q"].present?
       # default to searching text field
       # but can search _all field if necessary
-
-      # TODO look into whether query_string syntax is appropriate
-      # for "advanced" or whether we should be toggling between several
-      advanced_search = is_advanced_query? @params["q"]
-      if advanced_search
-        must = {
-          "query_string" => {
-            "default_field" => "text",
-            "query" => @params["q"]
-          }
+      must = {
+        "query_string" => {
+          "default_field" => "text",
+          "query" => @params["q"]
         }
-      else
-        must = { "match" => { "text" => @params["q"] } }
+      }
+      if @params["qfield"].present?
+        must["query_string"]["fields"] = Array.wrap(@params["qfield"])
       end
     else
       must = { "match_all" => {} }

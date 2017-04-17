@@ -1,0 +1,1821 @@
+{
+  "took" : 13,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 5,
+    "successful" : 5,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : 59,
+    "max_score" : 5.1007433,
+    "hits" : [
+      {
+        "_index" : "test1",
+        "_type" : "cody",
+        "_id" : "wfc.css00475",
+        "_score" : 5.1007433,
+        "_source" : {
+          "identifier" : "wfc.css00475",
+          "category" : "Texts",
+          "subcategory" : "Correspondence",
+          "data_type" : "tei",
+          "project" : "Buffalo Bill Cody",
+          "shortname" : "cody",
+          "title_sort" : "letter from william f. cody to george t. beck, april 28, 189[6]",
+          "title" : "Letter from William F. Cody to George T. Beck, April 28, 189[6]",
+          "description" : null,
+          "format" : "letter",
+          "language" : null,
+          "medium" : "letter",
+          "date_display" : "April 28, 1896",
+          "date" : "1896-04-28",
+          "date_not_before" : "1896-04-28",
+          "date_not_after" : "1896-04-28",
+          "rights_uri" : null,
+          "publisher" : "",
+          "rights" : "All Rights Reserved",
+          "source" : "",
+          "rights_holder" : "University of Wyoming, American Heritage Center, Buffalo Bill Letters to George T. Beck (Acc. #9972)",
+          "creator_sort" : "Cody, William Frederick, 1846-1917",
+          "people" : "Beck, George Washington Thornton, 1856-1943; Hayden, Charles E., 1866-1938; Rumsey, Bronson, II, 1854-1946",
+          "person" : [
+            {
+              "role" : null,
+              "name" : "Beck, George Washington Thornton, 1856-1943",
+              "id" : ""
+            },
+            {
+              "role" : null,
+              "name" : "Hayden, Charles E., 1866-1938",
+              "id" : ""
+            },
+            {
+              "role" : null,
+              "name" : "Rumsey, Bronson, II, 1854-1946",
+              "id" : ""
+            }
+          ],
+          "contributor" : [
+            {
+              "name" : "Weakly, Laura K.",
+              "id" : null,
+              "role" : null
+            },
+            {
+              "name" : "Weakly, Laura K.",
+              "id" : "lkw",
+              "role" : null
+            },
+            {
+              "name" : "Houze, Lynn",
+              "id" : "lh",
+              "role" : null
+            },
+            {
+              "name" : "Johnston, Jeremy",
+              "id" : "jj",
+              "role" : null
+            },
+            {
+              "name" : "Clark, Linda",
+              "id" : "lc",
+              "role" : null
+            },
+            {
+              "name" : "Boyce, Gary",
+              "id" : "gb",
+              "role" : null
+            },
+            {
+              "name" : "Adams, Deb",
+              "id" : "da",
+              "role" : null
+            }
+          ],
+          "creator" : [
+            {
+              "name" : "Cody, William Frederick, 1846-1917"
+            }
+          ],
+          "keywords" : [ ],
+          "places" : [
+            "Shoshone Irrigation District (Wyo.)"
+          ],
+          "works" : [ ],
+          "annotations" : null,
+          "text" : "   Buffalo Bill's Wild West and Congress of Rough Riders.of the World.Col. W. F. Cody. (Buffalo Bill), President.Nate Salsbury. Vice-President & Manager.John M. Burke. General Manager.Albert E. Sheible, Business Manager.Jule Keen, Treasurer. Clarksburg W. Va1 Apr 28th2 My Dear George Yours from Billings to hand. I fs have just sent your letter on to Salsbury and for him to send on the 5000. but I hardly know how we are going to raise the rest to pay off 10th of May pay roll— and no water to Sulphur creek3 George things are being done there badly or the water would be in Sulphur Creek now. The Management4 is ceartainlycertainly Bad there is a great leak some place. I have no idea what the 10th of May pay roll will amount to— I can hear nothing direct from any one— I wrote Flood5 & Hayden to let me know but they have not— I have about given up all hope of water ever getting to Sulphur Creek— or whether the Graders ever got there— And yet allthoughalthough Rumsey Says this is not a one man company I have to personalypersonally endorse for everything and I get the blame for everything— and  no one will even tell me whats going on—  I am most heartlyheartily discouraged— Cody   "
+        },
+        "highlight" : {
+          "text" : [
+            " hardly know how we are going to raise the rest to pay off 10th of May pay roll— and no <em>water</em> to",
+            " Sulphur creek3 George things are being done there badly or the <em>water</em> would be in Sulphur Creek now. The",
+            " to let me know but they have not— I have about given up all hope of <em>water</em> ever getting to Sulphur"
+          ]
+        }
+      },
+      {
+        "_index" : "test1",
+        "_type" : "cody",
+        "_id" : "wfc.css00531",
+        "_score" : 4.761321,
+        "_source" : {
+          "identifier" : "wfc.css00531",
+          "category" : "Texts",
+          "subcategory" : "Correspondence",
+          "data_type" : "tei",
+          "project" : "Buffalo Bill Cody",
+          "shortname" : "cody",
+          "title_sort" : "letter from william f. cody to george t. beck, april 23, 1899",
+          "title" : "Letter from William F. Cody to George T. Beck, April 23, 1899",
+          "description" : null,
+          "format" : "letter",
+          "language" : null,
+          "medium" : "letter",
+          "date_display" : "April 23, 1899",
+          "date" : "1899-04-23",
+          "date_not_before" : "1899-04-23",
+          "date_not_after" : "1899-04-23",
+          "rights_uri" : null,
+          "publisher" : "",
+          "rights" : "All Rights Reserved",
+          "source" : "",
+          "rights_holder" : "University of Wyoming, American Heritage Center, Buffalo Bill: Letters to George T. Beck, 1895-1910 (Acc. #9972)",
+          "creator_sort" : "Cody, William Frederick, 1846-1917",
+          "people" : "Beck, George Washington Thornton, 1856-1943",
+          "person" : [
+            {
+              "role" : null,
+              "name" : "Beck, George Washington Thornton, 1856-1943",
+              "id" : ""
+            }
+          ],
+          "contributor" : [
+            {
+              "name" : "Weakly, Laura K.",
+              "id" : "lkw",
+              "role" : null
+            },
+            {
+              "name" : "Christianson, Johnston, Houze, Clark",
+              "id" : "bbhc",
+              "role" : null
+            },
+            {
+              "name" : "Boyce, Gary",
+              "id" : "gb",
+              "role" : null
+            },
+            {
+              "name" : "Adams, Deb",
+              "id" : "da",
+              "role" : null
+            }
+          ],
+          "creator" : [
+            {
+              "name" : "Cody, William Frederick, 1846-1917"
+            }
+          ],
+          "keywords" : [ ],
+          "places" : [ ],
+          "works" : [ ],
+          "annotations" : null,
+          "text" : "   Buffalo Bill's Wild West Linchburg Va1 Apr- 23d 99 Dear Beck Yours 15th I do hope you will push the work and get the water down. You should have commenced sooner. I told you I would send the 1000- did I ever fail yet. When we get a rail road which will be in side of three years— and our town numbers thousands and land worth $100 an acre— then I wont have such hard work getting my colleagues to put up— The B.M.2 will build to us sure— Our settlers should plant every acre possible. They will get their own prices next winter. Now is the time to farm before the rail road gets there— Write me fully. When will you have water in Cody? Yours— Cody  "
+        },
+        "highlight" : {
+          "text" : [
+            " the work and get the <em>water</em> down. You should have commenced sooner. I told you I would send the 1000",
+            " get their own prices next winter. Now is the time to farm before the rail road gets there— Write me fully. When will you have <em>water</em> in Cody? Yours— Cody  "
+          ]
+        }
+      },
+      {
+        "_index" : "test1",
+        "_type" : "cody",
+        "_id" : "wfc.css00456",
+        "_score" : 4.680297,
+        "_source" : {
+          "identifier" : "wfc.css00456",
+          "category" : "Texts",
+          "subcategory" : "Correspondence",
+          "data_type" : "tei",
+          "project" : "Buffalo Bill Cody",
+          "shortname" : "cody",
+          "title_sort" : "letter from william f. cody to george t. beck, october 6, 1895",
+          "title" : "Letter from William F. Cody to George T. Beck, October 6, 1895",
+          "description" : null,
+          "format" : "letter",
+          "language" : null,
+          "medium" : "letter",
+          "date_display" : "October 6, 1890",
+          "date" : "1890-10-06",
+          "date_not_before" : "1890-10-06",
+          "date_not_after" : "1890-10-06",
+          "rights_uri" : null,
+          "publisher" : "",
+          "rights" : "All Rights Reserved",
+          "source" : "",
+          "rights_holder" : "University of Wyoming, American Heritage Center, Buffalo Bill Letters to George T. Beck (Acc. #9972)",
+          "creator_sort" : "Cody, William Frederick, 1846-1917",
+          "people" : "Beck, George Washington Thornton, 1856-1943; Foote, Robert, 1834-1916; Peake, John A.; Wetmore, Helen Cody, 1850-1911",
+          "person" : [
+            {
+              "role" : null,
+              "name" : "Beck, George Washington Thornton, 1856-1943",
+              "id" : ""
+            },
+            {
+              "role" : null,
+              "name" : "Wetmore, Helen Cody, 1850-1911",
+              "id" : ""
+            },
+            {
+              "role" : null,
+              "name" : "Peake, John A.",
+              "id" : ""
+            },
+            {
+              "role" : null,
+              "name" : "Foote, Robert, 1834-1916",
+              "id" : ""
+            }
+          ],
+          "contributor" : [
+            {
+              "name" : "Weakly, Laura K.",
+              "id" : null,
+              "role" : null
+            },
+            {
+              "name" : "Weakly, Laura K.",
+              "id" : "lkw",
+              "role" : null
+            },
+            {
+              "name" : "Clark, Linda",
+              "id" : "lc",
+              "role" : null
+            },
+            {
+              "name" : "Boyce, Gary",
+              "id" : "gb",
+              "role" : null
+            },
+            {
+              "name" : "Adams, Deb",
+              "id" : "da",
+              "role" : null
+            }
+          ],
+          "creator" : [
+            {
+              "name" : "Cody, William Frederick, 1846-1917"
+            }
+          ],
+          "keywords" : [
+            "Cotton States Exposition (1895 : Atlanta, Ga.)"
+          ],
+          "places" : [ ],
+          "works" : [ ],
+          "annotations" : null,
+          "text" : "    The Buffalo Bill Wild West and Congress of Rough Riders of the World. Col. W. F. Cody (Buffalo Bill), President.Nate Salsbury, Vice-Pres't and Manager.John M. Burke, . . . General Manager.Albert E. Scheible, . . . Business Manager.Jule Keen, . . . Treasurer.  Wilmington N. C.1 Oct— 6th 95 My. Dear— Beck.  I must give German. Colony2 managers an answer. If you have the funds how many acres can you irrigate or have ready to irrigate for next year. if you finish to Sulphur3 this fall & cantcan't work through winter can you commence early enough next spring on the ditch. and finish up enough to open up some of the country East. So that farmers can raise a crop next summer? If so about how many acres can you have ready to irrigate. Will the frost be out of ground so you can build ditch in April? if so you will have April & May to build ditch. giving farmers water first of June. Knowing the land as you do how many acres can you get water on by first of June. I want to begin to Advertise at Atlanta. Get some one to write it up get some photos taken. Send it at once to my  paper. Duluth Press.4 And tell my editor J. H. Peake to get it out at once and send it to me. Lets begin to advertise Before Foote5 knocks us out. Hurry up George. And have it written up & photos taken— Bill  "
+        },
+        "highlight" : {
+          "text" : [
+            " April? if so you will have April & May to build ditch. giving farmers <em>water</em> first of June. Knowing",
+            " the land as you do how many acres can you get <em>water</em> on by first of June. I want to begin to Advertise"
+          ]
+        }
+      },
+      {
+        "_index" : "test1",
+        "_type" : "cody",
+        "_id" : "wfc.css00525",
+        "_score" : 4.650588,
+        "_source" : {
+          "identifier" : "wfc.css00525",
+          "category" : "Texts",
+          "subcategory" : "Correspondence",
+          "data_type" : "tei",
+          "project" : "Buffalo Bill Cody",
+          "shortname" : "cody",
+          "title_sort" : "letter from william f. cody to george t. beck, july 20, 1898",
+          "title" : "Letter from William F. Cody to George T. Beck, July 20, 1898",
+          "description" : null,
+          "format" : "letter",
+          "language" : null,
+          "medium" : "letter",
+          "date_display" : "July 20, 1898",
+          "date" : "1898-07-20",
+          "date_not_before" : "1898-07-20",
+          "date_not_after" : "1898-07-20",
+          "rights_uri" : null,
+          "publisher" : "",
+          "rights" : "All Rights Reserved",
+          "source" : "",
+          "rights_holder" : "University of Wyoming, American Heritage Center, Buffalo Bill Letters to George T. Beck (Acc. #9972)",
+          "creator_sort" : "Cody, William Frederick, 1846-1917",
+          "people" : "Beck, George Washington Thornton, 1856-1943",
+          "person" : [
+            {
+              "role" : null,
+              "name" : "Beck, George Washington Thornton, 1856-1943",
+              "id" : ""
+            }
+          ],
+          "contributor" : [
+            {
+              "name" : "Weakly, Laura K.",
+              "id" : "lkw",
+              "role" : null
+            },
+            {
+              "name" : "Houze, Lynn",
+              "id" : "lh",
+              "role" : null
+            },
+            {
+              "name" : "Johnston, Jeremy",
+              "id" : "jj",
+              "role" : null
+            },
+            {
+              "name" : "Clark, Linda",
+              "id" : "lc",
+              "role" : null
+            },
+            {
+              "name" : "Boyce, Gary",
+              "id" : "gb",
+              "role" : null
+            },
+            {
+              "name" : "Adams, Deb",
+              "id" : "da",
+              "role" : null
+            }
+          ],
+          "creator" : [
+            {
+              "name" : "Cody, William Frederick, 1846-1917"
+            }
+          ],
+          "keywords" : [ ],
+          "places" : [ ],
+          "works" : [ ],
+          "annotations" : null,
+          "text" : "   Buffalo Bill's Wild West Big. Rapids. Mich1 July. 20th 98 My Dear Beck— Your letter of the 13th sent Manistee2 forwarded here. ItsIt's too bad about the Dam washing out, as Gen. Manager. you should bar cloud bursts. Well it cantcan't be helped. And you done perfectly right In repairing the damage and getting water to the farms and Cody. As soon as possible. I hope you have pushed the work. I know the importance of getting the water quick. I will send Alger $200. and will ask Salsbury to do the same. Also the other stock holders3. Keep me posted—  Yours hastlyhastily W. F. Cody  P. S. I fear the mill will have to hold over annotheranother year— W. F. C  "
+        },
+        "highlight" : {
+          "text" : [
+            " damage and getting <em>water</em> to the farms and Cody. As soon as possible. I hope you have pushed the work. I",
+            " know the importance of getting the <em>water</em> quick. I will send Alger $200. and will ask Salsbury to do"
+          ]
+        }
+      },
+      {
+        "_index" : "test1",
+        "_type" : "cody",
+        "_id" : "wfc.css00537",
+        "_score" : 4.650588,
+        "_source" : {
+          "identifier" : "wfc.css00537",
+          "category" : "Texts",
+          "subcategory" : "Correspondence",
+          "data_type" : "tei",
+          "project" : "Buffalo Bill Cody",
+          "shortname" : "cody",
+          "title_sort" : "letter from william f. cody to george t. beck, september 6, [1899]",
+          "title" : "Letter from William F. Cody to George T. Beck, September 6, [1899]",
+          "description" : null,
+          "format" : "letter",
+          "language" : null,
+          "medium" : "letter",
+          "date_display" : "September 6, 1899",
+          "date" : "1899-09-06",
+          "date_not_before" : "1899-09-06",
+          "date_not_after" : "1899-09-06",
+          "rights_uri" : null,
+          "publisher" : "",
+          "rights" : "All Rights Reserved",
+          "source" : "",
+          "rights_holder" : "University of Wyoming, American Heritage Center, Buffalo Bill: Letters to George T. Beck, 1895-1910 (Acc. #9972)",
+          "creator_sort" : "Cody, William Frederick, 1846-1917",
+          "people" : "Beck, George Washington Thornton, 1856-1943",
+          "person" : [
+            {
+              "role" : null,
+              "name" : "Beck, George Washington Thornton, 1856-1943",
+              "id" : ""
+            }
+          ],
+          "contributor" : [
+            {
+              "name" : "Weakly, Laura K.",
+              "id" : "lkw",
+              "role" : null
+            },
+            {
+              "name" : "Christianson, Johnston, Houze, Clark",
+              "id" : "bbhc",
+              "role" : null
+            },
+            {
+              "name" : "Boyce, Gary",
+              "id" : "gb",
+              "role" : null
+            },
+            {
+              "name" : "Adams, Deb",
+              "id" : "da",
+              "role" : null
+            }
+          ],
+          "creator" : [
+            {
+              "name" : "Cody, William Frederick, 1846-1917"
+            }
+          ],
+          "keywords" : [ ],
+          "places" : [ ],
+          "works" : [ ],
+          "annotations" : null,
+          "text" : "   Buffalo Bill's Wild West Abberdeen- So Dak1 Sep 62 Dear Beck Your favor of Aug 31 pleases me— Yes we must surely have a directors3 meeting and see if we cantcan't get a moovemove on them— I wish you would be prepared with some estimates and suggestions, George keep the water coming till it freezes up— I wrote Schwoob Cody Trading Co. Should build a big cistern— or the Town5 should chip in and build a big one— See if you cantcan't get them at it— Keep me posted about the hotel6. I hope it will go through. Yours Cody   George— try and fill some place with water so there will be an ice pond. we must have ice next summer let me know if you can do this—  "
+        },
+        "highlight" : {
+          "text" : [
+            " you would be prepared with some estimates and suggestions, George keep the <em>water</em> coming till it",
+            " will go through. Yours Cody   George— try and fill some place with <em>water</em> so there will be an ice pond"
+          ]
+        }
+      },
+      {
+        "_index" : "test1",
+        "_type" : "cody",
+        "_id" : "wfc.css00479",
+        "_score" : 4.4795046,
+        "_source" : {
+          "identifier" : "wfc.css00479",
+          "category" : "Texts",
+          "subcategory" : "Correspondence",
+          "data_type" : "tei",
+          "project" : "Buffalo Bill Cody",
+          "shortname" : "cody",
+          "title_sort" : "letter from william f. cody to george t. beck, september 4, 1896",
+          "title" : "Letter from William F. Cody to George T. Beck, September 4, 1896",
+          "description" : null,
+          "format" : "letter",
+          "language" : null,
+          "medium" : "letter",
+          "date_display" : "September 4, 1896",
+          "date" : "1896-09-04",
+          "date_not_before" : "1896-09-04",
+          "date_not_after" : "1896-09-04",
+          "rights_uri" : null,
+          "publisher" : "",
+          "rights" : "All Rights Reserved",
+          "source" : "",
+          "rights_holder" : "University of Wyoming, American Heritage Center, Buffalo Bill Letters to George T. Beck (Acc. #9972)",
+          "creator_sort" : "Cody, William Frederick, 1846-1917",
+          "people" : "Beck, George Washington Thornton, 1856-1943; Bleistein, George, 1861-1918; Rumsey, Bronson, II, 1854-1946; Stokes, Edward S., 1841-1901",
+          "person" : [
+            {
+              "role" : null,
+              "name" : "Beck, George Washington Thornton, 1856-1943",
+              "id" : ""
+            },
+            {
+              "role" : null,
+              "name" : "Bleistein, George, 1861-1918",
+              "id" : ""
+            },
+            {
+              "role" : null,
+              "name" : "Rumsey, Bronson, II, 1854-1946",
+              "id" : ""
+            },
+            {
+              "role" : null,
+              "name" : "Stokes, Edward S., 1841-1901",
+              "id" : ""
+            }
+          ],
+          "contributor" : [
+            {
+              "name" : "Weakly, Laura K.",
+              "id" : null,
+              "role" : null
+            },
+            {
+              "name" : "Weakly, Laura K.",
+              "id" : "lkw",
+              "role" : null
+            },
+            {
+              "name" : "Houze, Lynn",
+              "id" : "lh",
+              "role" : null
+            },
+            {
+              "name" : "Johnston, Jeremy",
+              "id" : "jj",
+              "role" : null
+            },
+            {
+              "name" : "Clark, Linda",
+              "id" : "lc",
+              "role" : null
+            },
+            {
+              "name" : "Boyce, Gary",
+              "id" : "gb",
+              "role" : null
+            },
+            {
+              "name" : "Adams, Deb",
+              "id" : "da",
+              "role" : null
+            }
+          ],
+          "creator" : [
+            {
+              "name" : "Cody, William Frederick, 1846-1917"
+            }
+          ],
+          "keywords" : [ ],
+          "places" : [ ],
+          "works" : [ ],
+          "annotations" : null,
+          "text" : "   Buffalo Bill's Wild West and Congress of Rough Riders.of the World.Col. W. F. Cody. (Buffalo Bill), President.Nate Salsbury. Vice-President & Manager.John M. Burke. General Manager.Albert E. Sheible, Business Manager.Jule Keen, Treasurer.   Stevenspoint Wis1 Sep 4th2 Dear George Was glad to receive your favor of Aug 31st— I want to ask you two questions first. In your report of Aug 28th you say the Canal is at last opened up to the completed mile and water will soon be at the City.3 When do you expect to have water down to the Town? 2d Have you written the Buffalo people4 urgeingurging the necessity of money to meet bills? If so have they answered? I will And have you sent Stokes5 his stock? I will be glad to know how much the Co. owes. Are you going to order a stock of goods—  Col  "
+        },
+        "highlight" : {
+          "text" : [
+            " say the Canal is at last opened up to the completed mile and <em>water</em> will soon be at the City.3 When do",
+            " you expect to have <em>water</em> down to the Town? 2d Have you written the Buffalo people4 urgeingurging the"
+          ]
+        }
+      },
+      {
+        "_index" : "test1",
+        "_type" : "cody",
+        "_id" : "wfc.css00467",
+        "_score" : 4.4265456,
+        "_source" : {
+          "identifier" : "wfc.css00467",
+          "category" : "Texts",
+          "subcategory" : "Correspondence",
+          "data_type" : "tei",
+          "project" : "Buffalo Bill Cody",
+          "shortname" : "cody",
+          "title_sort" : "letter from william f. cody to george t. beck, march 26, 189[6]",
+          "title" : "Letter from William F. Cody to George T. Beck, March 26, 189[6]",
+          "description" : null,
+          "format" : "letter",
+          "language" : null,
+          "medium" : "letter",
+          "date_display" : "March 26, 1896",
+          "date" : "1896-03-26",
+          "date_not_before" : "1896-03-26",
+          "date_not_after" : "1896-03-26",
+          "rights_uri" : null,
+          "publisher" : "",
+          "rights" : "All Rights Reserved",
+          "source" : "",
+          "rights_holder" : "University of Wyoming, American Heritage Center, Buffalo Bill Letters to George T. Beck (Acc. #9972)",
+          "creator_sort" : "Cody, William Frederick, 1846-1917",
+          "people" : "Beck, George Washington Thornton, 1856-1943; Mead, Elwood, 1858-1936; Rumsey, Bronson, II, 1854-1946; Salsbury, Nathan, 1846-1902",
+          "person" : [
+            {
+              "role" : null,
+              "name" : "Beck, George Washington Thornton, 1856-1943",
+              "id" : ""
+            },
+            {
+              "role" : null,
+              "name" : "Salsbury, Nathan, 1846-1902",
+              "id" : ""
+            },
+            {
+              "role" : null,
+              "name" : "Rumsey, Bronson, II, 1854-1946",
+              "id" : ""
+            },
+            {
+              "role" : null,
+              "name" : "Mead, Elwood, 1858-1936",
+              "id" : ""
+            }
+          ],
+          "contributor" : [
+            {
+              "name" : "Weakly, Laura K.",
+              "id" : null,
+              "role" : null
+            },
+            {
+              "name" : "Weakly, Laura K.",
+              "id" : "lkw",
+              "role" : null
+            },
+            {
+              "name" : "Houze, Lynn",
+              "id" : "lh",
+              "role" : null
+            },
+            {
+              "name" : "Johnston, Jeremy",
+              "id" : "jj",
+              "role" : null
+            },
+            {
+              "name" : "Clark, Linda",
+              "id" : "lc",
+              "role" : null
+            },
+            {
+              "name" : "Boyce, Gary",
+              "id" : "gb",
+              "role" : null
+            },
+            {
+              "name" : "Adams, Deb",
+              "id" : "da",
+              "role" : null
+            }
+          ],
+          "creator" : [
+            {
+              "name" : "Cody, William Frederick, 1846-1917"
+            }
+          ],
+          "keywords" : [
+            "Black America"
+          ],
+          "places" : [ ],
+          "works" : [ ],
+          "annotations" : null,
+          "text" : "   Col. W. F. Cody, (Buffalo Bill) President.Nate Salsbury, Vice Prest & Manager.John M. Burke, General Manager.Albert E. Sheible, Business Manager.Jule Keen, Treasurer.Buffalo Bill's Wild West and Congress of Rough Riders of the World.The Largest Arenic Exhibition known in History.Col. W. F. Cody Nate SalsburySeason of 1895.Staff of Jas. A. Bailey, Director of Tour.J. T. McCaddon, Superintendent.W. H. Gardner, Gen'l Agent.M. Coyle, R.R. and Excursion Manager.George O. Starr, Press Agent.C. R. Hutchinson, Treasurer.New York Office, No. 106 W. 37th St.  Mar 26 18951 My Dear Beck  Went to Cheyenne2 and fixed up a water bond3 which I hope will prooveprove allright. Am sweating blood trying to get President4 to sign contract. have every assurance he will do it this week. State contract is ready soon as President signs. I have Burke in Washington And have sent fifty telegrams there— I appreciate the fact but I dontdon't presume annother member of this Co does that there is several things that have to be rushed. Have you spoken to Rumsey how short we are for funds— is his Brother5 coming in? Or are you checking out and giveinggiving no one any warning until checks go to protest? I have no idea what your expenses are this month. Why dontdon't you ask some one to write me? Some one from that end should keep the  Col. W. F. Cody, (Buffalo Bill) President.Nate Salsbury, Vice Prest & Manager.John M. Burke, General Manager.Albert E. Sheible, Business Manager.Jule Keen, Treasurer.Buffalo Bill's Wild West and Congress of Rough Riders of the World.The Largest Arenic Exhibition known in History.Col. W. F. Cody Nate SalsburySeason of 1895.Staff of Jas. A. Bailey, Director of Tour.J. T. McCaddon, Superintendent.W. H. Gardner, Gen'l Agent.M. Coyle, R.R. and Excursion Manager.George O. Starr, Press Agent.C. R. Hutchinson, Treasurer.New York Office, No. 106 W. 37th St.________ 1895 different members of the Co. posted of whatswhat's being done— then when we call on them for money there would not be such a howl of where the money has gone— George— you see I nor no one can form an idea how long itsit's going to take to get through or arroundaround those red bluffs6 where you take the water out of sulphur creek7— or the cost— So I cantcan't arrange for any more settlers as I dontdon't know if there can be water put on it this year. Mead will be up in a few days to help you out— Then if a man could be found who would write. Yours—  Cody    Omaha- 30th-31-1st Chicago 2-3d 4th Washington 5 New. York 6-7-8-9- After that Philadelphia till Apr 258   Col. W. F. Cody, (Buffalo Bill) President.Nate Salsbury, Vice Prest & Manager.John M. Burke, General Manager.Albert E. Sheible, Business Manager.Jule Keen, Treasurer.Buffalo Bill's Wild West and Congress of Rough Riders of the World.The Largest Arenic Exhibition known in History.Col. W. F. Cody Nate SalsburySeason of 1895.Staff of Jas. A. Bailey, Director of Tour.J. T. McCaddon, Superintendent.W. H. Gardner, Gen'l Agent.M. Coyle, R.R. and Excursion Manager.George O. Starr, Press Agent.C. R. Hutchinson, Treasurer.New York Office, No. 106 W. 37th St.________ 1895 PS. George. I wrote you to Sheridan that if I had the ready cash I would send you 3000 at once—I am putting every dollar I make with this show into Black America9 As Salsbury is still dangerously sick. cantcan't sign a check so I have to put up. But as soon as I can I will help you out—   Yours— Bill   "
+        },
+        "highlight" : {
+          "text" : [
+            " Cheyenne2 and fixed up a <em>water</em> bond3 which I hope will prooveprove allright. Am sweating blood trying to",
+            " <em>water</em> out of sulphur creek7— or the cost— So I cantcan't arrange for any more settlers as I",
+            " dontdon't know if there can be <em>water</em> put on it this year. Mead will be up in a few days to help you out"
+          ]
+        }
+      },
+      {
+        "_index" : "test1",
+        "_type" : "cody",
+        "_id" : "wfc.css00516",
+        "_score" : 4.4134736,
+        "_source" : {
+          "identifier" : "wfc.css00516",
+          "category" : "Texts",
+          "subcategory" : "Correspondence",
+          "data_type" : "tei",
+          "project" : "Buffalo Bill Cody",
+          "shortname" : "cody",
+          "title_sort" : "letter from william f. cody to george t. beck, april 19, 1897",
+          "title" : "Letter from William F. Cody to George T. Beck, April 19, 1897",
+          "description" : null,
+          "format" : "letter",
+          "language" : null,
+          "medium" : "letter",
+          "date_display" : "April 19, 1897",
+          "date" : "1897-04-19",
+          "date_not_before" : "1897-04-19",
+          "date_not_after" : "1897-04-19",
+          "rights_uri" : null,
+          "publisher" : "",
+          "rights" : "All Rights Reserved",
+          "source" : "",
+          "rights_holder" : "University of Wyoming, American Heritage Center, Buffalo Bill Letters to George T. Beck (Acc. #9972)",
+          "creator_sort" : "Cody, William Frederick, 1846-1917",
+          "people" : "Beck, George Washington Thornton, 1856-1943",
+          "person" : [
+            {
+              "role" : null,
+              "name" : "Beck, George Washington Thornton, 1856-1943",
+              "id" : ""
+            }
+          ],
+          "contributor" : [
+            {
+              "name" : "Weakly, Laura K.",
+              "id" : "lkw",
+              "role" : null
+            },
+            {
+              "name" : "Houze, Lynn",
+              "id" : "lh",
+              "role" : null
+            },
+            {
+              "name" : "Johnston, Jeremy",
+              "id" : "jj",
+              "role" : null
+            },
+            {
+              "name" : "Clark, Linda",
+              "id" : "lc",
+              "role" : null
+            },
+            {
+              "name" : "Boyce, Gary",
+              "id" : "gb",
+              "role" : null
+            },
+            {
+              "name" : "Adams, Deb",
+              "id" : "da",
+              "role" : null
+            }
+          ],
+          "creator" : [
+            {
+              "name" : "Cody, William Frederick, 1846-1917"
+            }
+          ],
+          "keywords" : [ ],
+          "places" : [ ],
+          "works" : [ ],
+          "annotations" : null,
+          "text" : "   April 19-1897—1 The monied men of our Co. want to know what you are doing & if you are going to get water to the town2 & below. They say they are tired of such management and if you can't do the work they want to know it and at once. George you told me you would be at Cody to commence work by the 1st of April. God only know where you are and if you will ever get to Cody and if you will get to work when you do get there. If water aintain't down to town early we are ruined. George if you don't try to do something this dam ditch will drive me crazy. Why won't you for once get down to work & see that the men and or you work. For Gods sake do something. I can't stand the company off with fairy tales any longer— Yours Cody  "
+        },
+        "highlight" : {
+          "text" : [
+            " get <em>water</em> to the town2 & below. They say they are tired of such management and if you can't do the",
+            " work when you do get there. If <em>water</em> aintain't down to town early we are ruined. George if you don't"
+          ]
+        }
+      },
+      {
+        "_index" : "test1",
+        "_type" : "cody",
+        "_id" : "wfc.css00363",
+        "_score" : 4.401066,
+        "_source" : {
+          "identifier" : "wfc.css00363",
+          "category" : "Texts",
+          "subcategory" : "Correspondence",
+          "data_type" : "tei",
+          "project" : "Buffalo Bill Cody",
+          "shortname" : "cody",
+          "title_sort" : "letter from c. h. morrill to c. e. perkins, november 22, 1899",
+          "title" : "Letter from C. H. Morrill to C. E. Perkins, November 22, 1899",
+          "description" : null,
+          "format" : "letter",
+          "language" : null,
+          "medium" : "letter",
+          "date_display" : "November 22, 1899",
+          "date" : "1899-11-22",
+          "date_not_before" : "1899-11-22",
+          "date_not_after" : "1899-11-22",
+          "rights_uri" : null,
+          "publisher" : "",
+          "rights" : "All Rights Reserved",
+          "source" : "",
+          "rights_holder" : "Newberry Library, CB&Q collection, 33, 1890, 6.8, Big Horn Basin",
+          "creator_sort" : "Morrill, Charles H., 1842 - 1928",
+          "people" : "",
+          "person" : [
+            {
+              "role" : null,
+              "name" : "",
+              "id" : ""
+            }
+          ],
+          "contributor" : [
+            {
+              "name" : "Weakly, Laura K.",
+              "id" : "lkw",
+              "role" : null
+            },
+            {
+              "name" : "Tiedje, Michelle",
+              "id" : null,
+              "role" : null
+            }
+          ],
+          "creator" : [
+            {
+              "name" : "Morrill, Charles H., 1842 - 1928"
+            }
+          ],
+          "keywords" : [ ],
+          "places" : [ ],
+          "works" : [ ],
+          "annotations" : null,
+          "text" : "   C. H. Morrill, President. A.B. Minor, Sec'y and Treasurer. Office of the Lincoln Land Company, Rooms 20 to 23, Burr Block, Lincoln, Neb. Quotations of prices are subject to change without notice. Lincoln, Neb. Nov. 22, 1899. My dear Mr. Perkins,—  While I was at Cheyenne, I made some investigation in regard to irrigation schemes in Wyoming and particularly in the big horn basin. I presume you know that under the Cary actCarey Act, the different states in which arid lands are located had the privilege of selecting one million acres to be used as an inducement to further irrigation schemes. Wyoming has selected nearly all of its land and at the present time have commissioners selecting the balance. The Cary actCarey Act expires in 1904. Any states that have not selected at that time will be left out. In Wyoming there has been five big irrigation schemes, including Cody's and the Burlington (by Wiley of Omaha). Land has been segregated to each of these schemes, but they have all been thrown up with the exception of Cody's and the Burlington. Under the Cary actCarey Act the settlers must produce certificate from the Water Company that they have a paid up water right sufficient to irrigate the land. They can then enter the land from the state by paying 25 cents per acre. At the end of three years they must submit proof that they have at least 20 acres under irrigation. If so they get a deed for the land making in all $10.00 to the Water Company and 50 cents to the state. The Burlington (Wiley's) has 30,000 acres of land segregated. On this land, as shown by the records in Cheyenne, there is just 20 settlers. Several of the settlers have already filed complaints that there is not a sufficient amount of water and that they have determined to throw up their claims. The State authorities informed me that they would investigate the condition of the Burlington ditch this winter. Under Cody's scheme there is probably not more 10 settlers. I asked the Commissioner if he considered the Cary actCarey Act a good piece of legislation. He said up to the present time it had been a failure. In regard to the probablyprobable success of the Cody scheme, he said it was improbable unless somebody else took hold of it. I also conferred with a gentleman who the state officers designate as their coal expert. I do not think he knows as much about the coal prospects in the big horn basin as I do, but he said that from what information he had he thought there was plenty of coal in the big horn basin, but it was all lignite.  Yours truly, C. H. Morrill  Mr. C. E. Perkins    "
+        },
+        "highlight" : {
+          "text" : [
+            " must produce certificate from the <em>Water</em> Company that they have a paid up <em>water</em> right sufficient to",
+            " they get a deed for the land making in all $10.00 to the <em>Water</em> Company and 50 cents to the state. The",
+            " is not a sufficient amount of <em>water</em> and that they have determined to throw up their claims. The"
+          ]
+        }
+      },
+      {
+        "_index" : "test1",
+        "_type" : "cody",
+        "_id" : "wfc.css00532",
+        "_score" : 4.389344,
+        "_source" : {
+          "identifier" : "wfc.css00532",
+          "category" : "Texts",
+          "subcategory" : "Correspondence",
+          "data_type" : "tei",
+          "project" : "Buffalo Bill Cody",
+          "shortname" : "cody",
+          "title_sort" : "letter from william f. cody to george t. beck, april 24, 1899",
+          "title" : "Letter from William F. Cody to George T. Beck, April 24, 1899",
+          "description" : null,
+          "format" : "letter",
+          "language" : null,
+          "medium" : "letter",
+          "date_display" : "April 24, 1899",
+          "date" : "1899-04-24",
+          "date_not_before" : "1899-04-24",
+          "date_not_after" : "1899-04-24",
+          "rights_uri" : null,
+          "publisher" : "",
+          "rights" : "All Rights Reserved",
+          "source" : "",
+          "rights_holder" : "University of Wyoming, American Heritage Center, Buffalo Bill: Letters to George T. Beck, 1895-1910 (Acc. #9972)",
+          "creator_sort" : "Cody, William Frederick, 1846-1917",
+          "people" : "Beck, George Washington Thornton, 1856-1943",
+          "person" : [
+            {
+              "role" : null,
+              "name" : "Beck, George Washington Thornton, 1856-1943",
+              "id" : ""
+            }
+          ],
+          "contributor" : [
+            {
+              "name" : "Weakly, Laura K.",
+              "id" : "lkw",
+              "role" : null
+            },
+            {
+              "name" : "Christianson, Johnston, Houze, Clark",
+              "id" : "bbhc",
+              "role" : null
+            },
+            {
+              "name" : "Boyce, Gary",
+              "id" : "gb",
+              "role" : null
+            },
+            {
+              "name" : "Adams, Deb",
+              "id" : "da",
+              "role" : null
+            }
+          ],
+          "creator" : [
+            {
+              "name" : "Cody, William Frederick, 1846-1917"
+            }
+          ],
+          "keywords" : [ ],
+          "places" : [ ],
+          "works" : [ ],
+          "annotations" : null,
+          "text" : "   Buffalo Bill's Wild West Lynchburg. Va1 Apr. 24th 99 My Dear Beck Ex Gov. Richards2 says we ought to fix up our affairs so that our Settlers and our selves can proove up. by doing this our company can get in some ready cash. let me hear from you, and when you expect have water runing into Cody. for goodness sakes George rush it a long— Yours Cody  "
+        },
+        "highlight" : {
+          "text" : [
+            " can get in some ready cash. let me hear from you, and when you expect have <em>water</em> runing into Cody"
+          ]
+        }
+      },
+      {
+        "_index" : "test1",
+        "_type" : "cody",
+        "_id" : "wfc.css00533",
+        "_score" : 4.269311,
+        "_source" : {
+          "identifier" : "wfc.css00533",
+          "category" : "Texts",
+          "subcategory" : "Correspondence",
+          "data_type" : "tei",
+          "project" : "Buffalo Bill Cody",
+          "shortname" : "cody",
+          "title_sort" : "letter from william f. cody to george t. beck, april 30, 1899",
+          "title" : "Letter from William F. Cody to George T. Beck, April 30, 1899",
+          "description" : null,
+          "format" : "letter",
+          "language" : null,
+          "medium" : "letter",
+          "date_display" : "April 30, 1899",
+          "date" : "1899-04-30",
+          "date_not_before" : "1899-04-30",
+          "date_not_after" : "1899-04-30",
+          "rights_uri" : null,
+          "publisher" : "",
+          "rights" : "All Rights Reserved",
+          "source" : "",
+          "rights_holder" : "University of Wyoming, American Heritage Center, Buffalo Bill: Letters to George T. Beck, 1895-1910 (Acc. #9972)",
+          "creator_sort" : "Cody, William Frederick, 1846-1917",
+          "people" : "Beck, George Washington Thornton, 1856-1943",
+          "person" : [
+            {
+              "role" : null,
+              "name" : "Beck, George Washington Thornton, 1856-1943",
+              "id" : ""
+            }
+          ],
+          "contributor" : [
+            {
+              "name" : "Weakly, Laura K.",
+              "id" : "lkw",
+              "role" : null
+            },
+            {
+              "name" : "Christianson, Johnston, Houze, Clark",
+              "id" : "bbhc",
+              "role" : null
+            },
+            {
+              "name" : "Boyce, Gary",
+              "id" : "gb",
+              "role" : null
+            },
+            {
+              "name" : "Adams, Deb",
+              "id" : "da",
+              "role" : null
+            }
+          ],
+          "creator" : [
+            {
+              "name" : "Cody, William Frederick, 1846-1917"
+            }
+          ],
+          "keywords" : [ ],
+          "places" : [ ],
+          "works" : [ ],
+          "annotations" : null,
+          "text" : "   Buffalo Bill's Wild West Nashville Tenn1 Apr 30th 99 My Dear Beck Please let me know how you are getting on with ditch. When do you expect to have water to town2. How are you makeingmaking it with Darrah? Say if the rest of the Company dontdon't put up to pay interest on Hearst loan3— What had best be done? Love to Bettie4 Your friend Cody  "
+        },
+        "highlight" : {
+          "text" : [
+            " getting on with ditch. When do you expect to have <em>water</em> to town2. How are you makeingmaking it with"
+          ]
+        }
+      },
+      {
+        "_index" : "test1",
+        "_type" : "cody",
+        "_id" : "wfc.css00530",
+        "_score" : 4.237417,
+        "_source" : {
+          "identifier" : "wfc.css00530",
+          "category" : "Texts",
+          "subcategory" : "Correspondence",
+          "data_type" : "tei",
+          "project" : "Buffalo Bill Cody",
+          "shortname" : "cody",
+          "title_sort" : "letter from william f. cody to george t. beck, march 10, 1899",
+          "title" : "Letter from William F. Cody to George T. Beck, March 10, 1899",
+          "description" : null,
+          "format" : "letter",
+          "language" : null,
+          "medium" : "letter",
+          "date_display" : "March 10, 1899",
+          "date" : "1899-03-10",
+          "date_not_before" : "1899-03-10",
+          "date_not_after" : "1899-03-10",
+          "rights_uri" : null,
+          "publisher" : "",
+          "rights" : "All Rights Reserved",
+          "source" : "",
+          "rights_holder" : "University of Wyoming, American Heritage Center, Buffalo Bill: Letters to George T. Beck, 1895-1910 (Acc. #9972)",
+          "creator_sort" : "Cody, William Frederick, 1846-1917",
+          "people" : "Beck, George Washington Thornton, 1856-1943",
+          "person" : [
+            {
+              "role" : null,
+              "name" : "Beck, George Washington Thornton, 1856-1943",
+              "id" : ""
+            }
+          ],
+          "contributor" : [
+            {
+              "name" : "Weakly, Laura K.",
+              "id" : "lkw",
+              "role" : null
+            },
+            {
+              "name" : "Christianson, Johnston, Houze, Clark",
+              "id" : "bbhc",
+              "role" : null
+            },
+            {
+              "name" : "Boyce, Gary",
+              "id" : "gb",
+              "role" : null
+            },
+            {
+              "name" : "Adams, Deb",
+              "id" : "da",
+              "role" : null
+            }
+          ],
+          "creator" : [
+            {
+              "name" : "Cody, William Frederick, 1846-1917"
+            }
+          ],
+          "keywords" : [ ],
+          "places" : [ ],
+          "works" : [ ],
+          "annotations" : null,
+          "text" : "   Apartments.European Plan.American Plan.Auditorium HotelBreslin & SouthgateR. H. Southgate, Manager. Chicago,  Mar. 10 1899 My Dear Beck Yours recd Buffalo parties1 dont seem to feel like putting up Any more money. I have written them about the bridge2. I dont beleivebelieve Salsbury will put up a dollar- for he Says the money is so badly handeledhandled. If I ask him to put up with me to bring water to Cody & flats3. He will say who is to take charge of work- You know George that heretofore no money has been properly used  Apartments.European Plan.American Plan.Auditorium HotelBreslin & SouthgateR. H. Southgate, Manager. Chicago, __________189___  that is the men hired to do work have not been managed right. No boss— no one to lay their work out for them or stay with them to see that they do an honest days work— That decd canal has been done on a widow womans way of getting work out of men. If you are to take charge of it which no one could do better that is if you would stay with the men and see that their work is lay out  Apartments.European Plan.American Plan.Auditorium HotelBreslin & SouthgateR. H. Southgate, Manager. Chicago, __________189___  their work— be with them in the mornings and see that they work go over the ditch your self- and see what it needs &c- If you will write Salsbury that you will do this, I will guarnteeguarantee that the $1000 be placed to your credit at once If youg will get down to business and write us that you will be on the job the money will be at Carbon Co Bank4- But we wontwon't stand any more slip-  Apartments.European Plan.American Plan.Auditorium HotelBreslin & SouthgateR. H. Southgate, Manager. Chicago, __________189___  shod way of haveinghaving our money wasted. I should think that you would want water for your own farm and would be willing to use every energy to get it there. We have to work hard for our money and I dontdon't blame our stock holders refuseingrefusing to put up. When the men who handle it wont work— Very truly yours W. F. Cody  "
+        },
+        "highlight" : {
+          "text" : [
+            " <em>water</em> to Cody & flats3. He will say who is to take charge of work- You know George that heretofore",
+            " of haveinghaving our money wasted. I should think that you would want <em>water</em> for your own farm and"
+          ]
+        }
+      },
+      {
+        "_index" : "test1",
+        "_type" : "cody",
+        "_id" : "wfc.css00527",
+        "_score" : 4.134582,
+        "_source" : {
+          "identifier" : "wfc.css00527",
+          "category" : "Texts",
+          "subcategory" : "Correspondence",
+          "data_type" : "tei",
+          "project" : "Buffalo Bill Cody",
+          "shortname" : "cody",
+          "title_sort" : "letter from william f. cody to george t. beck, august 12, 1898",
+          "title" : "Letter from William F. Cody to George T. Beck, August 12, 1898",
+          "description" : null,
+          "format" : "letter",
+          "language" : null,
+          "medium" : "letter",
+          "date_display" : "August 12, 1898",
+          "date" : "1898-08-12",
+          "date_not_before" : "1898-08-12",
+          "date_not_after" : "1898-08-12",
+          "rights_uri" : null,
+          "publisher" : "",
+          "rights" : "All Rights Reserved",
+          "source" : "",
+          "rights_holder" : "University of Wyoming, American Heritage Center, Buffalo Bill Letters to George T. Beck (Acc. #9972)",
+          "creator_sort" : "Cody, William Frederick, 1846-1917",
+          "people" : "Beck, George Washington Thornton, 1856-1943",
+          "person" : [
+            {
+              "role" : null,
+              "name" : "Beck, George Washington Thornton, 1856-1943",
+              "id" : ""
+            }
+          ],
+          "contributor" : [
+            {
+              "name" : "Weakly, Laura K.",
+              "id" : "lkw",
+              "role" : null
+            },
+            {
+              "name" : "Houze, Lynn",
+              "id" : "lh",
+              "role" : null
+            },
+            {
+              "name" : "Johnston, Jeremy",
+              "id" : "jj",
+              "role" : null
+            },
+            {
+              "name" : "Clark, Linda",
+              "id" : "lc",
+              "role" : null
+            },
+            {
+              "name" : "Boyce, Gary",
+              "id" : "gb",
+              "role" : null
+            },
+            {
+              "name" : "Adams, Deb",
+              "id" : "da",
+              "role" : null
+            }
+          ],
+          "creator" : [
+            {
+              "name" : "Cody, William Frederick, 1846-1917"
+            }
+          ],
+          "keywords" : [ ],
+          "places" : [ ],
+          "works" : [ ],
+          "annotations" : null,
+          "text" : "   Buffalo Bill's Wild West and Congress of Rough Riders.of the World.Col. W. F. Cody. (Buffalo Bill), President.Nate Salsbury. Vice-President & Manager.John M. Burke. General Manager.Albert E. Sheible, Business Manager.Jule Keen, Treasurer.  Dubuque1 Aug 122 My Dear Beck Will you please hire some one charge Same to me. to tell me if the water has reached Cody & farms— W. F. Cody  "
+        },
+        "highlight" : {
+          "text" : [
+            " one charge Same to me. to tell me if the <em>water</em> has reached Cody & farms— W. F. Cody  "
+          ]
+        }
+      },
+      {
+        "_index" : "test1",
+        "_type" : "cody",
+        "_id" : "wfc.css00503",
+        "_score" : 4.1166434,
+        "_source" : {
+          "identifier" : "wfc.css00503",
+          "category" : "Texts",
+          "subcategory" : "Correspondence",
+          "data_type" : "tei",
+          "project" : "Buffalo Bill Cody",
+          "shortname" : "cody",
+          "title_sort" : "letter from william f. cody to george t. beck, september 7, 189[6]",
+          "title" : "Letter from William F. Cody to George T. Beck, September 7, 189[6]",
+          "description" : null,
+          "format" : "letter",
+          "language" : null,
+          "medium" : "letter",
+          "date_display" : "September 7, 1896",
+          "date" : "1896-09-07",
+          "date_not_before" : "1896-09-07",
+          "date_not_after" : "1896-09-07",
+          "rights_uri" : null,
+          "publisher" : "",
+          "rights" : "All Rights Reserved",
+          "source" : "",
+          "rights_holder" : "University of Wyoming, American Heritage Center, Buffalo Bill Letters to George T. Beck (Acc. #9972)",
+          "creator_sort" : "Cody, William Frederick, 1846-1917",
+          "people" : "Beck, George Washington Thornton, 1856-1943",
+          "person" : [
+            {
+              "role" : null,
+              "name" : "Beck, George Washington Thornton, 1856-1943",
+              "id" : ""
+            }
+          ],
+          "contributor" : [
+            {
+              "name" : "Weakly, Laura K.",
+              "id" : "lkw",
+              "role" : null
+            },
+            {
+              "name" : "Houze, Lynn",
+              "id" : "lh",
+              "role" : null
+            },
+            {
+              "name" : "Johnston, Jeremy",
+              "id" : "jj",
+              "role" : null
+            },
+            {
+              "name" : "Clark, Linda",
+              "id" : "lc",
+              "role" : null
+            },
+            {
+              "name" : "Boyce, Gary",
+              "id" : "gb",
+              "role" : null
+            },
+            {
+              "name" : "Adams, Deb",
+              "id" : "da",
+              "role" : null
+            }
+          ],
+          "creator" : [
+            {
+              "name" : "Cody, William Frederick, 1846-1917"
+            }
+          ],
+          "keywords" : [ ],
+          "places" : [ ],
+          "works" : [ ],
+          "annotations" : null,
+          "text" : "   The CameronD. P. Smith, Proprietor.Wilmanns Bros. Litho. Milwaukee.La Crosse, Wis. Sep 7, 189_1 My Dear George I see that women are nameingnaming and runingrunning the Town.2 if so I wontwon't put up annotheranother dollar I dontdon't care a damn whether water ever gets there or not. And how quick all work stops. My interest in the dam town is ended. Col  "
+        },
+        "highlight" : {
+          "text" : [
+            " up annotheranother dollar I dontdon't care a damn whether <em>water</em> ever gets there or not. And how"
+          ]
+        }
+      },
+      {
+        "_index" : "test1",
+        "_type" : "cody",
+        "_id" : "wfc.css00539",
+        "_score" : 4.0343895,
+        "_source" : {
+          "identifier" : "wfc.css00539",
+          "category" : "Texts",
+          "subcategory" : "Correspondence",
+          "data_type" : "tei",
+          "project" : "Buffalo Bill Cody",
+          "shortname" : "cody",
+          "title_sort" : "letter from william f. cody to george t. beck, august 16, 1900",
+          "title" : "Letter from William F. Cody to George T. Beck, August 16, 1900",
+          "description" : null,
+          "format" : "letter",
+          "language" : null,
+          "medium" : "letter",
+          "date_display" : "August 16, 1900",
+          "date" : "1900-08-16",
+          "date_not_before" : "1900-08-16",
+          "date_not_after" : "1900-08-16",
+          "rights_uri" : null,
+          "publisher" : "",
+          "rights" : "All Rights Reserved",
+          "source" : "",
+          "rights_holder" : "University of Wyoming, American Heritage Center, Buffalo Bill: Letters to George T. Beck, 1895-1910 (Acc. #9972)",
+          "creator_sort" : "Cody, William Frederick, 1846-1917",
+          "people" : "Beck, George Washington Thornton, 1856-1943",
+          "person" : [
+            {
+              "role" : null,
+              "name" : "Beck, George Washington Thornton, 1856-1943",
+              "id" : ""
+            }
+          ],
+          "contributor" : [
+            {
+              "name" : "Weakly, Laura K.",
+              "id" : "lkw",
+              "role" : null
+            },
+            {
+              "name" : "Christianson, Johnston, Houze, Clark",
+              "id" : "bbhc",
+              "role" : null
+            },
+            {
+              "name" : "Boyce, Gary",
+              "id" : "gb",
+              "role" : null
+            },
+            {
+              "name" : "Adams, Deb",
+              "id" : "da",
+              "role" : null
+            }
+          ],
+          "creator" : [
+            {
+              "name" : "Cody, William Frederick, 1846-1917"
+            }
+          ],
+          "keywords" : [ ],
+          "places" : [ ],
+          "works" : [ ],
+          "annotations" : null,
+          "text" : "   Buffalo Bill's Wild West and Congress of Rough Riders.of the World. Col. W. F. Cody. (Buffalo Bill), President. Nate Salsbury. Vice-President & Manager. John M. Burke. General Manager.Albert E. Sheible, Business Manager.Jule Keen, Treasurer.  Charles City- Ia1 Aug 16th 1900 My- Dear Beck I was pleased to get your letter of the 10th I hope the protest case2 is ended and I trust that we will soon get our patent3. I am sorry you think Mr Martin4 was not friendly to you. I told him on his return that he should have consulted you. he located claims in your name— And I cannot make out why he did not work with you— I will send you the $25— to finish half payments on block 7. is the water still coming down to Town5 & into the reservoir— do try and get all the water you possibly can in the reservoir6— so we can show people this reservoir this winter— My business big.7  Yours Cody  "
+        },
+        "highlight" : {
+          "text" : [
+            " not work with you— I will send you the $25— to finish half payments on block 7. is the <em>water</em> still",
+            " coming down to Town5 & into the reservoir— do try and get all the <em>water</em> you possibly can in the"
+          ]
+        }
+      },
+      {
+        "_index" : "test1",
+        "_type" : "cody",
+        "_id" : "wfc.css00466",
+        "_score" : 3.9922526,
+        "_source" : {
+          "identifier" : "wfc.css00466",
+          "category" : "Texts",
+          "subcategory" : "Correspondence",
+          "data_type" : "tei",
+          "project" : "Buffalo Bill Cody",
+          "shortname" : "cody",
+          "title_sort" : "letter from william f. cody to george t. beck, march 26, 1896",
+          "title" : "Letter from William F. Cody to George T. Beck, March 26, 1896",
+          "description" : null,
+          "format" : "letter",
+          "language" : null,
+          "medium" : "letter",
+          "date_display" : "March 26, 1896",
+          "date" : "1896-03-26",
+          "date_not_before" : "1896-03-26",
+          "date_not_after" : "1896-03-26",
+          "rights_uri" : null,
+          "publisher" : "",
+          "rights" : "All Rights Reserved",
+          "source" : "",
+          "rights_holder" : "University of Wyoming, American Heritage Center, Buffalo Bill Letters to George T. Beck (Acc. #9972)",
+          "creator_sort" : "Cody, William Frederick, 1846-1917",
+          "people" : "Beck, George Washington Thornton, 1856-1943; Grouard, Frank, 1850-1905; Mondell, Frank Wheeler, 1860-1939; Nagle, F. A.; Nagle, S. V.; Rumsey, Bronson, II, 1854-1946",
+          "person" : [
+            {
+              "role" : null,
+              "name" : "Beck, George Washington Thornton, 1856-1943",
+              "id" : ""
+            },
+            {
+              "role" : null,
+              "name" : "Rumsey, Bronson, II, 1854-1946",
+              "id" : ""
+            },
+            {
+              "role" : null,
+              "name" : "Grouard, Frank, 1850-1905",
+              "id" : ""
+            },
+            {
+              "role" : null,
+              "name" : "Mondell, Frank Wheeler, 1860-1939",
+              "id" : ""
+            },
+            {
+              "role" : null,
+              "name" : "Nagle, F. A.",
+              "id" : ""
+            },
+            {
+              "role" : null,
+              "name" : "Nagle, S. V.",
+              "id" : ""
+            }
+          ],
+          "contributor" : [
+            {
+              "name" : "Weakly, Laura K.",
+              "id" : null,
+              "role" : null
+            },
+            {
+              "name" : "Weakly, Laura K.",
+              "id" : "lkw",
+              "role" : null
+            },
+            {
+              "name" : "Houze, Lynn",
+              "id" : "lh",
+              "role" : null
+            },
+            {
+              "name" : "Johnston, Jeremy",
+              "id" : "jj",
+              "role" : null
+            },
+            {
+              "name" : "Clark, Linda",
+              "id" : "lc",
+              "role" : null
+            },
+            {
+              "name" : "Boyce, Gary",
+              "id" : "gb",
+              "role" : null
+            },
+            {
+              "name" : "Adams, Deb",
+              "id" : "da",
+              "role" : null
+            }
+          ],
+          "creator" : [
+            {
+              "name" : "Cody, William Frederick, 1846-1917"
+            }
+          ],
+          "keywords" : [ ],
+          "places" : [
+            "Shoshone Irrigation District (Wyo.)"
+          ],
+          "works" : [ ],
+          "annotations" : null,
+          "text" : "   Col. W. F. Cody, (Buffalo Bill) President.Nate Salsbury, Vice Prest & Manager.John M. Burke, General Manager.Albert E. Sheible, Business Manager.Jule Keen, Treasurer.Buffalo Bill's Wild West and Congress of Rough Riders of the World.The Largest Arenic Exhibition known in History.Col. W. F. Cody Nate SalsburySeason of 1895.Staff of Jas. A. Bailey, Director of Tour.J. T. McCaddon, Superintendent.W. H. Gardner, Gen'l Agent.M. Coyle, R.R. and Excursion Manager.George O. Starr, Press Agent.C. R. Hutchinson, Treasurer.New York Office, No. 106 W. 37th St.  North Platte Mar 26 1895 61 My Dear George, I wish you would write me c/o Annex AudtoriumAuditorium. Hotel Chicago And tell me how the work is progressing. what time you expect to finish to Sulphur Creek.2 and if you have money enough. what time you can finish so as to put water on the 25000 acres. have you tried the graders? hope you have moovedmoved away from Marquette. Is Rumsey still there. has he paid in the $5000 for his Brother3? Hope you and Rumsey took up the Townsite4 what are you doing about Townsite Say George. Frank Gourard5 Said he was to bring fifteen teams of horses from your ranch for him. Also that I could have some hogs from your place. If so send Frank an order for them to Sheridan. These questions I have asked of you will be asked me when I get East. So please answer at once.  Col. W. F. Cody, (Buffalo Bill) President.Nate Salsbury, Vice Prest & Manager.John M. Burke, General Manager.Albert E. Sheible, Business Manager.Jule Keen, Treasurer.Buffalo Bill's Wild West and Congress of Rough Riders of the World.The Largest Arenic Exhibition known in History.Col. W. F. Cody Nate SalsburySeason of 1895.Staff of Jas. A. Bailey, Director of Tour.J. T. McCaddon, Superintendent.W. H. Gardner, Gen'l Agent.M. Coyle, R.R. and Excursion Manager.George O. Starr, Press Agent.C. R. Hutchinson, Treasurer.New York Office, No. 106 W. 37th St.________ 1895 2 I have to day recd wires from Mondell6 and Burke7 that President8 will sign contracts Monday 23d. I go to Cheyenne tomorrow to consult with State Land board9 & Meade. And do all I can to hurry matters there. Get up Water bonds for Nagle10— Recd wire from Alger that he would ship Samples of grain to Nagle What did you do about Seed for Nagle and our selves? If Nothing. why not write Alger to attend to it. Nagle and party he says will leave Chicago Apr. 15 18th Billings. leave Billings 19. arrive on their lands 25th Can you have water in Ditch for them? With all my work and worry I have got to go rehearsing and jump into a hard summers work. A tired man— But I wontwon't care. If I dontdon't have to bear the blunt of bad management on that Ditch. So for Gods sake George— Keep things straight there.   Yours  Bill   "
+        },
+        "highlight" : {
+          "text" : [
+            " time you can finish so as to put <em>water</em> on the 25000 acres. have you tried the graders? hope you",
+            " & Meade. And do all I can to hurry matters there. Get up <em>Water</em> bonds for Nagle10— Recd wire from Alger",
+            " 18th Billings. leave Billings 19. arrive on their lands 25th Can you have <em>water</em> in Ditch for them"
+          ]
+        }
+      },
+      {
+        "_index" : "test1",
+        "_type" : "cody",
+        "_id" : "wfc.css00526",
+        "_score" : 3.9872563,
+        "_source" : {
+          "identifier" : "wfc.css00526",
+          "category" : "Texts",
+          "subcategory" : "Correspondence",
+          "data_type" : "tei",
+          "project" : "Buffalo Bill Cody",
+          "shortname" : "cody",
+          "title_sort" : "letter from william f. cody to george t. beck, july 28, 1898",
+          "title" : "Letter from William F. Cody to George T. Beck, July 28, 1898",
+          "description" : null,
+          "format" : "letter",
+          "language" : null,
+          "medium" : "letter",
+          "date_display" : "July 28, 1898",
+          "date" : "1898-07-28",
+          "date_not_before" : "1898-07-28",
+          "date_not_after" : "1898-07-28",
+          "rights_uri" : null,
+          "publisher" : "",
+          "rights" : "All Rights Reserved",
+          "source" : "",
+          "rights_holder" : "University of Wyoming, American Heritage Center, Buffalo Bill Letters to George T. Beck (Acc. #9972)",
+          "creator_sort" : "Cody, William Frederick, 1846-1917",
+          "people" : "Beck, George Washington Thornton, 1856-1943",
+          "person" : [
+            {
+              "role" : null,
+              "name" : "Beck, George Washington Thornton, 1856-1943",
+              "id" : ""
+            }
+          ],
+          "contributor" : [
+            {
+              "name" : "Weakly, Laura K.",
+              "id" : "lkw",
+              "role" : null
+            },
+            {
+              "name" : "Houze, Lynn",
+              "id" : "lh",
+              "role" : null
+            },
+            {
+              "name" : "Johnston, Jeremy",
+              "id" : "jj",
+              "role" : null
+            },
+            {
+              "name" : "Clark, Linda",
+              "id" : "lc",
+              "role" : null
+            },
+            {
+              "name" : "Boyce, Gary",
+              "id" : "gb",
+              "role" : null
+            },
+            {
+              "name" : "Adams, Deb",
+              "id" : "da",
+              "role" : null
+            }
+          ],
+          "creator" : [
+            {
+              "name" : "Cody, William Frederick, 1846-1917"
+            }
+          ],
+          "keywords" : [ ],
+          "places" : [ ],
+          "works" : [ ],
+          "annotations" : null,
+          "text" : "   Buffalo Bill's Wild West  Chicago1 July 282 My Dear Beck Those Preists3 want their deeds to their Lots— I wish you would let me know if you are now ready and will make them out for them? Snyder4 writes me you have gone South to work for Alger— not but what I approoveapprove of it. But I cantcan't beleivebelieve that you would leave until the water was again runingrunning. If you have left our business just at this critical time— Its not right And I will so notify the Co. I hope itsit's not true— Very truly yours W. F. Cody  "
+        },
+        "highlight" : {
+          "text" : [
+            " cantcan't beleivebelieve that you would leave until the <em>water</em> was again runingrunning. If you have left our"
+          ]
+        }
+      },
+      {
+        "_index" : "test1",
+        "_type" : "cody",
+        "_id" : "wfc.css00534",
+        "_score" : 3.9872563,
+        "_source" : {
+          "identifier" : "wfc.css00534",
+          "category" : "Texts",
+          "subcategory" : "Correspondence",
+          "data_type" : "tei",
+          "project" : "Buffalo Bill Cody",
+          "shortname" : "cody",
+          "title_sort" : "letter from william f. cody to george t. beck, june 2, 1899",
+          "title" : "Letter from William F. Cody to George T. Beck, June 2, 1899",
+          "description" : null,
+          "format" : "letter",
+          "language" : null,
+          "medium" : "letter",
+          "date_display" : "June 2, 1899",
+          "date" : "1899-06-02",
+          "date_not_before" : "1899-06-02",
+          "date_not_after" : "1899-06-02",
+          "rights_uri" : null,
+          "publisher" : "",
+          "rights" : "All Rights Reserved",
+          "source" : "",
+          "rights_holder" : "University of Wyoming, American Heritage Center, Buffalo Bill: Letters to George T. Beck, 1895-1910 (Acc. #9972)",
+          "creator_sort" : "Cody, William Frederick, 1846-1917",
+          "people" : "Beck, George Washington Thornton, 1856-1943",
+          "person" : [
+            {
+              "role" : null,
+              "name" : "Beck, George Washington Thornton, 1856-1943",
+              "id" : ""
+            }
+          ],
+          "contributor" : [
+            {
+              "name" : "Weakly, Laura K.",
+              "id" : "lkw",
+              "role" : null
+            },
+            {
+              "name" : "Christianson, Johnston, Houze, Clark",
+              "id" : "bbhc",
+              "role" : null
+            },
+            {
+              "name" : "Boyce, Gary",
+              "id" : "gb",
+              "role" : null
+            },
+            {
+              "name" : "Adams, Deb",
+              "id" : "da",
+              "role" : null
+            }
+          ],
+          "creator" : [
+            {
+              "name" : "Cody, William Frederick, 1846-1917"
+            }
+          ],
+          "keywords" : [ ],
+          "places" : [ ],
+          "works" : [ ],
+          "annotations" : null,
+          "text" : "   Louis E. Cooke, Gen'l Agent.Buffalo Bill's Wild West andCongress of Rough Ridersof the World. Col. W. F. Cody (Buffalo Bill), President. Nate Salsbury, Vice-President & Manager. John M. Burke, General Manager.Albert E. Sheible, Business Manager.Jule Keen, Treasurer.  Phila Pa1 June. 2d 99 My Dear Beck Every day now every mail every telegrame Boy I see- I say there is water running in the streets of Cody. Say. I think we should fix the road through to Frosts2 I understand it wontwon't cost over $25— Yours in haste Cody  "
+        },
+        "highlight" : {
+          "text" : [
+            " Dear Beck Every day now every mail every telegrame Boy I see- I say there is <em>water</em> running in the"
+          ]
+        }
+      },
+      {
+        "_index" : "test1",
+        "_type" : "cody",
+        "_id" : "wfc.css00524",
+        "_score" : 3.9872563,
+        "_source" : {
+          "identifier" : "wfc.css00524",
+          "category" : "Texts",
+          "subcategory" : "Correspondence",
+          "data_type" : "tei",
+          "project" : "Buffalo Bill Cody",
+          "shortname" : "cody",
+          "title_sort" : "letter from william f. cody to george t. beck, july 19, 1898",
+          "title" : "Letter from William F. Cody to George T. Beck, July 19, 1898",
+          "description" : null,
+          "format" : "letter",
+          "language" : null,
+          "medium" : "letter",
+          "date_display" : "July 19, 1898",
+          "date" : "1898-07-19",
+          "date_not_before" : "1898-07-19",
+          "date_not_after" : "1898-07-19",
+          "rights_uri" : null,
+          "publisher" : "",
+          "rights" : "All Rights Reserved",
+          "source" : "",
+          "rights_holder" : "University of Wyoming, American Heritage Center, Buffalo Bill Letters to George T. Beck (Acc. #9972)",
+          "creator_sort" : "Cody, William Frederick, 1846-1917",
+          "people" : "Beck, George Washington Thornton, 1856-1943",
+          "person" : [
+            {
+              "role" : null,
+              "name" : "Beck, George Washington Thornton, 1856-1943",
+              "id" : ""
+            }
+          ],
+          "contributor" : [
+            {
+              "name" : "Weakly, Laura K.",
+              "id" : "lkw",
+              "role" : null
+            },
+            {
+              "name" : "Houze, Lynn",
+              "id" : "lh",
+              "role" : null
+            },
+            {
+              "name" : "Johnston, Jeremy",
+              "id" : "jj",
+              "role" : null
+            },
+            {
+              "name" : "Clark, Linda",
+              "id" : "lc",
+              "role" : null
+            },
+            {
+              "name" : "Boyce, Gary",
+              "id" : "gb",
+              "role" : null
+            },
+            {
+              "name" : "Adams, Deb",
+              "id" : "da",
+              "role" : null
+            }
+          ],
+          "creator" : [
+            {
+              "name" : "Cody, William Frederick, 1846-1917"
+            }
+          ],
+          "keywords" : [ ],
+          "places" : [ ],
+          "works" : [ ],
+          "annotations" : null,
+          "text" : "   Buffalo Bill's Wild West Traverse City Mich1 July 192 My Dear Beck Yours recd— Now if Forbs3 wontwon't put up— Nor Bleistein & others— the mill will have to go over another year. I cantcan't build it Alone— The timber might be sawed for it. For the mill will have to be built Sooner or later— And the mill lumber will keep— And we will have it ready— If Bleistein wires me he can raise two or three thousand allright. But it must be a steam and water mill combined what will it cost to add  steam? How much did Jones4 owe— colony people5?  Yours truly W. F. Cody  Excuse blots raining like L5—  "
+        },
+        "highlight" : {
+          "text" : [
+            " three thousand allright. But it must be a steam and <em>water</em> mill combined what will it cost to add  steam"
+          ]
+        }
+      },
+      {
+        "_index" : "test1",
+        "_type" : "cody",
+        "_id" : "wfc.css00366",
+        "_score" : 3.9630013,
+        "_source" : {
+          "identifier" : "wfc.css00366",
+          "category" : "Texts",
+          "subcategory" : "Correspondence",
+          "data_type" : "tei",
+          "project" : "Buffalo Bill Cody",
+          "shortname" : "cody",
+          "title_sort" : "letter from c. m. morrill to c. e. perkins, november 4, 1899",
+          "title" : "Letter from C. M. Morrill to C. E. Perkins, November 4, 1899",
+          "description" : null,
+          "format" : "letter",
+          "language" : null,
+          "medium" : "letter",
+          "date_display" : "November 4, 1899",
+          "date" : "1899-11-04",
+          "date_not_before" : "1899-11-04",
+          "date_not_after" : "1899-11-04",
+          "rights_uri" : null,
+          "publisher" : "",
+          "rights" : "All Rights Reserved",
+          "source" : "",
+          "rights_holder" : "Newberry Library, CB&Q collection, 33, 1890, 6.8, Big Horn Basin",
+          "creator_sort" : "",
+          "people" : "",
+          "person" : [
+            {
+              "role" : null,
+              "name" : "",
+              "id" : ""
+            }
+          ],
+          "contributor" : [
+            {
+              "name" : "Weakly, Laura K.",
+              "id" : "lkw",
+              "role" : null
+            },
+            {
+              "name" : "Tiedje, Michelle",
+              "id" : null,
+              "role" : null
+            }
+          ],
+          "creator" : [ ],
+          "keywords" : [ ],
+          "places" : [ ],
+          "works" : [ ],
+          "annotations" : null,
+          "text" : "   Lincoln, Neb. Nov. 4, 1899. My dear Mr. Perkins,—  I returned this P. M. from the big horn basin. Mr. Calvert is of the opinion that an expert geologist should be sent to the basin to get more definite knowledge as to the coal proposition and as winter is near at hand, making immediate action necessary if anything is to be done this fall, I send my report of the trip. Before making this report I had expected to obtain further definite information from the irrigation commissioners and also from the state geologists of Wyoming. That, however, can come later if necessary. From Billings we drove direct to Pryor Gap. About 8 miles North of the gap we struct [sic] Pryor Creek. It is a small stream inside the Indian Reservation, and if this land should be brought into the market, the water running in the creek is only sufficient to irrigate a small strip of land on each side of the same. I talked with several of the me who surveyed the line from Toluca and they informed me there is nothing but a few small srpingssprings between Toluca and Pryor Creek. As all the country between Toluca and Pryor Gap is in the Indian Reservation, as long as the indians remain there, it will be nothing but a cattle country. It is about 8 miles from Pryor Gap into the basin. There is a small creek running South from the Gap called Sage Creek. It has only water enough to supply 6 or 7 farms and there is already litigation between the settlers living in Wyoming and those living in Montana. Between Pryor Gap and Frannie there are less than 10 houses. During the irrigating season there is no water running in Sage Creek South of Frannie; therefore, the litigation above referred to. From Frannie we drove South West across the Shoshone flats to Eagles Nest and thence to Cody. There is not a sign of habitation between Frannie and Cody, with the exception of a road house at Eagles' Nest and another at Corbit [sic] where the road crosses the Shoshone River. At Cody there are less than a dozen houses, and only one store. There is no water in Cody, even for the irrigation of gardens. The Cody ditch scheme has been a failure up to the present time. From Cody we went around Cedar Mountain and followed up Sulphur Creek as Cody claimed that was the garden of his scheme at the present time. West of Cedar Mountain there are a few settlers, I think less than 10. I asked several of those I met about the amount in cultivation and in figuring it up they all made it less than 600 acres. They said there had been more settlers there, but owing to the failure of the ditch to furnish water, they had become disgusted and left. Cody's ditch starts about 16 or 17 miles up the Shoshone River. There they have put in a head-gate. After coming down the valley four or five miles they have turned the water into Sulphur Creek. I think probably two or three thousand acres of land could be irrigated above Cody in the Shoshone Valley and along Sulphur Creek providing the ditch was kept in order. Before getting the water down to the town of Cody and out onto the flats, there are serious difficulties to surmount. In getting around Cedar Mountain there is about 1-1/2 miles of flume which is in bad condition at the present time, and I think always has been. Even if it was kept in good condition, the flume is only four feet wide by two feet high. As you will see by reference to your map, Cody has in his scheme many thousand acres East of his town. There is no question about the supply of water with a properly constructed ditch, but I should judge that it would cost at least $250,000 to construct a ditch of sufficient capacity to water the lands that have been segregated to the ditch scheme on the South side of the river. From Cody we drove East to Dry Creek and then down Dry Creek toward Burlington. There is a vast area of land that could be watered from the Shoshone River by running the ditch across from Cedar Mountain to the head of Dry Creek, then down the creek towards Burlington. As Dry Creek is a shallow ravine with large flats both East and West, the scheme is feasible. We followed down Dry Creek until within sight of Burlington and then turned South down the Greybull River. Here is Wiley's (of Omaha) scheme of irrigation. He has made considerable headway as it is easy to get the water out of the Greybull. Before he undertook to construct the ditch there were settlers scattered all along the Greybull River. We stopped over night with a Mr. Beck about 20 miles North West of Meteesee. Mr. Beck is a man of good judgment. He lived in Burt county Nebraska over thirty years and was a State Senator. He has lived at his present location six years, has 400 acres in alfalfa and is delighted with his new home. From this point, we run almost directly West to Cody in order to pass some coal prospects. From Cody we passed East of Heart Mountain across the Shoshone flats North to Bridger on Clark's Fork. From Bridger we went up the line of Rockfort Creek to Carbon and down where Daily (of the Aconda Copper mines) is taking out coal, making a total of about 300 miles that we drove. In the entire distance from Pryor Gap back to Bridger, we saw less than 100 houses including and Burlington, and not including Bridger and carbon [sic]. The soil in the basin is excellent; I think as good as the best Nebraska soil. That is proven by what is being produced on the small streams and springs referred to. Nearly every settler who lives on the stream has some alfalfa and is raising vegetables; although, I do not think they are producing as much in the basin as they are consuming at the present time. We found croppings of coal at various places, but it was all lignite and poor stuff that we saw or could hear of, except the coal at Bridger, Carbon and Red Lodge. At Bridger they have fifty men at work. The coal there is lignite, but of a very fair quality and is used for engine coal by the N. P. They go into the hill on a slant of about 22 degrees and the vein is about three feet thick. At Carbon, Dailey went down about 1000 feet before he shipped any coal. It took him a year to get ready and he has a vein about 3-1/2 feet thick. It is also lignite and poorer than the Bridger coal. We did not go up to Red Lodge, but they have 6 or 7 feet of coal there and work 500 men. It is also lignite, but the men on the road said it made fair engine coal. They are taking out coal about 10 miles West of Bowler (at the South end of Pryor Gap) and selling it to the ranchers. They claim to have five or six feet of lignite. They also clam to have a vein from 7 to 9 feet thick about half way between Cody and Meteesee. Down by Basin City, there are coal mines. In fact, there is no doubt, but what there is plenty of lignite coal, but there is serious doubt at the present time as to where you would find good coal. I should have said that just 4 miles West of Cody there is a very fine warm sulphur spring. It would undoubtedly become a resort if a railroad run nearby. If you should go up the Shoshone toward Yellowstone you would pass right by this spring. The scenery here is very fine — something on the order of the Grande Canon of Yellowstone Park (on a smaller scale). If you should build from Toluca South through Pryor Gap and stop at the nearest point where you could get coal, it would be on Bear Creek or Jack Creek about 10 miles West of Bowers. You would be obliged to make arrangements to get the water that comes down Sage Creek and pipe it down. The town would then be located in an arid country with no possibilities for irrigation, and simply be a coal mining town. The trade of the basin nearly all goes to Billings where their stocks of goodswould [sic] compare favorable with stocks in Lincoln or Omaha. In my opinion the class of merchants that would settle at a coal town in such a place as above mentioned, could not divert much of the trade from Billings. If you run down towards Burlington, it would make about 125 miles in all. In that case, you could get into a good country where parties who wanted to go into business would recognize that it was permanent. From that point, you could, by following up the Greybull, go into the Wood River country. As to the mines, we saw a man who was direct from the Sunlight country North of Cody, who said there was nothing substantial there at the present time. Parties in Cody said he was reliable. There were several veins opened where the ore was very rich, but in very small quantities. Mr. Calvert informs me that Mr. Holdrege has an expert in the Wood River Country so that you will get definite information from him. This is a wonderful country and will sometime be almost an empire of itself. Inside of the basin rim there is about 6,500,000 acres of land. I should say that it is possible to irrigate from 1,000,000 to 1,500,000 acres from the Shoshone, Greybull, Clark's Fork and numerous small streams. Supposing we call it 1,000,000 acres. That would leave five and a half million for pasturage. The soil is excellent; the grass is fine; and the climate is better for stock than another section of the NorthWest because of the light snow fall. There is a large number of cattle shipped in the basin. Nearly all the stock is driven to the B. & M. at the present time. Otto Franks, who owns Pitchford ranch, South and West of Meteesee drives to the B. & M. I met another ranchman about 40 miles West of Cody who had just driven 200 head to the B. & M.. He said he always shipped over that line because it was cheaper and shorter to market. In fact, every stockman I talked with on the entire trip said they shipped over the B. & M. Therefore, from that source, you can gain very little by going into the basin. I should like to talk this matter over with you as I can give you a very much better idea about what has been done in the way of irrigation and prospects for future movement in that direction. If you want to send a coal expert into that country, I think I can get Prof. Barbour of the State University, who is recognized as a true scientist and well up. Mr. Calvert thinks he would be a splendid man to send up there. If you think I had better run down to see you, let me know so that I can start Tuesday and get down there Wednesday. I have made arrangements to start for Guernsey's the 13th inst. I will say that it is my judgment that if you or Mr. Harris had been with us on the trip, you would decided that it is too early to go into that country. However, I am not a railroad man and there are many features of the situation that I know very little of. One thing is certain, that if you build the road there with the present conditions, it will be simply for coal. The stock trade you have at the present time. Undoubtedly your building in would stimulate various industries that are not there at the present time.  Yours truly, C. H. Morrill.   "
+        },
+        "highlight" : {
+          "text" : [
+            " stream inside the Indian Reservation, and if this land should be brought into the market, the <em>water</em>",
+            " running South from the Gap called Sage Creek. It has only <em>water</em> enough to supply 6 or 7 farms and there",
+            " Pryor Gap and Frannie there are less than 10 houses. During the irrigating season there is no <em>water</em>"
+          ]
+        }
+      }
+    ]
+  },
+  "aggregations" : {
+    "date.year" : {
+      "buckets" : [
+        {
+          "key_as_string" : "1896",
+          "key" : -2335219200000,
+          "doc_count" : 21
+        },
+        {
+          "key_as_string" : "1899",
+          "key" : -2240524800000,
+          "doc_count" : 9
+        },
+        {
+          "key_as_string" : "1900",
+          "key" : -2208988800000,
+          "doc_count" : 9
+        },
+        {
+          "key_as_string" : "1890",
+          "key" : -2524521600000,
+          "doc_count" : 7
+        },
+        {
+          "key_as_string" : "1898",
+          "key" : -2272060800000,
+          "doc_count" : 4
+        },
+        {
+          "key_as_string" : "1891",
+          "key" : -2492985600000,
+          "doc_count" : 3
+        },
+        {
+          "key_as_string" : "1895",
+          "key" : -2366755200000,
+          "doc_count" : 2
+        },
+        {
+          "key_as_string" : "1897",
+          "key" : -2303596800000,
+          "doc_count" : 2
+        },
+        {
+          "key_as_string" : "1892",
+          "key" : -2461449600000,
+          "doc_count" : 1
+        },
+        {
+          "key_as_string" : "1894",
+          "key" : -2398291200000,
+          "doc_count" : 1
+        }
+      ]
+    },
+    "format" : {
+      "doc_count_error_upper_bound" : 0,
+      "sum_other_doc_count" : 0,
+      "buckets" : [
+        {
+          "key" : "letter",
+          "doc_count" : 59
+        }
+      ]
+    },
+    "creator.name" : {
+      "doc_count" : 47,
+      "name" : {
+        "doc_count_error_upper_bound" : 0,
+        "sum_other_doc_count" : 0,
+        "buckets" : [
+          {
+            "key" : "Cody, William Frederick, 1846-1917",
+            "doc_count" : 41
+          },
+          {
+            "key" : "Holdrege, George Ward, 1847-1926",
+            "doc_count" : 2
+          },
+          {
+            "key" : "Helen Cody Wetmore",
+            "doc_count" : 1
+          },
+          {
+            "key" : "Manderson, Charles F. (Charles Frederick), 1837-1911",
+            "doc_count" : 1
+          },
+          {
+            "key" : "Morrill, Charles H., 1842 - 1928",
+            "doc_count" : 1
+          },
+          {
+            "key" : "Wharton, Anne H.",
+            "doc_count" : 1
+          }
+        ]
+      }
+    }
+  }
+}

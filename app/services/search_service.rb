@@ -103,15 +103,15 @@ class SearchService
   end
 
   def build_collections_response res
-    SearchCollectionsResponseBuilder.new(res).build_response
+    SearchCollRes.new(res).build_response
   end
 
   def build_item_request
-    SearchItemRequestBuilder.new(@params).build_request
+    SearchItemReq.new(@params).build_request
   end
 
   def build_item_response res
-    SearchItemResponseBuilder.new(res).build_response
+    SearchItemRes.new(res).build_response
   end
 
 end

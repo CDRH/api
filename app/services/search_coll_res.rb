@@ -1,4 +1,4 @@
-class SearchCollectionsResponseBuilder
+class SearchCollRes
 
   @@collections = ["aggregations", "collections", "buckets"]
 
