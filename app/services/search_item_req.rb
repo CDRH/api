@@ -210,13 +210,8 @@ class SearchItemReq
     return filter_list
   end
 
-  # if non-array, return as single element array
   def arrayifier input
-    if input.class != Array
-      return [input]
-    else
-      return input
-    end
+    return Array.wrap(input)
   end
 
   def sort

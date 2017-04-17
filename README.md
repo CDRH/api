@@ -103,7 +103,7 @@ If highlighting is on, it is set by default to return 3 occasions of a word matc
 
 Changing the characters which appear around the highlighted word:
 
-`hl_chars=number`  
+`hl_chars=number`<br>
 `hl_num=number`
 
 ```
@@ -135,7 +135,7 @@ facet_sort=anything_not_term|asc
 
 Note: Zero indexed
 
-`start=number`  
+`start=number`<br>
 `num=number`
 
 ```
@@ -160,13 +160,14 @@ q=word
 
 By default, this will search the "text" field, you can specify a different one to use or multiple fields
 
-`q=field:word`  
-`q=field:word&otherfield:other`
+`q=field:word`<br>
+`q=field:word AND otherfield:other`<br>
+`q=field:word OR otherfield:other`
 
 #### Advanced Search
 
-`q="phrase of words"`  
-`q=wildcard*`  
-`q=word OR other`  
-`q=word AND other`  
+`q="phrase of words"`<br>
+`q=wildcard*`<br>
+`q=word OR other`<br>
+`q=word AND other`<br>
 `q=(word OR other) OR -nothanks`
