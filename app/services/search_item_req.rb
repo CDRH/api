@@ -83,7 +83,7 @@ class SearchItemReq
     size = @params["facet_num"].blank? ? NUM : @params["facet_num"]
 
     aggs = {}
-    arrayifier(@params["facet"]).each do |f|
+    Array.wrap(@params["facet"]).each do |f|
       # histograms use a different ordering terminology than normal aggs
       f_type = type == "_term" ? "_key" : "_count"
 
@@ -144,7 +144,7 @@ class SearchItemReq
 
   def filters
     filter_list = []
-    fields = arrayifier @params["f"]
+    fields = Array.wrap(@params["f"])
     # each filter should be length 3 for field, type 1, type 2
     # (type 2 will only be used for dates)
     filters = fields.map {|f| f.split(@@filter_separator, 3) }
@@ -210,13 +210,9 @@ class SearchItemReq
     return filter_list
   end
 
-  def arrayifier input
-    return Array.wrap(input)
-  end
-
   def sort
     sort_obj = []
-    sort_param = @params["sort"].blank? ? [] : arrayifier(@params["sort"])
+    sort_param = @params["sort"].blank? ? [] : Array.wrap(@params["sort"])
     sort_param.each do |sort|
       term, dir = sort.split(@@filter_separator)
       # default to ascending if nothing specified
@@ -250,7 +246,7 @@ class SearchItemReq
         }
       }
       if @params["qfield"].present?
-        must["query_string"]["fields"] = arrayifier @params["qfield"]
+        must["query_string"]["fields"] = Array.wrap(@params["qfield"])
       end
     else
       must = { "match_all" => {} }
