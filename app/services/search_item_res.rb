@@ -50,9 +50,7 @@ class SearchItemRes
         if info.has_key?("buckets")
           buckets = info["buckets"]
         else
-          # get second half of field name
-          nested_field = field.split(".").last
-          buckets = info.dig(nested_field, "buckets")
+          buckets = info.dig(field, "buckets")
         end
         if buckets
           buckets.each do |b|
