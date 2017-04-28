@@ -43,6 +43,17 @@ facet[]=date
   #=> { 01-02-1889 : 2, 03-04-1889 : 8 }
 ```
 
+Number of facets returned and sorting alphabetically (by default sorts by count)
+
+`facet_num=number&facet_sort=term|direction`
+
+```
+facet_num=100
+facet_sort=term|asc
+
+facet_num=30&facet_sort=term|desc
+```
+
 ### field list
 
 Restrict the fields displayed per document in the response. Use `!` to exclude a field. Wildcards in fieldnames supported.
