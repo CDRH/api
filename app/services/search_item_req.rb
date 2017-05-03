@@ -97,7 +97,7 @@ class SearchItemReq
           interval = "day"
         end
         formatted = interval == "year" ? "yyyy" : "yyyy-MM-dd"
-        histogram = {
+        aggs[f] = {
           "date_histogram" => {
             "field" => field,
             "interval" => interval,
@@ -106,7 +106,6 @@ class SearchItemReq
             "order" => { f_type => dir },
           }
         }
-        aggs[f] = histogram
       # if nested, has extra syntax
       elsif f.include?(".")
         path = f.split(".").first
@@ -115,7 +114,7 @@ class SearchItemReq
             "path" => path
           },
           "aggs" => {
-            "name" => {
+            f => {
               "terms" => {
                 "field" => f,
                 "order" => { type => dir },

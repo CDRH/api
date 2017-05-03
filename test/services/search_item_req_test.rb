@@ -33,7 +33,7 @@ class SearchItemReqTest < ActiveSupport::TestCase
       "facet_sort" => "term|desc",
       "facet" => [ "creator.name" ]
     }).facets
-    assert_equal facets, {"creator.name"=>{"nested"=>{"path"=>"creator"}, "aggs"=>{"name"=>{"terms"=>{"field"=>"creator.name", "order"=>{"_term"=>"desc"}, "size"=>20}}}}}
+    assert_equal facets, {"creator.name"=>{"nested"=>{"path"=>"creator"}, "aggs"=>{"creator.name"=>{"terms"=>{"field"=>"creator.name", "order"=>{"_term"=>"desc"}, "size"=>20}}}}}
 
     # with non-array
     facets = SearchItemReq.new({ "facet" => "title" }).facets

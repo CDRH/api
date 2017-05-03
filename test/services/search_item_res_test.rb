@@ -3,6 +3,8 @@ require 'test_helper'
 class SearchItemResTest < ActiveSupport::TestCase
 
   def setup
+    # test json generated with
+    # items?facet[]=person.name&facet[]=format&facet[]=date.year&debug=true&q=water
     this_dir = File.dirname(__FILE__)
     file = File.read("#{this_dir}/../fixtures/es_response.json")
     @es = JSON.parse(file)
@@ -11,12 +13,12 @@ class SearchItemResTest < ActiveSupport::TestCase
   def test_combine_highlights
     hl = SearchItemRes.new(@es).combine_highlights
     first = hl.dig(0, "highlight")
-    assert_equal first, {"text"=>[" hardly know how we are going to raise the rest to pay off 10th of May pay roll— and no <em>water</em> to", " Sulphur creek3 George things are being done there badly or the <em>water</em> would be in Sulphur Creek now. The", " to let me know but they have not— I have about given up all hope of <em>water</em> ever getting to Sulphur"]}
+    assert_equal first, {"text"=>["View of the <em>water</em> from S. Lucia street in Naples. Napoli - Strada S. Lucia 35 Ediz Artistica RICTER"]}
   end
 
   def test_reformat_facets
     facets = SearchItemRes.new(@es).reformat_facets
-    assert_equal facets, {"date.year"=>{"1896"=>21, "1899"=>9, "1900"=>9, "1890"=>7, "1898"=>4, "1891"=>3, "1895"=>2, "1897"=>2, "1892"=>1, "1894"=>1}, "format"=>{"letter"=>59}, "creator.name"=>{"Cody, William Frederick, 1846-1917"=>41, "Holdrege, George Ward, 1847-1926"=>2, "Helen Cody Wetmore"=>1, "Manderson, Charles F. (Charles Frederick), 1837-1911"=>1, "Morrill, Charles H., 1842 - 1928"=>1, "Wharton, Anne H."=>1}}
+    assert_equal facets, {"date.year"=>{"1896"=>4, "1920"=>4, "1934"=>4, "1908"=>3, "1938"=>3, "1942"=>3, "1916"=>2, "1929"=>2, "1933"=>2, "1936"=>2, "1941"=>2, "1899"=>1, "1905"=>1, "1909"=>1, "1911"=>1, "1917"=>1, "1918"=>1, "1925"=>1, "1930"=>1, "1931"=>1, "1935"=>1, "1940"=>1, "1944"=>1}, "person.name"=>{"Cather, Elsie"=>30, "Cather, Mary Virginia 'Jennie' Boak"=>22, "Cather, Roscoe"=>17, ""=>16, "Lewis, Edith"=>16, "Shannon, Margaret Cather"=>16, "Cather, Charles F."=>11, "Cather, Meta Schaper"=>8, "Gere, Mariel"=>8, "Auld, Jessica Cather"=>7, "Hambourg, Isabelle McClung"=>7, "Cather, Charles Douglass 'Douglass'"=>6, "Greenslet, Ferris"=>6, "Mellen, Mary Virginia Auld"=>6, "Sherwood, Carrie Miner"=>6, "Auld, William Thomas 'Tom, Will'"=>5, "Brockway, Virginia Cather"=>5, "Creighton, Mary Miner"=>5, "Hambourg, Jan"=>5, "Cather, James Donald"=>4}, "format"=>{"letter"=>50}}
   end
 
 end
