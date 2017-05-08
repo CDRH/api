@@ -81,6 +81,30 @@ class SearchItemReqTest < ActiveSupport::TestCase
 
   end
 
+  def test_highlights
+
+    # no parameters
+    hl = SearchItemReq.new({}).highlights
+    assert_equal hl, {"fields"=>{"text"=>{"fragment_size"=>100, "number_of_fragments"=>3}}}
+
+    # specifying fragment size and number
+    hl = SearchItemReq.new({ "hl_chars" => 20, "hl_num" => 1 }).highlights
+    assert_equal hl, {"fields"=>{"text"=>{"fragment_size"=>20, "number_of_fragments"=>1}}}
+
+    # fragment size and number multiple fields
+    hl = SearchItemReq.new({ "hl_chars" => 20, "hl_num" => 1, "hl_fl" => "annotations,extra" }).highlights
+    assert_equal hl, {"fields"=>{"text"=>{"fragment_size"=>20, "number_of_fragments"=>1}, "annotations"=>{"fragment_size"=>20, "number_of_fragments"=>1}, "extra"=>{"fragment_size"=>20, "number_of_fragments"=>1}}}
+
+    # no highlights despite params
+    hl = SearchItemReq.new({ "hl_fl" => "annotations", "hl" => "false" }).highlights
+    assert_equal hl, {}
+
+    # highlight field list
+    hl = SearchItemReq.new({ "hl_fl" => "annotations, text" }).highlights
+    assert_equal hl, {"fields"=>{"text"=>{"fragment_size"=>100, "number_of_fragments"=>3}, "annotations"=>{"fragment_size"=>100, "number_of_fragments"=>3}}}
+
+  end
+
   def test_sort
 
     # single sort

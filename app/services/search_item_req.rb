@@ -15,21 +15,11 @@ class SearchItemReq
     # pagination
     num = @params["num"].blank? ? NUM : @params["num"]
     start = @params["start"].blank? ? START : @params["start"]
-    # highlighting
-    hl_chars = @params["hl_chars"].blank? ? HL_CHARS : @params["hl_chars"]
-    hl_num = @params["hl_num"].blank? ? HL_NUM : @params["hl_num"]
 
     req = {
       "aggs" => {},
       "from" => start,
-      # always include highlights by default
-      "highlight" => {
-        "fields" => {
-          "text" => {
-            "fragment_size" => hl_chars, "number_of_fragments" => hl_num
-          }
-        }
-      },
+      "highlight" => {},
       "size" => num,
       "query" => {},
     }
@@ -50,10 +40,7 @@ class SearchItemReq
     end
 
     # HIGHLIGHT
-    if @params["hl"].present? && @params["hl"] == "false"
-      # remove highlighting from request if they don't want it
-      req.delete("highlight")
-    end
+    req["highlight"] = highlights
 
     # SORT
     req["sort"] = sort
@@ -207,6 +194,28 @@ class SearchItemReq
       end
     end
     return filter_list
+  end
+
+  def highlights
+    hl = {}
+    hl_chars = @params["hl_chars"].blank? ? HL_CHARS : @params["hl_chars"]
+    hl_num = @params["hl_num"].blank? ? HL_NUM : @params["hl_num"]
+
+    if @params.dig("hl") != "false"
+      # include "text" highlighting by default
+      hl["fields"] = {
+        "text" => { "fragment_size" => hl_chars, "number_of_fragments" => hl_num }
+      }
+      if @params["hl_fl"].present?
+        @params["hl_fl"].split(@@fl_separator).each do |field|
+          hl["fields"][field] = {
+            "fragment_size" => hl_chars,
+            "number_of_fragments" => hl_num
+          }
+        end
+      end
+    end
+    return hl
   end
 
   def sort

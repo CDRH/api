@@ -13,7 +13,13 @@ API to access all public Center for Digital Research in the Humanities resources
 
 ### facets
 
-Standard keyword fields
+_Lists number of documents matching keyword fields_
+
+Defaults:
+
+- no defaults
+
+__Standard fields__
 
 `facet[]=keyword_field`
 
@@ -22,7 +28,7 @@ facet[]=category
 facet[]=category&facet[]=title
 ```
 
-Nested fields
+__Nested fields__
 
 `facet[]=nested_field.keyword_field`
 
@@ -31,7 +37,7 @@ facet[]=creator.name
 facet[]=creator.name&facet[]=creator.role
 ```
 
-Date ranges (currently supports days or years)
+__Date ranges__ (currently supports days or years)
 
 `facet[]=date_field.range`
 
@@ -54,7 +60,28 @@ facet_sort=term|asc
 facet_num=30&facet_sort=term|desc
 ```
 
+__Sorting facets__
+
+Defaults:
+
+- score|desc
+
+Always defaults to score (_count) and descending. If you wish to sort alphabetically, add "term" and a direction. If you wish to sort score ascending, use "score" and a direction.
+
+`facet_sort=type|direction`
+
+```
+facet_sort=term|desc
+facet_sort=score|asc
+```
+
 ### field list
+
+_The fields returned by a query_
+
+Defaults:
+
+- returns all possible fields
 
 Restrict the fields displayed per document in the response. Use `!` to exclude a field. Wildcards in fieldnames supported.
 
@@ -66,7 +93,13 @@ fl=title,!date*,date_written
 
 ### filters
 
-Standard keyword field
+_Filters by keyword field across the possible documents_
+
+Defaults:
+
+- no filters applied except `_type` for collection
+
+__Standard fields__
 
 `f[]=field|type`
 
@@ -75,7 +108,7 @@ f[]=category|Writings
 f[]=category|Writings&f[]=format|manuscript
 ```
 
-Nested fields
+__Nested fields__
 
 `f[]=nested.keyword|type`
 
@@ -84,7 +117,7 @@ f[]=creator.name|Cather, Willa
 f[]=contributor.role|Editor
 ```
 
-Date field
+__Date field__
 
 If given one date, will use it has both start and end.
 
@@ -92,7 +125,7 @@ Can give year range or specify date range
 
 `f[]=field|range_start|(range_end)`
 
-```
+```bash
 f[]=date|1884
   #=> 01-01-1884 to 12-31-1884
 f[]=date|1884|1887
@@ -104,21 +137,51 @@ f[]=date|1884-02-01|1887-03-01
 
 ### highlighting
 
+_Returns context of text match results_
+
+Defaults:
+
+- `hl=true`
+- `hl_chars=100`
+- `hl_fl=text`
+- `hl_num=3`
+
+__Disabling Highlighting__
+
 If you wish to turn highlighting off:
 
+`hl=false`
+
+__Characters__
+
+This sets the number of characters that will be returned around a highlight match
+
+`hl_chars=number`
+
 ```
-hl=false
+hl_chars=100
 ```
 
-If highlighting is on, it is set by default to return 3 occasions of a word match set among the 100 surrounding characters.  Change this with `hl_num` and `hl_chars`, respectively.
+__Field List__
 
-Changing the characters which appear around the highlighted word:
+Highlights will always be returned for the `text` field, but if you are searching multiple fields, you may wish to see highlights on those fields, also. You do not need to send `text` when specifying additional fields.
 
-`hl_chars=number`<br>
+`hl_fl=field1,field2,field3`
+
+```
+hl_fl=annotations
+hl_fl=annotations,catherwords
+```
+
+__Number__
+
+The number of highlights returned per field. If you set `hl_num=3` for `text` and `annotations` you could receive up to 6 highlights, 3 from each field.
+
 `hl_num=number`
 
 ```
-hl_chars=30&hl_num=10
+hl_num=1
+hl_num=5
 ```
 
 ### sorting
@@ -131,18 +194,18 @@ Document results:
 sort[]=date|desc&sort[]=title|asc
 ```
 
-Facet results:
+__Sorting facets__
 
-Always defaults to score (_count) and descending, so unnecessary to add unless overriding default
-
-`facet_sort=field|direction`
-
-```
-facet_sort=term|desc
-facet_sort=anything_not_term|asc
-```
+Please refer to the section on [facets](#facets) for information about how to sort these
 
 ### start and rows
+
+_Manual pagination of results_
+
+Defaults:
+
+- start=0
+- num=50
 
 Note: Zero indexed
 
@@ -151,6 +214,7 @@ Note: Zero indexed
 
 ```
 start=0&num=50   # returns first 50 results
+start=49&num=50  # returns second 50 results
 start=9&num=10   # returns second 10 results
 ```
 
@@ -158,7 +222,7 @@ start=9&num=10   # returns second 10 results
 
 Please refer to [the Elasticsearch query string syntax](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax) for a list of all possibilities for text searching.
 
-#### Basic Search
+__Basic search__
 
 `q=word`
 
@@ -167,15 +231,15 @@ q=multiple words
 q=word
 ```
 
-#### Multiple Fields
+__Multiple fields__
 
-By default, this will search the "text" field, you can specify a different one to use or multiple fields
+By default, this will search the "text" field, you can specify a different one to use or multiple fields. If adding fields, you will want to make sure that your [highlights](#highlighting) include fields beyond "text"
 
 `q=field:word`<br>
 `q=field:word AND otherfield:other`<br>
 `q=field:word OR otherfield:other`
 
-#### Advanced Search
+__Advanced search__
 
 `q="phrase of words"`<br>
 `q=wildcard*`<br>
