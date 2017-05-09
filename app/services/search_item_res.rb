@@ -30,7 +30,7 @@ class SearchItemRes
     hits = @body.dig(*@@items)
     if hits
       return hits.map do |hit|
-        hit["_source"]["highlight"] = hit["highlight"]
+        hit["_source"]["highlight"] = hit["highlight"] || {}
         hit["_source"]
       end
     else

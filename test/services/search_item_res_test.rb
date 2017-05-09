@@ -13,7 +13,7 @@ class SearchItemResTest < ActiveSupport::TestCase
   def test_combine_highlights
     hl = SearchItemRes.new(@es).combine_highlights
     first = hl.dig(0, "highlight")
-    assert_equal first, {"text"=>["View of the <em>water</em> from S. Lucia street in Naples. Napoli - Strada S. Lucia 35 Ediz Artistica RICTER"]}
+    assert_equal first, {"text"=>["View of the <em>water</em> from S. Lucia street in Naples. Napoli - Strada S. Lucia 35 Ediz Artistica RICTER"], "annotations"=>["This is a fake one that I made up to match <em>water</em> changes to highlighting"]}
   end
 
   def test_reformat_facets
