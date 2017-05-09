@@ -201,7 +201,7 @@ class SearchItemReq
     hl_chars = @params["hl_chars"].blank? ? HL_CHARS : @params["hl_chars"]
     hl_num = @params["hl_num"].blank? ? HL_NUM : @params["hl_num"]
 
-    if @params.dig("hl") != "false"
+    if @params["hl"] != "false"
       # include "text" highlighting by default
       hl["fields"] = {
         "text" => { "fragment_size" => hl_chars, "number_of_fragments" => hl_num }
