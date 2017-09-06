@@ -30,7 +30,7 @@ class SearchService
       "size" => 0
     }
     raw_res = post "_search", req
-    if raw_res.class = RuntimeError
+    if raw_res.class == RuntimeError
       on_error raw_res, req
     else
       res = build_collections_response raw_res
