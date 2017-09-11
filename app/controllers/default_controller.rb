@@ -34,8 +34,8 @@ class DefaultController < ApplicationController
             "/items",
             "/item/{id}",
             "/collections",
-            "/collection/{shortname}/info",
-            "/collection/{shortname}/item/{id}",
+            "/collection/{collection}/info",
+            "/collection/{collection}/item/{id}",
           ],
           # TODO get descriptions from ES mapping?
           # would rather not manually type in somewhere

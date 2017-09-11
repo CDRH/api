@@ -46,8 +46,8 @@ class SearchService
         }
       }
     }
-    if @params["shortname"].present?
-      req["query"]["ids"]["type"] = @params["shortname"]
+    if @params["collection"].present?
+      req["query"]["ids"]["type"] = @params["collection"]
     end
     raw_res = post "_search", req
     if raw_res.class == RuntimeError

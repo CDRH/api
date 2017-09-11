@@ -66,11 +66,11 @@ parameters:
     description: id of the requested document
     required: true
 
-  shortname:
-    name: shortname
+  collection:
+    name: collection
     in: path
     type: string
-    description: shortname of the requested collection
+    description: collection name for elasticsearch field mapping _type used in url
     required: true
 
 
@@ -190,8 +190,8 @@ tags:
 # TODO
 # - Consider adding paths for only returning collection(s') or items' images
 # - Consider removal of /items path so no redundant paths
-#   - Where would it be used if /collection/{shortname}/item/{id} is canonical?
-# - Consider /collection/{shortname}/item/{title|title_abbrev} for pretty URLs + SEO
+#   - Where would it be used if /collection/{collection}/item/{id} is canonical?
+# - Consider /collection/{collection}/item/{title|title_abbrev} for pretty URLs + SEO
 #   - Any non-integer value triggers retrieval based on title|title_abbrev
 # - Brainstorm any other initial operations and response codes
 paths:
@@ -209,14 +209,14 @@ paths:
           schema:
             $ref: '#/definitions/error'
 
-  /collection/{shortname}/items:
+  /collection/{collection}/items:
     get:
       summary: Gets a specific collection
       description: List Items
       tags:
       - collection
       parameters:
-      - $ref: '#/parameters/shortname'
+      - $ref: '#/parameters/collection'
       - $ref: '#/parameters/f'
       - $ref: '#/parameters/facet'
       - $ref: '#/parameters/facet_sort'
@@ -238,14 +238,14 @@ paths:
           schema:
             $ref: '#/definitions/error'
 
-  /collection/{shortname}:
+  /collection/{collection}:
     get:
       summary: Gets a specific collection
       description: List information about the collection, including the fields/schema.
       tags:
       - collection
       parameters:
-      - $ref: '#/parameters/shortname'
+      - $ref: '#/parameters/collection'
       responses:
         200:
           description: A Collection
@@ -256,7 +256,7 @@ paths:
           schema:
             $ref: '#/definitions/error'
 
-  /collection/{shortname}/item/{id}/:
+  /collection/{collection}/item/{id}/:
     get:
       summary: Gets a specific document
       description: Return a specific item from a CDRH collection.
@@ -264,7 +264,7 @@ paths:
       - collection
       - item
       parameters:
-      - $ref: '#/parameters/shortname'
+      - $ref: '#/parameters/collection'
       - $ref: '#/parameters/id'
       responses:
         200:
@@ -405,7 +405,7 @@ definitions:
           collection:
             collection_name: Star Trek Scripts
             description: "Scripts of Star Trek: The Original Series"
-            shortname: trek_scripts
+            collection: trek_scripts
           endpoints:
           - item/{id}
           fields:
@@ -425,7 +425,7 @@ definitions:
               description: full name of containing collection
               indexed: false
               required: true
-            shortname:
+            collection:
               data_type: string
               description: short name of containing collection
               indexed: true
@@ -558,11 +558,11 @@ definitions:
     required:
     - collection_name
     - description
-    - shortname
+    - collection
     - item_count
     properties:
       # TODO maybe collection_name is project and otherwise
-      # it is using shortname for the "slug"
+      # it is using collection for the "slug"
       collection_name:
         type: string
         description: full name of collection
@@ -575,7 +575,7 @@ definitions:
       uri:
         type: string
         description: URL to collection site
-      shortname:
+      collection:
         type: string
         description: short name of collection
       item_count:
@@ -642,7 +642,7 @@ definitions:
     - collection
     - data_type
     - identifier
-    - shortname
+    - collection
     - title
     - uri
     properties:
@@ -662,7 +662,7 @@ definitions:
         $ref: '#/definitions/_field'
       fig_location:
         $ref: '#/definitions/_field'
-      shortname:
+      collection:
         $ref: '#/definitions/_field'
       title:
         $ref: '#/definitions/_field'
