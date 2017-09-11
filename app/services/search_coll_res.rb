@@ -17,7 +17,7 @@ class SearchCollRes
           "description" => "TODO",
           "image_id" => "TODO",
           "uri" => "TODO",
-          "shortname" => coll["key"],
+          "collection" => coll["key"],
           "item_count" => coll["doc_count"],
           "endpoint" => route_paths.collection_path(coll["key"])
         }

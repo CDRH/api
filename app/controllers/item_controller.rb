@@ -2,9 +2,9 @@ class ItemController < ApplicationController
 
 
   def index
-    if params["shortname"].present?
+    if params["collection"].present?
       params["f"] = [] if params["f"].blank?
-      params["f"] << "shortname|#{params["shortname"]}"
+      params["f"] << "collection|#{params["collection"]}"
     end
     res = SearchService.new(ES_URI, params, request.fullpath)
       .search_items
