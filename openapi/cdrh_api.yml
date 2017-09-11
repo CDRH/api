@@ -70,7 +70,7 @@ parameters:
     name: collection
     in: path
     type: string
-    description: collection of the requested collection
+    description: collection name for elasticsearch field mapping _type used in url
     required: true
 
 
