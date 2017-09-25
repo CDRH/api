@@ -186,7 +186,17 @@ hl_num=5
 
 ### sorting
 
-Document results:
+_Specify the order of results_
+
+Defaults:
+
+When no sort or partial sort is supplied
+
+- query present: sort by "relevancy" descending
+- given term is "relevancy", no order provided: sort descending
+- given term is not "relevancy", no order provided: sort ascending
+
+You may pass multiple fields to be sorted.  The first one appearing in the URL parameters will take precedence over the other(s).
 
 `sort[]=field|direction`
 
@@ -196,7 +206,7 @@ sort[]=date|desc&sort[]=title|asc
 
 __Sorting facets__
 
-Please refer to the section on [facets](#facets) for information about how to sort these
+Please refer to the section on [facets](#facets) for information about how to sort facets, specifically.
 
 ### start and rows
 

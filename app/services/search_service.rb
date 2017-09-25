@@ -63,6 +63,8 @@ class SearchService
     raw_res = post "_search", req
     if raw_res.class == RuntimeError
       on_error raw_res, req
+    elsif raw_res.class == RestClient::BadRequest
+      on_error raw_res.response.to_json, req
     else
       res = build_item_response raw_res
       on_success req, res
