@@ -39,6 +39,18 @@ class SearchItemReqTest < ActiveSupport::TestCase
     facets = SearchItemReq.new({ "facet" => "title" }).facets
     assert_equal facets, {"title"=>{"terms"=>{"field"=>"title", "order"=>{"_count"=>"desc"}, "size"=>20}}}
 
+    # sort term order specified
+    facets = SearchItemReq.new({ "facet" => ["title", "format"], "facet_sort" => "term|desc" }).facets
+    assert_equal facets, {"title"=>{"terms"=>{"field"=>"title", "order"=>{"_term"=>"desc"}, "size"=>20}}, "format"=>{"terms"=>{"field"=>"format", "order"=>{"_term"=>"desc"}, "size"=>20}}}
+
+    # sort term no order specified
+    facets = SearchItemReq.new({ "facet" => ["title", "format"], "facet_sort" => "term" }).facets
+    assert_equal facets, {"title"=>{"terms"=>{"field"=>"title", "order"=>{"_term"=>"desc"}, "size"=>20}}, "format"=>{"terms"=>{"field"=>"format", "order"=>{"_term"=>"desc"}, "size"=>20}}}
+
+    # sort count, no order specified
+    facets = SearchItemReq.new({ "facet" => ["title"], "facet_sort" => "count" }).facets
+    assert_equal facets, {"title"=>{"terms"=>{"field"=>"title", "order"=>{"_count"=>"desc"}, "size"=>20}}}
+
   end
 
   def test_filters
@@ -111,7 +123,7 @@ class SearchItemReqTest < ActiveSupport::TestCase
     sort = SearchItemReq.new({ "sort" => ["title|asc"] }).sort
     assert_equal sort, [{"title"=>"asc"}]
 
-    # multiple sorts
+    # multiple sorts and subfield
     sort = SearchItemReq.new({ "sort" => ["title|desc", "author.name|asc"] }).sort
     assert_equal sort, [{"title"=>"desc"}, {"author.name"=>"asc"}]
 
@@ -119,6 +131,25 @@ class SearchItemReqTest < ActiveSupport::TestCase
     sort = SearchItemReq.new({ "sort" => "title|asc" }).sort
     assert_equal sort, [{"title"=>"asc"}]
 
+    # no sort specified, query present
+    sort = SearchItemReq.new({ "q" => "water" }).sort
+    assert_equal sort, [{"_score"=>"desc"}]
+
+    # no sort direction specified, query present
+    sort = SearchItemReq.new({ "q" => "water", "sort" => "date" }).sort
+    assert_equal sort, [{"date"=>"asc"}]
+
+    # sort specified, query present
+    sort = SearchItemReq.new({ "q" => "water", "sort" => "date|desc" }).sort
+    assert_equal sort, [{"date"=>"desc"}]
+
+    # no sort specified, no query
+    sort = SearchItemReq.new({}).sort
+    assert_equal sort, [{"identifier" => "asc"}]
+
+    # no sort direction specified, no query
+    sort = SearchItemReq.new({ "sort" => "title" }).sort
+    assert_equal sort, [{"title" => "asc"}]
   end
 
   def test_text_search
