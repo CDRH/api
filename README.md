@@ -64,9 +64,10 @@ __Sorting facets__
 
 Defaults:
 
-- score|desc
+- no selection: score|desc
+- term selection, no order: term|desc
 
-Always defaults to score (_count) and descending. If you wish to sort alphabetically, add "term" and a direction. If you wish to sort score ascending, use "score" and a direction.
+Always defaults to score descending. If you wish to sort alphabetically, add "term" and a direction. If you wish to sort score ascending, use "score" and a direction.  Multiple sorts for single facets, and distinct sorts for separate facets are not supported at this time.
 
 `facet_sort=type|direction`
 

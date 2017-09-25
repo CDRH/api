@@ -56,13 +56,13 @@ class SearchItemReq
 
   def facets
     # FACET_SORT
-    # by default also sort count desc
+    # unless specifically opting for "term", default to _count
     type = "_count"
     dir = "desc"
     if @params["facet_sort"].present?
-      type, dir = @params["facet_sort"].split(@@filter_separator)
-      dir = (dir == "asc" || dir == "desc") ? dir : "desc"
-      type = type == "term" ? "_term" : "_count"
+      sort_type, sort_dir = @params["facet_sort"].split(@@filter_separator)
+      type = "_term" if sort_type == "term"
+      dir = sort_dir if sort_dir == "asc"
     end
 
     # FACET_SETTINGS["start"]
