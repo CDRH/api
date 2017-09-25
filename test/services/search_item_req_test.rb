@@ -109,15 +109,15 @@ class SearchItemReqTest < ActiveSupport::TestCase
 
     # single sort
     sort = SearchItemReq.new({ "sort" => ["title|asc"] }).sort
-    assert_equal sort, [{"title"=>"asc"}, "_score"]
+    assert_equal sort, [{"title"=>"asc"}]
 
     # multiple sorts
     sort = SearchItemReq.new({ "sort" => ["title|desc", "author.name|asc"] }).sort
-    assert_equal sort, [{"title"=>"desc"}, {"author.name"=>"asc"}, "_score"]
+    assert_equal sort, [{"title"=>"desc"}, {"author.name"=>"asc"}]
 
     # with non-array
     sort = SearchItemReq.new({ "sort" => "title|asc" }).sort
-    assert_equal sort, [{"title"=>"asc"}, "_score"]
+    assert_equal sort, [{"title"=>"asc"}]
 
   end
 
