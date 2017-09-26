@@ -1,12 +1,29 @@
 default: &default
-  # api metadata / description
-  api_updated: "TODO 2017"
-  contact: "cdrh@unl.edu"
-  description: "API to acess all public Center for Digital Research in the Humanities resources"
-  documentation: "https://cdrhapi.unl.edu/docs"
-  license: "TODO"
-  terms_of_service: "TODO"
-  version: 0.1.0
+  metadata:
+    # api metadata / description
+    api_updated: "TODO 2017"
+    contact: "cdrh@unl.edu"
+    description: "API to acess all public Center for Digital Research in the Humanities resources"
+    documentation: "https://cdrhapi.unl.edu/docs"
+    license: "TODO"
+    terms_of_service: "TODO"
+    version: 0.1.0
+
+  settings:
+    # regex for (encoded) characters separating filters: |
+    filter_separator: (?:\||%7C)
+    # regex for (encoded) characters separating field list: ,
+    fl_separator: (?:,|%2C)\s?
+    # highlight characters per fragment
+    hl_chars: 100
+    # highlight fragment number
+    hl_num: 3
+    # number of results returned per "page"
+    num: 20
+    # default sorting field and direction (field|asc)
+    sort_fl: "identifier|asc"
+    # starting document in results list (0 == 1st result)
+    start: 0
 test:
   <<: *default
 development:

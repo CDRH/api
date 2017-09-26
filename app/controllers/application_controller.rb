@@ -3,7 +3,7 @@ require 'rest-client'
 class ApplicationController < ActionController::API
 
   def post_search json, error_method=method(:display_error)
-    res = RestClient.post("#{SETTINGS["es_uri"]}/_search", json.to_json, { "content-type" => "json" })
+    res = RestClient.post("#{ES_URI}/_search", json.to_json, { "content-type" => "json" })
     raise
     return JSON.parse(res.body)
   rescue => e
