@@ -19,13 +19,13 @@ class DefaultController < ApplicationController
       "res" => {
         "code" => 200,
         "info" => {
-          "api_updated" => CONFIG["api_updated"],
-          "contact" => CONFIG["cdrh@unl.edu"],
-          "description" => CONFIG["description"],
-          "documentation" => CONFIG["documentation"],
+          "api_updated" => METADATA["api_updated"],
+          "contact" => METADATA["cdrh@unl.edu"],
+          "description" => METADATA["description"],
+          "documentation" => METADATA["documentation"],
           "index_updated" => "TODO",
-          "license" => CONFIG["license"],
-          "terms_of_service" => CONFIG["terms_of_service"],
+          "license" => METADATA["license"],
+          "terms_of_service" => METADATA["terms_of_service"],
           "version" => VERSION,
           # TODO should we be obtaining these from
           # Rails.application.routes or similar?

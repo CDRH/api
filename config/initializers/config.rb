@@ -1,15 +1,7 @@
-CONFIG = YAML.load_file("#{Rails.root}/config/config.yml")[Rails.env]
+config_path = Rails.root.join("config", "config.yml")
+config = YAML.load_file(config_path)[Rails.env]
 
-VERSION = CONFIG["version"]
-
-ES_URI = "#{CONFIG['es_path']}/#{CONFIG['es_index']}"
-
-# Set default values for number of results per page
-# and starting position
-START = CONFIG["start"]
-NUM = CONFIG["num"]
-HL_NUM = CONFIG["hl_num"]
-HL_CHARS = CONFIG["hl_chars"]
-
-# TODO
-# FIELDS = curl ES_URI/_mapping
+ES_URI = "#{config['es_path']}/#{config['es_index']}"
+VERSION = config["metadata"]["version"]
+METADATA = config["metadata"]
+SETTINGS = config["settings"]

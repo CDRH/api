@@ -2,8 +2,8 @@ class SearchItemReq
 
   # whether request comes in as a pipe character or encoded pipe
   # make sure that it is being split correctly
-  @@filter_separator = /(?:\||%7C)/
-  @@fl_separator = /(?:,|%2C)\s?/
+  @@filter_separator = Regexp.new(SETTINGS["filter_separator"])
+  @@fl_separator = Regexp.new(SETTINGS["fl_separator"])
 
   attr_accessor :params
 
@@ -13,8 +13,8 @@ class SearchItemReq
 
   def build_request
     # pagination
-    num = @params["num"].blank? ? NUM : @params["num"]
-    start = @params["start"].blank? ? START : @params["start"]
+    num = @params["num"].blank? ? SETTINGS["num"] : @params["num"]
+    start = @params["start"].blank? ? SETTINGS["start"] : @params["start"]
 
     req = {
       "aggs" => {},
@@ -56,18 +56,18 @@ class SearchItemReq
 
   def facets
     # FACET_SORT
-    # by default also sort count desc
+    # unless specifically opting for "term", default to _count
     type = "_count"
     dir = "desc"
     if @params["facet_sort"].present?
-      type, dir = @params["facet_sort"].split(@@filter_separator)
-      dir = (dir == "asc" || dir == "desc") ? dir : "desc"
-      type = type == "term" ? "_term" : "_count"
+      sort_type, sort_dir = @params["facet_sort"].split(@@filter_separator)
+      type = "_term" if sort_type == "term"
+      dir = sort_dir if sort_dir == "asc"
     end
 
-    # FACET_START
-    size = NUM
-    size = @params["facet_num"].blank? ? NUM : @params["facet_num"]
+    # FACET_SETTINGS["start"]
+    size = SETTINGS["num"]
+    size = @params["facet_num"].blank? ? SETTINGS["num"] : @params["facet_num"]
 
     aggs = {}
     Array.wrap(@params["facet"]).each do |f|
@@ -198,8 +198,8 @@ class SearchItemReq
 
   def highlights
     hl = {}
-    hl_chars = @params["hl_chars"].blank? ? HL_CHARS : @params["hl_chars"]
-    hl_num = @params["hl_num"].blank? ? HL_NUM : @params["hl_num"]
+    hl_chars = @params["hl_chars"].blank? ? SETTINGS["hl_chars"] : @params["hl_chars"]
+    hl_num = @params["hl_num"].blank? ? SETTINGS["hl_num"] : @params["hl_num"]
 
     if @params["hl"] != "false"
       # include "text" highlighting by default
@@ -220,15 +220,28 @@ class SearchItemReq
 
   def sort
     sort_obj = []
-    sort_param = @params["sort"].blank? ? [] : Array.wrap(@params["sort"])
+    sort_param = nil
+    # if text query present and no sort, use relevancy desc (_score)
+    # if no text query and no sort, use default field
+    # if no text and sort field only, use ascending for all except relevancy
+    if @params["q"].present? && @params["sort"].blank?
+      sort_param = ["_score|desc"]
+    elsif @params["q"].blank? && @params["sort"].blank?
+      fl = SETTINGS["sort_fl"]
+      sort_param = ["#{fl}|asc"]
+    else
+      sort_param = Array.wrap(@params["sort"])
+    end
+
     sort_param.each do |sort|
       term, dir = sort.split(@@filter_separator)
-      # default to ascending if nothing specified
-      dir = (dir == "asc" || dir == "desc") ? dir : "asc"
+      term = "_score" if term == "relevancy"
+      if !dir
+        dir = term == "relevancy" ? "desc" : "asc"
+      end
       sort_obj << { term => dir }
     end
-    # add default _score after everything else
-    sort_obj << "_score"
+
     return sort_obj
   end
 
