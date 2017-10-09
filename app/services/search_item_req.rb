@@ -221,14 +221,12 @@ class SearchItemReq
   def sort
     sort_obj = []
     sort_param = nil
-    # if text query present and no sort, use relevancy desc (_score)
-    # if no text query and no sort, use default field
-    # if no text and sort field only, use ascending for all except relevancy
-    if @params["q"].present? && @params["sort"].blank?
-      sort_param = ["_score|desc"]
-    elsif @params["q"].blank? && @params["sort"].blank?
-      fl = SETTINGS["sort_fl"]
-      sort_param = ["#{fl}|asc"]
+    if @params["sort"].blank?
+      if @params["q"].present?
+        sort_param = ["_score|desc"]
+      else
+        sort_param = [SETTINGS["sort_fl"]]
+      end
     else
       sort_param = Array.wrap(@params["sort"])
     end
