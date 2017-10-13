@@ -62,9 +62,9 @@ class SearchService
     req = build_item_request
     raw_res = post "_search", req
     if raw_res.class == RuntimeError
-      on_error raw_res, req
+      on_error raw_res.inspect, req
     elsif raw_res.class == RestClient::BadRequest
-      on_error raw_res.response.to_s, req
+      on_error JSON.parse(raw_res.response), req
     else
       res = build_item_response raw_res
       on_success req, res
@@ -84,7 +84,7 @@ class SearchService
         "message" => friendly_msg,
         "info" => {
           "documentation" => "TODO",
-          "error" => error_msg.inspect,
+          "error" => error_msg,
           "suggestion" => "TODO"
         }
       }

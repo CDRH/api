@@ -234,7 +234,7 @@ class SearchItemReq
     sort_param.each do |sort|
       term, dir = sort.split(@@filter_separator)
       term = "_score" if term == "relevancy"
-      if !dir
+      if dir.blank?
         dir = term == "relevancy" ? "desc" : "asc"
       end
       sort_obj << { term => dir }
