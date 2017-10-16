@@ -54,6 +54,13 @@ class SearchItemReq
     return req
   end
 
+  # TODO revisit this and determine if more needs to be done for text queries
+  def escape_chars(query)
+    # when string contains quotations marks, should end up passed to ES
+    # as \\" in order to phrase match
+    query.gsub('"', '\\\\\"')
+  end
+
   def facets
     # FACET_SORT
     # unless specifically opting for "term", default to _count
@@ -256,12 +263,13 @@ class SearchItemReq
   def text_search
     must = {}
     if @params["q"].present?
+      query = escape_chars(@params["q"])
       # default to searching text field
       # but can search _all field if necessary
       must = {
         "query_string" => {
           "default_field" => "text",
-          "query" => @params["q"]
+          "query" => query
         }
       }
       if @params["qfield"].present?
