@@ -2,6 +2,28 @@ require 'test_helper'
 
 class SearchItemReqTest < ActiveSupport::TestCase
 
+  def test_escape_chars
+
+    # phrase search (quotation marks)
+    query = '"fire in the fireplace"'
+    assert_equal SearchItemReq.escape_chars(query), "\"fire in the fireplace\""
+
+    # make sure that (text:searches) are not destroyed
+    query = '(text:water) OR (annotations_text:Cather)'
+    assert_equal SearchItemReq.escape_chars(query), "(text:water) OR (annotations_text:Cather)"
+
+    # escape odd numbered quotation marks
+    query = '"something'
+    assert_equal SearchItemReq.escape_chars(query), "\\\""
+    query = '"phrase" plus "'
+    assert_equal SearchItemReq.escape_chars(query), "\"phrase\" plus \\\""
+
+    # escape brackets, etc
+    query = '{\\+~'
+    assert_equal SearchItemReq.escape_chars(query), "\\{\\\\\\+\\~"
+
+  end
+
   def test_facets
 
     # normal with no pagination overrides

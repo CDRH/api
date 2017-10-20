@@ -54,11 +54,16 @@ class SearchItemReq
     return req
   end
 
-  # TODO revisit this and determine if more needs to be done for text queries
-  def escape_chars(query)
-    # when string contains quotations marks, should end up passed to ES
-    # as \\" in order to phrase match
-    query.gsub('"', '\\\\\"')
+  def self.escape_chars(query)
+    # many thanks to https://gist.github.com/bcoe/6505434
+    # for the lucene escaping code below
+    # Note: removed () and : from list, because escaping
+    # those characters interfered with elasticsearch multifield searching
+    escaped_characters = Regexp.escape('\\+-&|!{}[]^~*?\/')
+    query = query.gsub(/([#{escaped_characters}])/, '\\\\\1')
+    quote_count = query.count('"')
+    query = query.gsub(/(.*)"(.*)/, '\1\"\3') if quote_count % 2 == 1
+    query
   end
 
   def facets
@@ -263,7 +268,7 @@ class SearchItemReq
   def text_search
     must = {}
     if @params["q"].present?
-      query = escape_chars(@params["q"])
+      query = SearchItemReq.escape_chars(@params["q"])
       # default to searching text field
       # but can search _all field if necessary
       must = {
