@@ -6,7 +6,7 @@ class SearchItemReqTest < ActiveSupport::TestCase
 
     # phrase search (quotation marks)
     query = '"fire in the fireplace"'
-    assert_equal SearchItemReq.escape_chars(query), "\"fire in the fireplace\""
+    assert_equal SearchItemReq.escape_chars(query), "\\\\\"fire in the fireplace\\\\\""
 
     # make sure that (text:searches) are not destroyed
     query = '(text:water) OR (annotations_text:Cather)'
@@ -14,9 +14,9 @@ class SearchItemReqTest < ActiveSupport::TestCase
 
     # escape odd numbered quotation marks
     query = '"something'
-    assert_equal SearchItemReq.escape_chars(query), "\\\""
+    assert_equal SearchItemReq.escape_chars(query), "\\\\\"something"
     query = '"phrase" plus "'
-    assert_equal SearchItemReq.escape_chars(query), "\"phrase\" plus \\\""
+    assert_equal SearchItemReq.escape_chars(query), "\\\\\"phrase\\\\\" plus \\\\\""
 
     # escape brackets, etc
     query = '{\\+~'

@@ -61,8 +61,7 @@ class SearchItemReq
     # those characters interfered with elasticsearch multifield searching
     escaped_characters = Regexp.escape('\\+-&|!{}[]^~*?\/')
     query = query.gsub(/([#{escaped_characters}])/, '\\\\\1')
-    quote_count = query.count('"')
-    query = query.gsub(/(.*)"(.*)/, '\1\"\3') if quote_count % 2 == 1
+    query = query.gsub(/"/, '\\\\\"')
     query
   end
 
