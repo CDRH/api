@@ -6,7 +6,7 @@ class SearchItemReqTest < ActiveSupport::TestCase
 
     # phrase search (quotation marks)
     query = '"fire in the fireplace"'
-    assert_equal SearchItemReq.escape_chars(query), "\\\\\"fire in the fireplace\\\\\""
+    assert_equal SearchItemReq.escape_chars(query), "\"fire in the fireplace\""
 
     # make sure that (text:searches) are not destroyed
     query = '(text:water) OR (annotations_text:Cather)'
@@ -14,9 +14,9 @@ class SearchItemReqTest < ActiveSupport::TestCase
 
     # escape odd numbered quotation marks
     query = '"something'
-    assert_equal SearchItemReq.escape_chars(query), "\\\\\"something"
+    assert_equal SearchItemReq.escape_chars(query), "\"something"
     query = '"phrase" plus "'
-    assert_equal SearchItemReq.escape_chars(query), "\\\\\"phrase\\\\\" plus \\\\\""
+    assert_equal SearchItemReq.escape_chars(query), "\"phrase\" plus \""
 
     # escape brackets, etc
     query = '{\\+~'
@@ -186,7 +186,27 @@ class SearchItemReqTest < ActiveSupport::TestCase
 
     # multiple fields
     text = SearchItemReq.new({ "q" => "(text:water) AND (annotations:water)" }).text_search
-    assert_equal text, {"query_string"=>{"default_field"=>"text", "query"=>"(text:water) AND (annotations:water)"}}
+    assert_equal text, {"query_string"=>{"query"=>"(text:water) AND (annotations:water)"}}
+
+    # multiple fields different input
+    text = SearchItemReq.new({ "q" => "(text:water) OR (annotations:balcony)" }).text_search
+    assert_equal text, {"query_string"=>{"query"=>"(text:water) OR (annotations:balcony)"}}
+
+    # multiple fields with grouped inputs
+    text = SearchItemReq.new({ "q" => '(text:water OR "fire in the fireplace") OR (annotations:water AND "fire in the fireplace")'}).text_search
+    assert_equal text, {"query_string"=>{"query"=>"(text:water OR \"fire in the fireplace\") OR (annotations:water AND \"fire in the fireplace\")"}}
+
+    # non-text field search
+    text = SearchItemReq.new({ "q" => "transcriptions_t:wouldnt" }).text_search
+    assert_equal text, {"query_string"=>{"query"=>"transcriptions_t:wouldnt"}}
+
+    # text field search beginning with what looks like text field
+    text = SearchItemReq.new({ "q" => "yosemite: cool place to visit" }).text_search
+    assert_equal text, {"query_string"=>{"default_field"=>"text", "query"=>"yosemite: cool place to visit"}}
+
+    # text field search beginning with what really looks like a text field
+    text = SearchItemReq.new({ "q" => "Exploring the Text: Cather's Hand" }).text_search
+    assert_equal text, {"query_string"=>{"default_field"=>"text", "query"=>"Exploring the Text: Cather's Hand"}}
 
     # none
     text = SearchItemReq.new({}).text_search

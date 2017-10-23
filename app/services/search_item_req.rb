@@ -61,7 +61,6 @@ class SearchItemReq
     # those characters interfered with elasticsearch multifield searching
     escaped_characters = Regexp.escape('\\+-&|!{}[]^~*?\/')
     query = query.gsub(/([#{escaped_characters}])/, '\\\\\1')
-    query = query.gsub(/"/, '\\\\\"')
     query
   end
 
@@ -272,12 +271,14 @@ class SearchItemReq
       # but can search _all field if necessary
       must = {
         "query_string" => {
-          "default_field" => "text",
           "query" => query
         }
       }
-      if @params["qfield"].present?
-        must["query_string"]["fields"] = Array.wrap(@params["qfield"])
+      # attempt to detect if the query passed in is searching specific fields
+      # assuming that text fields contain word "text" or "_t" in title
+      # if no field specified, use "text" as default field
+      if @params["q"][/^\(?[a-zA-Z0-9_]*(text|_t)[a-zA-Z0-9_]*:./].nil?
+        must["query_string"]["default_field"] = "text"
       end
     else
       must = { "match_all" => {} }
