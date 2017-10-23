@@ -60,8 +60,7 @@ class SearchItemReq
     # Note: removed () and : from list, because escaping
     # those characters interfered with elasticsearch multifield searching
     escaped_characters = Regexp.escape('\\+-&|!{}[]^~*?\/')
-    query = query.gsub(/([#{escaped_characters}])/, '\\\\\1')
-    query
+    query.gsub(/([#{escaped_characters}])/, '\\\\\1')
   end
 
   def facets
