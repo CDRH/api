@@ -276,7 +276,8 @@ class SearchItemReq
       # attempt to detect if the query passed in is searching specific fields
       # assuming that text fields contain word "text" or "_t" in title
       # if no field specified, use "text" as default field
-      if @params["q"][/^\(?[a-zA-Z0-9_]*(text|_t)[a-zA-Z0-9_]*:./].nil?
+      text_field_regex = /^\(?[a-zA-Z0-9_]*(?:text|_t)[a-zA-Z0-9_]*:./
+      if @params["q"][text_field_regex].nil?
         must["query_string"]["default_field"] = "text"
       end
     else
