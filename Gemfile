@@ -42,4 +42,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # using rest-client because I've had far more luck than the
 # stlib net/http
-gem 'rest-client', '~> 2.1.0.rc1'
+gem 'rest-client', '>= 2.1.0.rc1', '< 2.2'
