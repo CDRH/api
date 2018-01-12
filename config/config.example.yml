@@ -7,7 +7,7 @@ default: &default
     documentation: "https://cdrhapi.unl.edu/docs"
     license: "TODO"
     terms_of_service: "TODO"
-    version: 0.1.0
+    version: 1.0.0
 
   settings:
     # regex for (encoded) characters separating filters: |
