@@ -38,7 +38,11 @@ Rails.application.configure do
   # config.action_cable.allowed_request_origins = [ 'http://example.com', /http:\/\/example.*/ ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  config.force_ssl = true
+
+  # Handle STS here instead of Apache, or Rails duplicates header contents
+  # Also unset cache-control header in HTTPS vhost for same reason
+  config.ssl_options = { hsts: { preload: true } }
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
