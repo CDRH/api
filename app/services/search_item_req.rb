@@ -127,7 +127,7 @@ class SearchItemReq
             #   "partition" => 0,
             #   "num_partitions" => 10
             # },
-            "field" => f,
+            "field" => f.gsub(/\r/, ""),
             "order" => { type => dir },
             "size" => size
           }
@@ -153,7 +153,7 @@ class SearchItemReq
             "path" => path,
             "query" => {
               "term" => {
-                filter[0] => filter[1]
+                filter[0] => filter[1].gsub(/\r/, "")
               }
             }
           }
@@ -199,7 +199,7 @@ class SearchItemReq
         filter_list << range
       # TRADITIONAL FILTERS
       else
-        filter_list << { "term" => { filter[0] => filter[1] } }
+        filter_list << { "term" => { filter[0] => filter[1].gsub(/\r/, "") } }
       end
     end
     return filter_list
