@@ -127,7 +127,7 @@ class SearchItemReq
             #   "partition" => 0,
             #   "num_partitions" => 10
             # },
-            "field" => f.gsub(/\r/, ""),
+            "field" => f,
             "order" => { type => dir },
             "size" => size
           }
@@ -153,6 +153,7 @@ class SearchItemReq
             "path" => path,
             "query" => {
               "term" => {
+                # Remove CR's added by hidden input field values with returns
                 filter[0] => filter[1].gsub(/\r/, "")
               }
             }
@@ -199,6 +200,7 @@ class SearchItemReq
         filter_list << range
       # TRADITIONAL FILTERS
       else
+        # Remove CR's added by hidden input field values with returns
         filter_list << { "term" => { filter[0] => filter[1].gsub(/\r/, "") } }
       end
     end
