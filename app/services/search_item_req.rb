@@ -153,7 +153,8 @@ class SearchItemReq
             "path" => path,
             "query" => {
               "term" => {
-                filter[0] => filter[1]
+                # Remove CR's added by hidden input field values with returns
+                filter[0] => filter[1].gsub(/\r/, "")
               }
             }
           }
@@ -199,7 +200,8 @@ class SearchItemReq
         filter_list << range
       # TRADITIONAL FILTERS
       else
-        filter_list << { "term" => { filter[0] => filter[1] } }
+        # Remove CR's added by hidden input field values with returns
+        filter_list << { "term" => { filter[0] => filter[1].gsub(/\r/, "") } }
       end
     end
     return filter_list

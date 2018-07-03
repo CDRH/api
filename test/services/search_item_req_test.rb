@@ -85,6 +85,10 @@ class SearchItemReqTest < ActiveSupport::TestCase
     filters = SearchItemReq.new({ "f" => ["category|Writings", "author.name|Herriot, James"] }).filters
     assert_equal filters, [{"term"=>{"category"=>"Writings"}}, {"nested"=>{"path"=>"author", "query"=>{"term"=>{"author.name"=>"Herriot, James"}}}}]
 
+    # multiple filters, including one with CR present
+    filters = SearchItemReq.new({ "f" => ["category|Writings", "places_written_k|Jaffrey, New Hampshire, United\r\n                           States"] }).filters
+    assert_equal filters, [{"term"=>{"category"=>"Writings"}}, {"term"=>{"places_written_k"=>"Jaffrey, New Hampshire, United\n                           States"}}]
+
     # single year
     filters = SearchItemReq.new({ "f" => ["date|1900"] }).filters
     assert_equal filters, [{"range"=>{"date"=>{"gte"=>"1900-01-01", "lte"=>"1900-12-31", "format"=>"yyyy-MM-dd"}}}]
@@ -100,6 +104,10 @@ class SearchItemReqTest < ActiveSupport::TestCase
     # nested field
     filters = SearchItemReq.new({ "f" => ["creator.name|Willa, Cather"] }).filters
     assert_equal filters, [{"nested"=>{"path"=>"creator", "query"=>{"term"=>{"creator.name"=>"Willa, Cather"}}}}]
+
+    # multiple filters, including a nested field with CR present
+    filters = SearchItemReq.new({ "f" => ["category|Writings", "author.name|Herriot,\r\nJames"] }).filters
+    assert_equal filters, [{"term"=>{"category"=>"Writings"}}, {"nested"=>{"path"=>"author", "query"=>{"term"=>{"author.name"=>"Herriot,\nJames"}}}}]
 
     # dynamic field
     filters = SearchItemReq.new({ "f" => ["publication_d|1900"] }).filters
