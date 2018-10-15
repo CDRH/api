@@ -22,7 +22,7 @@ class SearchService
       "aggs" => {
         "collections" => {
           "terms" => {
-            "field" => "_type",
+            "field" => "collection",
             "size" => 200
           }
         }
@@ -41,17 +41,24 @@ class SearchService
   def search_item id
     req = {
       "query" => {
-        "ids" => {
-          "values" => [params["id"]]
+        "bool" => {
+          "must" => [
+            {
+              "term" => { "identifier" => id }
+            }
+          ]
         }
       }
     }
     if @params["collection"].present?
-      req["query"]["ids"]["type"] = @params["collection"]
+      req["query"]["bool"]["must"] << { "term" => { "collection" => @params["collection"] } }
     end
+
     raw_res = post "_search", req
     if raw_res.class == RuntimeError
       on_error raw_res, req
+    elsif raw_res.class == RestClient::BadRequest
+      on_error JSON.parse(raw_res.response), req
     else
       res = build_item_response raw_res
       on_success req, res
