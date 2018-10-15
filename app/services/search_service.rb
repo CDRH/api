@@ -4,13 +4,13 @@ class SearchService
 
   attr_accessor :url, :params, :user_req
 
-  def initialize url, params={}, user_req
+  def initialize(url, params={}, user_req)
     @url = url
     @params = params
     @user_req = user_req
   end
 
-  def post url_ending, json
+  def post(url_ending, json)
     res = RestClient.post("#{@url}/#{url_ending}", json.to_json, { "content-type" => "json" } )
     return JSON.parse(res.body)
   rescue => e
@@ -29,16 +29,16 @@ class SearchService
       },
       "size" => 0
     }
-    raw_res = post "_search", req
+    raw_res = post("_search", req)
     if raw_res.class == RuntimeError
-      on_error raw_res, req
+      on_error(raw_res, req)
     else
-      res = build_collections_response raw_res
-      on_success req, res
+      res = build_collections_response(raw_res)
+      on_success(req, res)
     end
   end
 
-  def search_item id
+  def search_item(id)
     req = {
       "query" => {
         "bool" => {
@@ -54,33 +54,33 @@ class SearchService
       req["query"]["bool"]["must"] << { "term" => { "collection" => @params["collection"] } }
     end
 
-    raw_res = post "_search", req
+    raw_res = post("_search", req)
     if raw_res.class == RuntimeError
-      on_error raw_res, req
+      on_error(raw_res, req)
     elsif raw_res.class == RestClient::BadRequest
-      on_error JSON.parse(raw_res.response), req
+      on_error(JSON.parse(raw_res.response), req)
     else
-      res = build_item_response raw_res
-      on_success req, res
+      res = build_item_response(raw_res)
+      on_success(req, res)
     end
   end
 
   def search_items
     req = build_item_request
-    raw_res = post "_search", req
+    raw_res = post("_search", req)
     if raw_res.class == RuntimeError
-      on_error raw_res.inspect, req
+      on_error(raw_res.inspect, req)
     elsif raw_res.class == RestClient::BadRequest
-      on_error JSON.parse(raw_res.response), req
+      on_error(JSON.parse(raw_res.response), req)
     else
-      res = build_item_response raw_res
-      on_success req, res
+      res = build_item_response(raw_res)
+      on_success(req, res)
     end
   end
 
   protected
 
-  def on_error error_msg, req, friendly_msg="Something went wrong"
+  def on_error(error_msg, req, friendly_msg="Something went wrong")
     {
       "req" => {
         "query_string" => @user_req,
@@ -98,7 +98,7 @@ class SearchService
     }
   end
 
-  def on_success req, res
+  def on_success(req, res)
     json = {
       "req" => {
         "query_string" => @user_req
@@ -111,7 +111,7 @@ class SearchService
     return json
   end
 
-  def build_collections_response res
+  def build_collections_response(res)
     SearchCollRes.new(res).build_response
   end
 
@@ -119,7 +119,7 @@ class SearchService
     SearchItemReq.new(@params).build_request
   end
 
-  def build_item_response res
+  def build_item_response(res)
     SearchItemRes.new(res).build_response
   end
 

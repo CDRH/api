@@ -2,7 +2,7 @@ require 'rest-client'
 
 class ApplicationController < ActionController::API
 
-  def post_search json, error_method=method(:display_error)
+  def post_search(json, error_method=method(:display_error))
     res = RestClient.post("#{ES_URI}/_search", json.to_json, { "content-type" => "json" })
     raise
     return JSON.parse(res.body)
@@ -13,7 +13,7 @@ class ApplicationController < ActionController::API
 
   # I am so pleased that this works
   # as a default error handler
-  def display_error error, req_body
+  def display_error(error, req_body)
     render(status: 500, json: JSON.pretty_generate({
       "res" => {
         "code" => 500,
