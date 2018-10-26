@@ -1,7 +1,7 @@
 echo "record type"
 
 # term query
-# curl -X GET 'http://localhost:9200/test1/_search?pretty' -H 'Content-Type: application/json' -d '{
+# curl -X GET 'http://localhost:9200/test1/_search?pretty=true' -H 'Content-Type: application/json' -d '{
 #   "size" : 0,
 #   "aggs" : {
 #     "doc_types" : {
@@ -12,7 +12,7 @@ echo "record type"
 # '
 
 # id query with ids
-# curl -X GET 'http://localhost:9200/test1/_search?pretty' -H 'Content-Type: application/json' -d '{
+# curl -X GET 'http://localhost:9200/test1/_search?pretty=true' -H 'Content-Type: application/json' -d '{
 #   "size" : 1,
 #   "query" : {
 #     "ids" : { "values" : ["hc.case.0001.001"] }
@@ -21,7 +21,7 @@ echo "record type"
 # '
 
 # id query with terms
-curl -X GET 'http://localhost:9200/test1/_search?pretty' -H 'Content-Type: application/json' -d '{
+curl -X GET 'http://localhost:9200/test1/_search?pretty=true' -H 'Content-Type: application/json' -d '{
   "size" : 0,
   "query" : {
     "bool" : {
@@ -36,7 +36,7 @@ curl -X GET 'http://localhost:9200/test1/_search?pretty' -H 'Content-Type: appli
 
 
 # match query
-# curl -X GET 'http://localhost:9200/test1/_search?pretty' -H 'Content-Type: application/json' -d '{
+# curl -X GET 'http://localhost:9200/test1/_search?pretty=true' -H 'Content-Type: application/json' -d '{
 #   "size" : 20,
 #   "query" : {
 #     "must" : {
@@ -47,7 +47,7 @@ curl -X GET 'http://localhost:9200/test1/_search?pretty' -H 'Content-Type: appli
 # '
 
 # nested aggregation
-# curl -X GET 'http://localhost:9200/test1/_search?pretty' -H 'Content-Type: application/json' -d '{
+# curl -X GET 'http://localhost:9200/test1/_search?pretty=true' -H 'Content-Type: application/json' -d '{
 #   "size" : 0,
 #   "aggs" : {
 #     "testing" : {
@@ -65,7 +65,7 @@ curl -X GET 'http://localhost:9200/test1/_search?pretty' -H 'Content-Type: appli
 # '
 
 # nested term query
-# curl -X GET 'http://localhost:9200/test1/_search?pretty' -H 'Content-Type: application/json' -d '{
+# curl -X GET 'http://localhost:9200/test1/_search?pretty=true' -H 'Content-Type: application/json' -d '{
 #   "size" : 0,
 #   "query": {
 #     "bool": {
@@ -96,7 +96,7 @@ curl -X GET 'http://localhost:9200/test1/_search?pretty' -H 'Content-Type: appli
 # '
 
 # date aggregation by year
-# curl -X GET 'http://localhost:9200/test1/_search?pretty' -H 'Content-Type: application/json' -d '{
+# curl -X GET 'http://localhost:9200/test1/_search?pretty=true' -H 'Content-Type: application/json' -d '{
 #   "size" : 0,
 #   "aggs" : {
 #     "year" : {
@@ -113,7 +113,7 @@ curl -X GET 'http://localhost:9200/test1/_search?pretty' -H 'Content-Type: appli
 # '
 
 # date filtered by year
-# curl -X GET 'http://localhost:9200/test1/_count?pretty' -H 'Content-Type: application/json' -d '{
+# curl -X GET 'http://localhost:9200/test1/_count?pretty=true' -H 'Content-Type: application/json' -d '{
 #   "query" : {
 #     "bool" : {
 #       "must" : {
@@ -136,7 +136,7 @@ curl -X GET 'http://localhost:9200/test1/_search?pretty' -H 'Content-Type: appli
 # '
 
 # filtered by places empty string
-# curl -X GET 'http://localhost:9200/test1/_count?pretty' -H 'Content-Type: application/json' -d '{
+# curl -X GET 'http://localhost:9200/test1/_count?pretty=true' -H 'Content-Type: application/json' -d '{
 #   "query" : {
 #     "bool" : {
 #       "must" : {
@@ -155,7 +155,7 @@ curl -X GET 'http://localhost:9200/test1/_search?pretty' -H 'Content-Type: appli
 # '
 
 # trying source field
-# curl -X GET 'http://localhost:9200/test1/_search?pretty' -H 'Content-Type: application/json' -d '{
+# curl -X GET 'http://localhost:9200/test1/_search?pretty=true' -H 'Content-Type: application/json' -d '{
 #   "aggs" : {},
 #   "from" : 0,
 #   "size" : 20,
@@ -173,7 +173,7 @@ curl -X GET 'http://localhost:9200/test1/_search?pretty' -H 'Content-Type: appli
 # }'
 
 # filtered by docs with annotation only
-# curl -X GET 'http://localhost:9200/test1/_count?pretty' -H 'Content-Type: application/json' -d '{
+# curl -X GET 'http://localhost:9200/test1/_count?pretty=true' -H 'Content-Type: application/json' -d '{
 #   "query" : {
 #     "bool" : {
 #       "must" : {
@@ -190,7 +190,7 @@ curl -X GET 'http://localhost:9200/test1/_search?pretty' -H 'Content-Type: appli
 # '
 
 # search multiple text fields at once
-# curl -X GET 'http://localhost:9200/test1/_count?pretty' -H 'Content-Type: application/json' -d '{
+# curl -X GET 'http://localhost:9200/test1/_count?pretty=true' -H 'Content-Type: application/json' -d '{
 #   "query" : {
 #     "query_string" : {
 #       "query" : "Ed*th",
@@ -201,7 +201,7 @@ curl -X GET 'http://localhost:9200/test1/_search?pretty' -H 'Content-Type: appli
 # '
 
 # search multiple text fields at once
-# curl -X GET 'http://localhost:9200/test1/_search?pretty' -H 'Content-Type: application/json' -d '{
+# curl -X GET 'http://localhost:9200/test1/_search?pretty=true' -H 'Content-Type: application/json' -d '{
 #   "from": 0,
 #   "highlight": {
 #     "fields": {
@@ -240,7 +240,7 @@ curl -X GET 'http://localhost:9200/test1/_search?pretty' -H 'Content-Type: appli
 # '
 
 # search multiple queries at once
-# curl -X GET 'http://localhost:9200/test1/_count?pretty' -H 'Content-Type: application/json' -d '{
+# curl -X GET 'http://localhost:9200/test1/_count?pretty=true' -H 'Content-Type: application/json' -d '{
 #   "query" : {
 #     "bool" : {
 #       "should" : [
