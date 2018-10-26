@@ -2,7 +2,7 @@ class SearchCollRes
 
   @@collections = ["aggregations", "collections", "buckets"]
 
-  def initialize res
+  def initialize(res)
     @body = res
   end
 

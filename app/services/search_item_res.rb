@@ -7,7 +7,7 @@ class SearchItemRes
   @@item = ["hits", "hits", 0, "_source"]
   @@items = ["hits", "hits"]
 
-  def initialize res, debug=false
+  def initialize(res, debug=false)
     @body = res
     @debug = debug
   end
