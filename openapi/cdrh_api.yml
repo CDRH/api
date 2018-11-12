@@ -3,7 +3,7 @@ swagger: "2.0"
 info:
   title: CDRH API
   description: API to access all public Center for Digital Research in the Humanities resources
-  version: 0.1.0
+  version: 1.0.1
   contact:
     name: CDRH Dev Team
     url: https://cdrhapi.unl.edu/contact
