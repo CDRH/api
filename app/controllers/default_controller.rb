@@ -26,7 +26,7 @@ class DefaultController < ApplicationController
           "index_updated" => "TODO",
           "license" => METADATA["license"],
           "terms_of_service" => METADATA["terms_of_service"],
-          "version" => VERSION,
+          "version" => Api::Application::VERSION,
           # TODO should we be obtaining these from
           # Rails.application.routes or similar?
           "endpoints" => [
