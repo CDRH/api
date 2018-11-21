@@ -1,8 +1,4 @@
-[Back to documentation page for entire system](../../README.md)
-
 # Henbit
-
-[Henbit Repository](https://github.com/CDRH/api)
 
 Henbit is an API to access all public Center for Digital Research in the Humanities resources. It is also an invasive weed in Nebraska.
 
