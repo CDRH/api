@@ -248,7 +248,26 @@ class SearchItemReq
       if dir.blank?
         dir = term == "relevancy" ? "desc" : "asc"
       end
-      sort_obj << { term => dir }
+      # instructions for multivalued field sorting
+      mode = dir == "desc" ? "max" : "min"
+      # default to sorting missing values last, this may
+      # be added as a configurable parameter later
+      missing = "_last"
+
+      # nested fields require different sorting setup
+      # note: does not support nested fields inside of nested fields
+      sort_setting = {
+        term => {
+          "order" => dir,
+          "mode" => mode,
+          "missing" => missing
+        }
+      }
+      if term.include?(".")
+        path = term.split(".").first
+        sort_setting[term]["nested"] = { "path" => path }
+      end
+      sort_obj << sort_setting
     end
 
     return sort_obj
