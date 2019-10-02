@@ -51,4 +51,15 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+
+
+  # LOCAL
+  # Custom dev env logger to empty log more frequently
+  config.logger = ActiveSupport::TaggedLogging.new(
+    ActiveSupport::Logger.new(File.join(Rails.root.to_s, "log", "development.log"),
+      # Keep one old log file, rotate after size reaches 32 MB
+      1, 32 * 1024 * 1024
+    )
+  )
 end
