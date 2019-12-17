@@ -59,7 +59,9 @@ class SearchItemReq
     # for the lucene escaping code below
     # Note: removed () and : from list, because escaping
     # those characters interfered with elasticsearch multifield searching
-    escaped_characters = Regexp.escape('\\+-&|!{}[]^~*?\/')
+    # Also removed * and ? from the list because escaping those
+    # characters meant queries with uncertainty couldn't be done
+    escaped_characters = Regexp.escape('\\+-&|!{}[]^~\/')
     query.gsub(/([#{escaped_characters}])/, '\\\\\1')
   end
 
@@ -234,7 +236,7 @@ class SearchItemReq
     sort_param = nil
     if @params["sort"].blank?
       if @params["q"].present?
-        sort_param = ["_score|desc"]
+        sort_param = ["_score"]
       else
         sort_param = [SETTINGS["sort_fl"]]
       end
@@ -244,30 +246,33 @@ class SearchItemReq
 
     sort_param.each do |sort|
       term, dir = sort.split(@@filter_separator)
-      term = "_score" if term == "relevancy"
-      if dir.blank?
-        dir = term == "relevancy" ? "desc" : "asc"
-      end
-      # instructions for multivalued field sorting
-      mode = dir == "desc" ? "max" : "min"
-      # default to sorting missing values last, this may
-      # be added as a configurable parameter later
-      missing = "_last"
+      if term == "relevancy" || term == "_score"
+        sort_obj << "_score"
+      else
+        dir = "asc" if dir.blank?
+        # instructions for multivalued field sorting
+        # ex: desc [D], [A, F] -> [A, F], [D] because A is max from set
+        mode = dir == "desc" ? "max" : "min"
+        # default to sorting missing values last, this may
+        # be added as a configurable parameter later
+        missing = "_last"
 
-      # nested fields require different sorting setup
-      # note: does not support nested fields inside of nested fields
-      sort_setting = {
-        term => {
-          "order" => dir,
-          "mode" => mode,
-          "missing" => missing
+        sort_setting = {
+          term => {
+            "order" => dir,
+            "mode" => mode,
+            "missing" => missing
+          }
         }
-      }
-      if term.include?(".")
-        path = term.split(".").first
-        sort_setting[term]["nested"] = { "path" => path }
+        # nested fields require different sorting setup
+        # note: does not support nested fields inside of nested fields
+        if term.include?(".")
+          path = term.split(".").first
+          sort_setting[term]["nested"] = { "path" => path }
+        end
+        sort_obj << sort_setting
       end
-      sort_obj << sort_setting
+
     end
 
     return sort_obj
