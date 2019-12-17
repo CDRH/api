@@ -60,7 +60,7 @@ class SearchItemReq
     # Note: removed () and : from list, because escaping
     # those characters interfered with elasticsearch multifield searching
     # Also removed * and ? from the list because escaping those
-    # characters meant no fuzzy searching could be done!
+    # characters meant queries with uncertainty couldn't be done
     escaped_characters = Regexp.escape('\\+-&|!{}[]^~\/')
     query.gsub(/([#{escaped_characters}])/, '\\\\\1')
   end
