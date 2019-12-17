@@ -59,7 +59,9 @@ class SearchItemReq
     # for the lucene escaping code below
     # Note: removed () and : from list, because escaping
     # those characters interfered with elasticsearch multifield searching
-    escaped_characters = Regexp.escape('\\+-&|!{}[]^~*?\/')
+    # Also removed * and ? from the list because escaping those
+    # characters meant no fuzzy searching could be done!
+    escaped_characters = Regexp.escape('\\+-&|!{}[]^~\/')
     query.gsub(/([#{escaped_characters}])/, '\\\\\1')
   end
 

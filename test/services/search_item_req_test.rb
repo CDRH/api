@@ -12,6 +12,10 @@ class SearchItemReqTest < ActiveSupport::TestCase
     query = '(text:water) OR (annotations_text:Cather)'
     assert_equal "(text:water) OR (annotations_text:Cather)", SearchItemReq.escape_chars(query)
 
+    # do not escape ? and *
+    query = 'wat?r OR cat*'
+    assert_equal "wat?r OR cat*", SearchItemReq.escape_chars(query)
+
     # escape odd numbered quotation marks
     query = '"something'
     assert_equal "\"something", SearchItemReq.escape_chars(query)
