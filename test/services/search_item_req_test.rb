@@ -151,35 +151,35 @@ class SearchItemReqTest < ActiveSupport::TestCase
 
     # single sort
     sort = SearchItemReq.new({ "sort" => ["title|asc"] }).sort
-    assert_equal sort, [{"title"=>"asc"}]
+    assert_equal sort, [{"title"=>{"order"=>"asc", "mode"=>"min", "missing"=>"_last"}}]
 
     # multiple sorts and subfield
     sort = SearchItemReq.new({ "sort" => ["title|desc", "author.name|asc"] }).sort
-    assert_equal sort, [{"title"=>"desc"}, {"author.name"=>"asc"}]
+    assert_equal sort, [{"title"=>{"order"=>"desc", "mode"=>"max", "missing"=>"_last"}}, {"author.name"=>{"order"=>"asc", "mode"=>"min", "missing"=>"_last", "nested"=>{"path"=>"author"}}}]
 
     # with non-array
     sort = SearchItemReq.new({ "sort" => "title|asc" }).sort
-    assert_equal sort, [{"title"=>"asc"}]
+    assert_equal sort, [{"title"=>{"order"=>"asc", "mode"=>"min", "missing"=>"_last"}}]
 
     # no sort specified, query present
     sort = SearchItemReq.new({ "q" => "water" }).sort
-    assert_equal sort, [{"_score"=>"desc"}]
+    assert_equal sort, ["_score"]
 
     # no sort direction specified, query present
     sort = SearchItemReq.new({ "q" => "water", "sort" => "date" }).sort
-    assert_equal sort, [{"date"=>"asc"}]
+    assert_equal sort, [{"date"=>{"order"=>"asc", "mode"=>"min", "missing"=>"_last"}}]
 
     # sort specified, query present
     sort = SearchItemReq.new({ "q" => "water", "sort" => "date|desc" }).sort
-    assert_equal sort, [{"date"=>"desc"}]
+    assert_equal sort, [{"date"=>{"order"=>"desc", "mode"=>"max", "missing"=>"_last"}}]
 
     # no sort specified, no query
     sort = SearchItemReq.new({}).sort
-    assert_equal sort, [{"identifier" => "asc"}]
+    assert_equal sort, [{"identifier"=>{"order"=>"asc", "mode"=>"min", "missing"=>"_last"}}]
 
     # no sort direction specified, no query
     sort = SearchItemReq.new({ "sort" => "title" }).sort
-    assert_equal sort, [{"title" => "asc"}]
+    assert_equal sort, [{"title"=>{"order"=>"asc", "mode"=>"min", "missing"=>"_last"}}]
   end
 
   def test_text_search
