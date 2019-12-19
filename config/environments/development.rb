@@ -57,4 +57,7 @@ Rails.application.configure do
       1, 32 * 1024 * 1024
     )
   )
+
+  # LOCAL change made specifically for CDRH
+  config.hosts << "cdrhdev1.unl.edu"
 end
