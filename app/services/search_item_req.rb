@@ -117,6 +117,16 @@ class SearchItemReq
                 "field" => f,
                 "order" => { type => dir },
                 "size" => size
+              },
+              "aggs" => {
+                "top_matches" => {
+                  "top_hits" => {
+                    "_source" => {
+                      "includes" => [ f ]
+                    },
+                    "size" => 1
+                  }
+                }
               }
             }
           }
@@ -124,14 +134,19 @@ class SearchItemReq
       else
         aggs[f] = {
           "terms" => {
-            # TODO if dataset is large, can implement partitions?
-            # "include" => {
-            #   "partition" => 0,
-            #   "num_partitions" => 10
-            # },
             "field" => f,
             "order" => { type => dir },
             "size" => size
+          },
+          "aggs" => {
+            "top_matches" => {
+              "top_hits" => {
+                "_source" => {
+                  "includes" => [ f ]
+                },
+                "size" => 1
+              }
+            }
           }
         }
       end

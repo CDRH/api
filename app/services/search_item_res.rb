@@ -4,6 +4,7 @@ class SearchItemRes
 
   @@count = ["hits", "total"]
   @@facets = ["aggregations"]
+  @@facets_label = ["top_matches", "hits", "hits", "_source"]
   @@item = ["hits", "hits", 0, "_source"]
   @@items = ["hits", "hits"]
 
@@ -38,33 +39,45 @@ class SearchItemRes
     end
   end
 
+  def format_bucket_value(facets, field, bucket)
+    # dates return in wonktastic ways, so grab key_as_string instead of gibberish number
+    # but otherwise just grab the key if key_as_string unavailable
+    key = bucket.key?("key_as_string") ? bucket["key_as_string"] : bucket["key"]
+    val = bucket["doc_count"]
+    source = key
+    # top_matches is a top_hits aggregation which returns a list of terms
+    # which were used for the facet.
+    #   Example: "Willa Cather" and "WILLA CATHER"
+    # Those terms will both have been normalized as "willa cather" but
+    # we will want to display one of the non-normalized terms instead
+    matches = bucket.dig("top_matches", "hits", "hits")
+    if matches
+      # elasticsearch stores nested source results without the "path"
+      no_nesting = field.split(".").last
+      source = matches.first.dig("_source", no_nesting)
+    end
+    facets[field][key] = {
+      "num" => val,
+      "source" => source
+    }
+  end
+
   def reformat_facets
-    facets = @body.dig(*@@facets)
-    if facets
-      formatted = {}
-      facets.each do |field, info|
-        formatted[field] = {}
-        buckets = {}
-        # nested fields do not have buckets
-        # at this level in the response structure
-        if info.has_key?("buckets")
-          buckets = info["buckets"]
-        else
-          buckets = info.dig(field, "buckets")
-        end
+    raw_facets = @body.dig(*@@facets)
+    if raw_facets
+      facets = {}
+      raw_facets.each do |field, info|
+        facets[field] = {}
+        # nested fields do not have buckets at this level of response structure
+        buckets = info.key?("buckets") ? info["buckets"] : info.dig(field, "buckets")
+
         if buckets
-          buckets.each do |b|
-            # dates return in wonktastic ways, so grab key_as_string instead of gibberish number
-            # but otherwise just grab the key if key_as_string unavailable
-            key = b.has_key?("key_as_string") ? b["key_as_string"] : b["key"]
-            val = b["doc_count"]
-            formatted[field][key] = val
-          end
+          buckets.each { |b| format_bucket_value(facets, field, b) }
         else
-          formatted[field] = {}
+          facets[field] = {}
         end
       end
-      return formatted
+      return facets
     else
       return {}
     end
