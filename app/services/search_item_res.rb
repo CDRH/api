@@ -19,7 +19,7 @@ class SearchItemRes
     items = combine_highlights
     facets = reformat_facets
 
-    return {
+    {
       "code" => 200,
       "count" => count,
       "facets" => facets,
@@ -30,12 +30,12 @@ class SearchItemRes
   def combine_highlights
     hits = @body.dig(*@@items)
     if hits
-      return hits.map do |hit|
+      hits.map do |hit|
         hit["_source"]["highlight"] = hit["highlight"] || {}
         hit["_source"]
       end
     else
-      return []
+      []
     end
   end
 
@@ -77,9 +77,9 @@ class SearchItemRes
           facets[field] = {}
         end
       end
-      return facets
+      facets
     else
-      return {}
+      {}
     end
   end
 
