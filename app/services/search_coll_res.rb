@@ -23,7 +23,7 @@ class SearchCollRes
         }
       end
 
-      return {
+      {
         "code" => 200,
         "info" => {
           "count" => collections.length,
