@@ -107,4 +107,7 @@ Rails.application.configure do
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
+  # Handle STS here instead of Apache, or Rails duplicates header contents
+  # Also unset cache-control header in HTTPS vhost for same reason
+  config.ssl_options = { hsts: { preload: true } }
 end
