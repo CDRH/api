@@ -22,6 +22,7 @@ class SearchItemRes
     {
       "code" => 200,
       "count" => count,
+      "api_version" => Api::Application::VERSION,
       "facets" => facets,
       "items" => items,
     }

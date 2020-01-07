@@ -16,6 +16,7 @@ class SearchCollRes
           "collection_name" => coll["key"],
           "description" => "TODO",
           "image_id" => "TODO",
+          "api_version" => Api::Application::VERSION,
           "uri" => "TODO",
           "collection" => coll["key"],
           "item_count" => coll["doc_count"],
