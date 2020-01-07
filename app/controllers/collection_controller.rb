@@ -15,6 +15,7 @@ class CollectionController < ApplicationController
         "query_string" => request.fullpath
       },
       "res" => {
+        "api_version" => Api::Application::VERSION,
         "code" => 200,
         "info" => {
           "collection" => {},
