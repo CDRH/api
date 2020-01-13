@@ -11,7 +11,7 @@ Markdown Spec](https://github.github.com/gfm/).
 
 <!-- Template - Please preserve this order of sections
 ## [Unreleased] - Brief description
-[Unreleased]: https://github.com/CDRH/apium/compare/v#.#.#...dev
+[Unreleased]: https://github.com/CDRH/api/compare/v#.#.#...dev
 
 ### Fixed
 
