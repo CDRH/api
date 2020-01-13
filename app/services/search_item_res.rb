@@ -54,8 +54,8 @@ class SearchItemRes
     matches = bucket.dig("top_matches", "hits", "hits")
     if matches
       # elasticsearch stores nested source results without the "path"
-      no_nesting = field.split(".").last
-      source = matches.first.dig("_source", no_nesting)
+      nested_child = field.split(".").last
+      source = matches.first.dig("_source", nested_child)
     end
     facets[field][key] = {
       "num" => val,
