@@ -40,6 +40,29 @@ class SearchItemRes
     end
   end
 
+  def find_source_from_top_hits(top_hits, field, key)
+    # elasticsearch stores nested source results without the "path"
+    nested_child = field.split(".").last
+    hit = top_hits.first.dig("_source", nested_child)
+    # if this is a multivalued field (for example: works or places),
+    # ALL of the values come back as the source, but we only want
+    # the single value from which the key was derived
+    if hit.class == Array
+      # I don't love this, because we will have to match exactly the logic
+      # that got us the key to get this to work
+      match_index = hit
+        .map { |s| remove_nonword_chars(s) }
+        .index(remove_nonword_chars(key))
+      matches = hit.map { |s| remove_nonword_chars(s) }
+      # if nothing matches the original key, return the entire source hit
+      # should return a string, regardless
+      return match_index ? hit[match_index] : hit.join(" ")
+    else
+      # it must be single-valued and therefore we are good to go
+      return hit
+    end
+  end
+
   def format_bucket_value(facets, field, bucket)
     # dates return in wonktastic ways, so grab key_as_string instead of gibberish number
     # but otherwise just grab the key if key_as_string unavailable
@@ -51,11 +74,9 @@ class SearchItemRes
     #   Example: "Willa Cather" and "WILLA CATHER"
     # Those terms will both have been normalized as "willa cather" but
     # we will want to display one of the non-normalized terms instead
-    matches = bucket.dig("top_matches", "hits", "hits")
-    if matches
-      # elasticsearch stores nested source results without the "path"
-      nested_child = field.split(".").last
-      source = matches.first.dig("_source", nested_child)
+    top_hits = bucket.dig("top_matches", "hits", "hits")
+    if top_hits
+      source = find_source_from_top_hits(top_hits, field, key)
     end
     facets[field][key] = {
       "num" => val,
@@ -82,6 +103,13 @@ class SearchItemRes
     else
       {}
     end
+  end
+
+  def remove_nonword_chars(term)
+    # transliterate to ascii (ø -> o)
+    transliterated = I18n.transliterate(term)
+    # remove html tags like em, u, and strong, then strip remaining non-alpha characters
+    transliterated.gsub(/<\/?(?:em|strong|u)>|\W/, "").downcase
   end
 
 end
