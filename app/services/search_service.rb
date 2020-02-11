@@ -12,9 +12,9 @@ class SearchService
 
   def post(url_ending, json)
     res = RestClient.post("#{@url}/#{url_ending}", json.to_json, { "content-type" => "json" } )
-    return JSON.parse(res.body)
+    JSON.parse(res.body)
   rescue => e
-    return e
+    e
   end
 
   def search_collections
@@ -108,7 +108,7 @@ class SearchService
     if @params["debug"].present?
       json["req"]["query_obj"] = req
     end
-    return json
+    json
   end
 
   def build_collections_response(res)
