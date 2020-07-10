@@ -25,16 +25,6 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ### Contributors
 -->
 
-## [Unreleased]
-
-### Fixed
-
-### Added
-
-### Changed
-
-### Migration
-
 ## [v1.0.2](https://github.com/CDRH/api/compare/v1.0.1...v1.0.2) - escapes and sorting
 
 ### Fixed
