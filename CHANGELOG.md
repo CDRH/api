@@ -25,6 +25,11 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ### Contributors
 -->
 
+## [v1.0.3](https://github.com/CDRH/api/compare/v1.0.2...v1.0.3) - gem updates
+
+### Changed
+- updates to rails and other gems
+
 ## [v1.0.2](https://github.com/CDRH/api/compare/v1.0.1...v1.0.2) - escapes and sorting
 
 ### Fixed
