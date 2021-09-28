@@ -25,6 +25,12 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ### Contributors
 -->
 
+## [v1.0.4](https://github.com/CDRH/api/compare/v1.0.3...v1.0.4) - Updates & license
+
+### Changed
+- Updated Ruby version, gems (which addresses mimemagic dependency problme), and
+license added
+
 ## [v1.0.3](https://github.com/CDRH/api/compare/v1.0.2...v1.0.3) - gem updates
 
 ### Changed
