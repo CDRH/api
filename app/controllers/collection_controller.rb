@@ -1,5 +1,4 @@
 class CollectionController < ApplicationController
-
   def index
     res = SearchService.new(ES_URI, params, request.fullpath)
       .search_collections
@@ -24,5 +23,4 @@ class CollectionController < ApplicationController
       }
     })
   end
-
 end

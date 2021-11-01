@@ -1,5 +1,4 @@
 class SearchItemReq
-
   # whether request comes in as a pipe character or encoded pipe
   # make sure that it is being split correctly
   @@filter_separator = Regexp.new(SETTINGS["filter_separator"])
@@ -21,7 +20,7 @@ class SearchItemReq
       "from" => start,
       "highlight" => {},
       "size" => num,
-      "query" => {},
+      "query" => {}
     }
     bool = {}
 
@@ -51,7 +50,7 @@ class SearchItemReq
 
     # add bool to request body
     req["query"]["bool"] = bool
-    return req
+    req
   end
 
   def self.escape_chars(query)
@@ -61,8 +60,8 @@ class SearchItemReq
     # those characters interfered with elasticsearch multifield searching
     # Also removed * and ? from the list because escaping those
     # characters meant queries with uncertainty couldn't be done
-    escaped_characters = Regexp.escape('\\+-&|!{}[]^~\/')
-    query.gsub(/([#{escaped_characters}])/, '\\\\\1')
+    escaped_characters = Regexp.escape("\\+-&|!{}[]^~\\/")
+    query.gsub(/([#{escaped_characters}])/, "\\\\\\1")
   end
 
   def facets
@@ -101,7 +100,7 @@ class SearchItemReq
             "interval" => interval,
             "format" => formatted,
             "min_doc_count" => 1,
-            "order" => { f_type => dir },
+            "order" => {f_type => dir}
           }
         }
       # if nested, has extra syntax
@@ -115,7 +114,7 @@ class SearchItemReq
             f => {
               "terms" => {
                 "field" => f,
-                "order" => { type => dir },
+                "order" => {type => dir},
                 "size" => size
               }
             }
@@ -130,13 +129,13 @@ class SearchItemReq
             #   "num_partitions" => 10
             # },
             "field" => f,
-            "order" => { type => dir },
+            "order" => {type => dir},
             "size" => size
           }
         }
       end
     end
-    return aggs
+    aggs
   end
 
   def filters
@@ -144,7 +143,7 @@ class SearchItemReq
     fields = Array.wrap(@params["f"])
     # each filter should be length 3 for field, type 1, type 2
     # (type 2 will only be used for dates)
-    filters = fields.map {|f| f.split(@@filter_separator, 3) }
+    filters = fields.map { |f| f.split(@@filter_separator, 3) }
     filters.each do |filter|
       # NESTED FIELD FILTER
       if filter[0].include?(".")
@@ -156,7 +155,7 @@ class SearchItemReq
             "query" => {
               "term" => {
                 # Remove CR's added by hidden input field values with returns
-                filter[0] => filter[1].gsub(/\r/, "")
+                filter[0] => filter[1].delete("\r")
               }
             }
           }
@@ -182,7 +181,6 @@ class SearchItemReq
         elsif filter.length == 2
           start = filter[0]
           stop = filter[1]
-        else
           # TODO how to raise error here but not render twice?
           # redirect to error action?
         end
@@ -195,7 +193,7 @@ class SearchItemReq
             field => {
               "gte" => start,
               "lte" => stop,
-              "format" => "yyyy-MM-dd",
+              "format" => "yyyy-MM-dd"
             }
           }
         }
@@ -203,10 +201,10 @@ class SearchItemReq
       # TRADITIONAL FILTERS
       else
         # Remove CR's added by hidden input field values with returns
-        filter_list << { "term" => { filter[0] => filter[1].gsub(/\r/, "") } }
+        filter_list << {"term" => {filter[0] => filter[1].delete("\r")}}
       end
     end
-    return filter_list
+    filter_list
   end
 
   def highlights
@@ -217,7 +215,7 @@ class SearchItemReq
     if @params["hl"] != "false"
       # include "text" highlighting by default
       hl["fields"] = {
-        "text" => { "fragment_size" => hl_chars, "number_of_fragments" => hl_num }
+        "text" => {"fragment_size" => hl_chars, "number_of_fragments" => hl_num}
       }
       if @params["hl_fl"].present?
         @params["hl_fl"].split(@@fl_separator).each do |field|
@@ -228,20 +226,19 @@ class SearchItemReq
         end
       end
     end
-    return hl
+    hl
   end
 
   def sort
     sort_obj = []
-    sort_param = nil
-    if @params["sort"].blank?
+    sort_param = if @params["sort"].blank?
       if @params["q"].present?
-        sort_param = ["_score"]
+        ["_score"]
       else
-        sort_param = [SETTINGS["sort_fl"]]
+        [SETTINGS["sort_fl"]]
       end
     else
-      sort_param = Array.wrap(@params["sort"])
+      Array.wrap(@params["sort"])
     end
 
     sort_param.each do |sort|
@@ -268,24 +265,23 @@ class SearchItemReq
         # note: does not support nested fields inside of nested fields
         if term.include?(".")
           path = term.split(".").first
-          sort_setting[term]["nested"] = { "path" => path }
+          sort_setting[term]["nested"] = {"path" => path}
         end
         sort_obj << sort_setting
       end
-
     end
 
-    return sort_obj
+    sort_obj
   end
 
   def source
     all = @params["fl"].split(@@fl_separator)
     blist, wlist = all.partition { |f| f.start_with?("!") }
-    blist.map! { |f| f[1..-1] }
+    blist.map! { |f| f[1..] }
     criteria = {}
     criteria["includes"] = wlist if !wlist.empty?
     criteria["excludes"] = blist if !blist.empty?
-    return criteria
+    criteria
   end
 
   def text_search
@@ -307,9 +303,8 @@ class SearchItemReq
         must["query_string"]["default_field"] = "text"
       end
     else
-      must = { "match_all" => {} }
+      must = {"match_all" => {}}
     end
-    return must
+    must
   end
-
 end

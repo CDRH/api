@@ -1,5 +1,4 @@
 class SearchItemRes
-
   attr_reader :body, :debug
 
   @@count = ["hits", "total"]
@@ -7,7 +6,7 @@ class SearchItemRes
   @@item = ["hits", "hits", 0, "_source"]
   @@items = ["hits", "hits"]
 
-  def initialize(res, debug=false)
+  def initialize(res, debug = false)
     @body = res
     @debug = debug
   end
@@ -18,23 +17,23 @@ class SearchItemRes
     items = combine_highlights
     facets = reformat_facets
 
-    return {
+    {
       "code" => 200,
       "count" => count,
       "facets" => facets,
-      "items" => items,
+      "items" => items
     }
   end
 
   def combine_highlights
     hits = @body.dig(*@@items)
     if hits
-      return hits.map do |hit|
+      hits.map do |hit|
         hit["_source"]["highlight"] = hit["highlight"] || {}
         hit["_source"]
       end
     else
-      return []
+      []
     end
   end
 
@@ -44,14 +43,9 @@ class SearchItemRes
       formatted = {}
       facets.each do |field, info|
         formatted[field] = {}
-        buckets = {}
         # nested fields do not have buckets
         # at this level in the response structure
-        if info.has_key?("buckets")
-          buckets = info["buckets"]
-        else
-          buckets = info.dig(field, "buckets")
-        end
+        buckets = info.key?("buckets") ? info["buckets"] : info.dig(field, "buckets")
         if buckets
           buckets.each do |b|
             # dates return in wonktastic ways, so grab key_as_string instead of gibberish number
@@ -64,10 +58,9 @@ class SearchItemRes
           formatted[field] = {}
         end
       end
-      return formatted
+      formatted
     else
-      return {}
+      {}
     end
   end
-
 end

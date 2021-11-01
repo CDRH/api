@@ -1,5 +1,4 @@
 class SearchCollRes
-
   @@collections = ["aggregations", "collections", "buckets"]
 
   def initialize(res)
@@ -10,26 +9,25 @@ class SearchCollRes
     route_paths = Rails.application.routes.url_helpers
 
     collections = @body.dig(*@@collections)
-      collections = [] if !collections
-      collections.map! do |coll|
-        {
-          "collection_name" => coll["key"],
-          "description" => "TODO",
-          "image_id" => "TODO",
-          "uri" => "TODO",
-          "collection" => coll["key"],
-          "item_count" => coll["doc_count"],
-          "endpoint" => route_paths.collection_path(coll["key"])
-        }
-      end
-
-      return {
-        "code" => 200,
-        "info" => {
-          "count" => collections.length,
-          "collections" => collections
-        }
+    collections = [] if !collections
+    collections.map! do |coll|
+      {
+        "collection_name" => coll["key"],
+        "description" => "TODO",
+        "image_id" => "TODO",
+        "uri" => "TODO",
+        "collection" => coll["key"],
+        "item_count" => coll["doc_count"],
+        "endpoint" => route_paths.collection_path(coll["key"])
       }
-  end
+    end
 
+    {
+      "code" => 200,
+      "info" => {
+        "count" => collections.length,
+        "collections" => collections
+      }
+    }
+  end
 end
