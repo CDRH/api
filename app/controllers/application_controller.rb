@@ -1,4 +1,4 @@
-require 'rest-client'
+require "rest-client"
 
 class ApplicationController < ActionController::API
 
@@ -8,7 +8,7 @@ class ApplicationController < ActionController::API
     return JSON.parse(res.body)
   rescue => e
     error_method.call(e, json)
-    return nil
+    nil
   end
 
   # I am so pleased that this works
@@ -30,5 +30,4 @@ class ApplicationController < ActionController::API
       }
     })) and return
   end
-
 end

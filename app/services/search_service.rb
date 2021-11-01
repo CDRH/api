@@ -1,7 +1,6 @@
-require 'rest-client'
+require "rest-client"
 
 class SearchService
-
   attr_accessor :url, :params, :user_req
 
   def initialize(url, params={}, user_req)
@@ -14,7 +13,7 @@ class SearchService
     res = RestClient.post("#{@url}/#{url_ending}", json.to_json, { "content-type" => "json" } )
     return JSON.parse(res.body)
   rescue => e
-    return e
+    e
   end
 
   def search_collections
@@ -30,7 +29,7 @@ class SearchService
       "size" => 0
     }
     raw_res = post("_search", req)
-    if raw_res.class == RuntimeError
+    if raw_res.instance_of?(RuntimeError)
       on_error(raw_res, req)
     else
       res = build_collections_response(raw_res)
@@ -44,20 +43,20 @@ class SearchService
         "bool" => {
           "must" => [
             {
-              "term" => { "identifier" => id }
+              "term" => {"identifier" => id}
             }
           ]
         }
       }
     }
     if @params["collection"].present?
-      req["query"]["bool"]["must"] << { "term" => { "collection" => @params["collection"] } }
+      req["query"]["bool"]["must"] << {"term" => {"collection" => @params["collection"]}}
     end
 
     raw_res = post("_search", req)
-    if raw_res.class == RuntimeError
+    if raw_res.instance_of?(RuntimeError)
       on_error(raw_res, req)
-    elsif raw_res.class == RestClient::BadRequest
+    elsif raw_res.instance_of?(RestClient::BadRequest)
       on_error(JSON.parse(raw_res.response), req)
     else
       res = build_item_response(raw_res)
@@ -68,9 +67,9 @@ class SearchService
   def search_items
     req = build_item_request
     raw_res = post("_search", req)
-    if raw_res.class == RuntimeError
+    if raw_res.instance_of?(RuntimeError)
       on_error(raw_res.inspect, req)
-    elsif raw_res.class == RestClient::BadRequest
+    elsif raw_res.instance_of?(RestClient::BadRequest)
       on_error(JSON.parse(raw_res.response), req)
     else
       res = build_item_response(raw_res)
@@ -80,7 +79,7 @@ class SearchService
 
   protected
 
-  def on_error(error_msg, req, friendly_msg="Something went wrong")
+  def on_error(error_msg, req, friendly_msg = "Something went wrong")
     {
       "req" => {
         "query_string" => @user_req,
@@ -108,7 +107,7 @@ class SearchService
     if @params["debug"].present?
       json["req"]["query_obj"] = req
     end
-    return json
+    json
   end
 
   def build_collections_response(res)
@@ -122,5 +121,4 @@ class SearchService
   def build_item_response(res)
     SearchItemRes.new(res).build_response
   end
-
 end

@@ -1,6 +1,4 @@
 class ItemController < ApplicationController
-
-
   def index
     if params["collection"].present?
       params["f"] = [] if params["f"].blank?
@@ -18,5 +16,4 @@ class ItemController < ApplicationController
     code = res.dig("res", "code")
     render status: code, json: JSON.pretty_generate(res)
   end
-
 end
