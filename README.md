@@ -5,3 +5,7 @@ Apium is an API to access all public Center for Digital Research in the Humaniti
 **[Apium Documentation](docs/README.md)**
 
 This project is licensed under the terms of the [MIT license](LICENSE.md).
+
+## Run tests
+
+Run tests with `rails spec` or `rspec`

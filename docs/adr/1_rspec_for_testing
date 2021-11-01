@@ -1,0 +1,40 @@
+# 1. Use rspec for testing
+
+Date: October 2021
+
+## Context
+
+Prior to October 2021, there were very few tests for the API checking functionality of the `SearchItemReq` and `SearchItemRes` classes written in minitest.
+
+## Decision
+
+We will use rspec for our tests
+
+### RSpec
+
+Pros:
+
+- `rspec-rails` imitates rails app file loading
+- describe / context / it statements provide self-documentation of features and behavior
+- well supported and used by many
+- extremely powerful mocking / stubbing and request functionality
+
+Cons:
+
+- fairly heavy application
+- documentation can be confusing
+
+### Minitest
+
+Pros:
+
+- very lightweight library
+- default for Rails
+
+Cons:
+
+- more basic in functionality
+
+## Consequences
+
+This change required us to migrate our existing tests from minitest to rspec. Additionally, this adds the dependency of rspec and several rspec-* libraries, rather than the built-in minitest. However, it will allow us to more thoroughly test the API in the future when we have time to think through and write tests!
