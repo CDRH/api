@@ -155,7 +155,7 @@ class SearchItemReq
             "query" => {
               "term" => {
                 # Remove CR's added by hidden input field values with returns
-                filter[0] => filter[1].gsub(/\r/, "")
+                filter[0] => filter[1].delete("\r")
               }
             }
           }
@@ -181,7 +181,6 @@ class SearchItemReq
         elsif filter.length == 2
           start = filter[0]
           stop = filter[1]
-        else
           # TODO how to raise error here but not render twice?
           # redirect to error action?
         end
@@ -232,15 +231,14 @@ class SearchItemReq
 
   def sort
     sort_obj = []
-    sort_param = nil
-    if @params["sort"].blank?
+    sort_param = if @params["sort"].blank?
       if @params["q"].present?
-        sort_param = ["_score"]
+        ["_score"]
       else
-        sort_param = [SETTINGS["sort_fl"]]
+        [SETTINGS["sort_fl"]]
       end
     else
-      sort_param = Array.wrap(@params["sort"])
+      Array.wrap(@params["sort"])
     end
 
     sort_param.each do |sort|
@@ -279,7 +277,7 @@ class SearchItemReq
   def source
     all = @params["fl"].split(@@fl_separator)
     blist, wlist = all.partition { |f| f.start_with?("!") }
-    blist.map! { |f| f[1..-1] }
+    blist.map! { |f| f[1..] }
     criteria = {}
     criteria["includes"] = wlist if !wlist.empty?
     criteria["excludes"] = blist if !blist.empty?

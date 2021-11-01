@@ -43,14 +43,9 @@ class SearchItemRes
       formatted = {}
       facets.each do |field, info|
         formatted[field] = {}
-        buckets = {}
         # nested fields do not have buckets
         # at this level in the response structure
-        if info.has_key?("buckets")
-          buckets = info["buckets"]
-        else
-          buckets = info.dig(field, "buckets")
-        end
+        buckets = info.key?("buckets") ? info["buckets"] : info.dig(field, "buckets")
         if buckets
           buckets.each do |b|
             # dates return in wonktastic ways, so grab key_as_string instead of gibberish number

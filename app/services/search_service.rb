@@ -3,15 +3,15 @@ require "rest-client"
 class SearchService
   attr_accessor :url, :params, :user_req
 
-  def initialize(url, params={}, user_req)
+  def initialize(url, params = {}, user_req = "")
     @url = url
     @params = params
     @user_req = user_req
   end
 
   def post(url_ending, json)
-    res = RestClient.post("#{@url}/#{url_ending}", json.to_json, { "content-type" => "json" } )
-    return JSON.parse(res.body)
+    res = RestClient.post("#{@url}/#{url_ending}", json.to_json, {"content-type" => "json"})
+    JSON.parse(res.body)
   rescue => e
     e
   end
