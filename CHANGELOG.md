@@ -31,6 +31,10 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Updated Ruby version, gems (which addresses mimemagic dependency problme), and
 license added
 
+### Added
+
+- Documentation on facets and highlighting
+
 ## [v1.0.3](https://github.com/CDRH/api/compare/v1.0.2...v1.0.3) - gem updates
 
 ### Changed
