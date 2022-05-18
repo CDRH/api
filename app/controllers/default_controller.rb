@@ -18,7 +18,6 @@ class DefaultController < ApplicationController
       },
       "res" => {
         "code" => 200,
-        "api_version" => Api::Application::VERSION,
         "info" => {
           "api_updated" => METADATA["api_updated"],
           "contact" => METADATA["cdrh@unl.edu"],
