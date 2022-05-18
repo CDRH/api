@@ -25,7 +25,13 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ### Contributors
 -->
 
-## [v1.0.4](https://github.com/CDRH/api/compare/v1.0.3...v1.0.4) - Updates & license
+## [Unreleased] - updates in preparation for Habeas release
+[Unreleased]: https://github.com/CDRH/api/compare/v1.0.4...dev
+
+### Changed
+- upgraded to Rails 6
+
+## [v1.0.4](https://github.com/CDRH/api/compare/v1.0....v1.0.4) - Updates & license
 
 ### Changed
 - Updated Ruby version, gems (which addresses mimemagic dependency problem), and
