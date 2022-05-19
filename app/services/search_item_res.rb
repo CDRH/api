@@ -53,10 +53,9 @@ class SearchItemRes
       match_index = hit
         .map { |s| remove_nonword_chars(s) }
         .index(remove_nonword_chars(key))
-      matches = hit.map { |s| remove_nonword_chars(s) }
       # if nothing matches the original key, return the entire source hit
       # should return a string, regardless
-      return match_index ? matches[match_index] : matches.join(" ")
+      return match_index ? hit[match_index] : hit.join(" ")
     else
       # it must be single-valued and therefore we are good to go
       return hit
