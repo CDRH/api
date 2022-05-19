@@ -117,6 +117,16 @@ class SearchItemReq
                 "field" => f,
                 "order" => { type => dir },
                 "size" => size
+              },
+              "aggs" => {
+                "top_matches" => {
+                  "top_hits" => {
+                    "_source" => {
+                      "includes" => [ f ]
+                    },
+                    "size" => 1
+                  }
+                }
               }
             }
           }
@@ -124,19 +134,24 @@ class SearchItemReq
       else
         aggs[f] = {
           "terms" => {
-            # TODO if dataset is large, can implement partitions?
-            # "include" => {
-            #   "partition" => 0,
-            #   "num_partitions" => 10
-            # },
             "field" => f,
             "order" => { type => dir },
             "size" => size
+          },
+          "aggs" => {
+            "top_matches" => {
+              "top_hits" => {
+                "_source" => {
+                  "includes" => [ f ]
+                },
+                "size" => 1
+              }
+            }
           }
         }
       end
     end
-    return aggs
+    aggs
   end
 
   def filters
@@ -206,7 +221,7 @@ class SearchItemReq
         filter_list << { "term" => { filter[0] => filter[1].gsub(/\r/, "") } }
       end
     end
-    return filter_list
+    filter_list
   end
 
   def highlights
@@ -228,7 +243,7 @@ class SearchItemReq
         end
       end
     end
-    return hl
+    hl
   end
 
   def sort
@@ -275,7 +290,7 @@ class SearchItemReq
 
     end
 
-    return sort_obj
+    sort_obj
   end
 
   def source
@@ -285,7 +300,7 @@ class SearchItemReq
     criteria = {}
     criteria["includes"] = wlist if !wlist.empty?
     criteria["excludes"] = blist if !blist.empty?
-    return criteria
+    criteria
   end
 
   def text_search
@@ -309,7 +324,7 @@ class SearchItemReq
     else
       must = { "match_all" => {} }
     end
-    return must
+    must
   end
 
 end

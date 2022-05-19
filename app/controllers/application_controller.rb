@@ -17,6 +17,7 @@ class ApplicationController < ActionController::API
     render(status: 500, json: JSON.pretty_generate({
       "res" => {
         "code" => 500,
+        "api_version" => Api::Application::VERSION,
         "message" => "TODO",
         "info" => {
           "documentation" => "TODO",
