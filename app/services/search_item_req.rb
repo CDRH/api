@@ -104,6 +104,45 @@ class SearchItemReq
             "order" => { f_type => dir },
           }
         }
+      elsif f.include?("[")
+        #or nest it inside the next one?
+        #this will be the same
+        facet = f.split("[")
+        path = facet.split(".").first
+        condition = f[/(?<=\[).+?(?=\])/]
+        subject = condition.split(".").first
+        predicate = condition.split(".").last
+        aggs[f] = {
+          "nested" => {
+            "path" => path
+          },
+          "aggs" => {
+            "query" => {
+              "term" => {
+                subject => predicate
+              }
+            },
+            "aggs" => {
+              f => {
+                "terms" => {
+                  "field" => facet,
+                  "order" => { type => dir },
+                  "size" => size
+                },
+                "aggs" => {
+                  "top_matches" => {
+                    "top_hits" => {
+                      "_source" => {
+                        "includes" => [ f ]
+                      },
+                      "size" => 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       # if nested, has extra syntax
       elsif f.include?(".")
         path = f.split(".").first
