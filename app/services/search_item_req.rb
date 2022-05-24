@@ -109,8 +109,8 @@ class SearchItemReq
         facet = f.split("[")
         path = facet.split(".").first
         condition = f[/(?<=\[).+?(?=\])/]
-        subject = condition.split(".").first
-        predicate = condition.split(".").last
+        subject = condition.split("|").first
+        predicate = condition.split("|").last
         aggs[f] = {
           "nested" => {
             "path" => path
@@ -204,8 +204,8 @@ class SearchItemReq
         facet = f.split("[")
         path = facet.split(".").first
         condition = f[/(?<=\[).+?(?=\])/]
-        subject = condition.split(".").first
-        predicate = condition.split(".").last
+        subject = condition.split("|").first
+        predicate = condition.split("|").last
         # this is a nested field and must be treated differently
         nested = {
           "nested" => {
@@ -217,7 +217,7 @@ class SearchItemReq
                   "term" => {
                     # "person.name" => "oliver wendell holmes"
                     # Remove CR's added by hidden input field values with returns
-                    facet => filter[1].gsub(/\r/, "")
+                    facet => filter[1].gsub(/\r/, ""),
                     # "person.role" => "judge"
                     subject => predicate
                   }
