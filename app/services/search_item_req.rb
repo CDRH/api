@@ -104,9 +104,8 @@ class SearchItemReq
             "order" => { f_type => dir },
           }
         }
+      #nested facet, matching on another nested facet
       elsif f.include?("[")
-        #or nest it inside the next one?
-        #this will be the same
         facet = f.split("[")
         path = facet.split(".").first
         condition = f[/(?<=\[).+?(?=\])/]
@@ -143,7 +142,7 @@ class SearchItemReq
             }
           }
         }
-      # if nested, has extra syntax
+      # ordinary nested facet
       elsif f.include?(".")
         path = f.split(".").first
         aggs[f] = {
@@ -200,8 +199,36 @@ class SearchItemReq
     # (type 2 will only be used for dates)
     filters = fields.map {|f| f.split(@@filter_separator, 3) }
     filters.each do |filter|
-      # NESTED FIELD FILTER
-      if filter[0].include?(".")
+      # NESTED matching
+      if filter[0].include?("[")
+        facet = f.split("[")
+        path = facet.split(".").first
+        condition = f[/(?<=\[).+?(?=\])/]
+        subject = condition.split(".").first
+        predicate = condition.split(".").last
+        # this is a nested field and must be treated differently
+        nested = {
+          "nested" => {
+      
+            "path" => path,
+            "query" => {
+              "bool" => {
+                "must" => {
+                  "term" => {
+                    # "person.name" => "oliver wendell holmes"
+                    # Remove CR's added by hidden input field values with returns
+                    facet => filter[1].gsub(/\r/, "")
+                    # "person.role" => "judge"
+                    subject => predicate
+                  }
+                }
+              }
+            }
+          }
+        }
+        filter_list << nested
+      #ordinary nested facet
+      elsif filter[0].include?(".")
         path = filter[0].split(".").first
         # this is a nested field and must be treated differently
         nested = {
