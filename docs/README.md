@@ -2,6 +2,19 @@
 
 Apium is an API to access all public Center for Digital Research in the Humanities resources. It is also an invasive weed in Nebraska.
 
+## Overview
+
+The CDRH has the metadata and text of several thousand documents such as letters, posters, novels, and images in an Elasticsearch index. This API is a wrapper around that index which provides convenient ways to search and filter those items.
+
+Below, you can find instructions about basic functionality like [sorting](#sorting), [pagination](#start-and-rows) (start / rows), and selecting the [fields you want to get back](#field-list).
+
+There are a couple features that may need a little bit of an introduction.
+
+__Facets__ provide you a way of combining and counting the values of a field related to a query. For example, if you search for "horse" and get 100 results, a facet on the author name field might tell you that 90 of those results were by Buffalo Bill, 9 from Meriwether Lewis, and 1 from Jane Austen. You can add facets on keyword fields and date fields, but not on text fields.
+
+__Highlights__ are a cool way to preview the results of a text query. For example, if you searched for "horse," highlights might look like "...Oglala Sioux Nation. American Horse was the son of Sitting Bear..." and "...Stout as a horse, affectionate, haughty, electrical..."  This preview helps users decide which result is most relevant to them. You can add highlighting to any text field.
+
+
 ## item query
 
 - [Facets](#facets)
