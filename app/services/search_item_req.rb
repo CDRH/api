@@ -108,10 +108,10 @@ class SearchItemReq
       elsif f.include?("[")
         # will be an array including the original, and an alternate aggregation name
         options = JSON.parse(f)
+        original = options[0]
         agg_name = options[1]
-        original = options[2]
-        facet = original.split("[")
-        path = original.split(".").first
+        facet = original.split("[")[0]
+        path = facet.split(".").first
         condition = original[/(?<=\[).+?(?=\])/]
         subject = condition.split("|").first
         predicate = condition.split("|").last
@@ -206,9 +206,9 @@ class SearchItemReq
       # NESTED matching
       if filter[0].include?("[")
         options = JSON.parse(f)
-        original = options[2]
-        facet = original.split("[")
-        path = original.split(".").first
+        original = options[1]
+        facet = original.split("[")[0]
+        path = facet.split(".").first
         condition = original[/(?<=\[).+?(?=\])/]
         subject = condition.split("|").first
         predicate = condition.split("|").last
