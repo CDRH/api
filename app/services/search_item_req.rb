@@ -120,7 +120,7 @@ class SearchItemReq
             "path" => path
           },
           "aggs" => {
-            "query" => {
+            "filter" => {
               "term" => {
                 subject => predicate
               }
