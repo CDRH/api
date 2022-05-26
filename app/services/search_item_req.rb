@@ -84,7 +84,6 @@ class SearchItemReq
     Array.wrap(@params["facet"]).each do |f|
       # histograms use a different ordering terminology than normal aggs
       f_type = type == "_term" ? "_key" : "_count"
-
       if f.include?("date") || f[/_d$/]
         # NOTE: if nested fields will ever have dates we will
         # need to refactor this to be available to both
@@ -105,13 +104,18 @@ class SearchItemReq
           }
         }
       #nested facet, matching on another nested facet
+      
       elsif f.include?("[")
-        facet = f.split("[")
-        path = facet.split(".").first
-        condition = f[/(?<=\[).+?(?=\])/]
+        # will be an array including the original, and an alternate aggregation name
+        options = JSON.parse(f)
+        agg_name = options[1]
+        original = options[2]
+        facet = original.split("[")
+        path = original.split(".").first
+        condition = original[/(?<=\[).+?(?=\])/]
         subject = condition.split("|").first
         predicate = condition.split("|").last
-        aggs[f] = {
+        aggs[agg_name] = {
           "nested" => {
             "path" => path
           },
@@ -122,7 +126,7 @@ class SearchItemReq
               }
             },
             "aggs" => {
-              f => {
+              agg_name => {
                 "terms" => {
                   "field" => facet,
                   "order" => { type => dir },
@@ -132,7 +136,7 @@ class SearchItemReq
                   "top_matches" => {
                     "top_hits" => {
                       "_source" => {
-                        "includes" => [ f ]
+                        "includes" => [ agg_name ]
                       },
                       "size" => 1
                     }
@@ -201,9 +205,11 @@ class SearchItemReq
     filters.each do |filter|
       # NESTED matching
       if filter[0].include?("[")
-        facet = f.split("[")
-        path = facet.split(".").first
-        condition = f[/(?<=\[).+?(?=\])/]
+        options = JSON.parse(f)
+        original = options[2]
+        facet = original.split("[")
+        path = original.split(".").first
+        condition = original[/(?<=\[).+?(?=\])/]
         subject = condition.split("|").first
         predicate = condition.split("|").last
         # this is a nested field and must be treated differently
