@@ -115,7 +115,7 @@ class SearchItemReq
         condition = original[/(?<=\[).+?(?=\])/]
         subject = condition.split("|").first
         predicate = condition.split("|").last
-        aggs[agg_name] = {
+        aggs[f] = {
           "nested" => {
             "path" => path
           },
@@ -126,7 +126,7 @@ class SearchItemReq
               }
             },
             "aggs" => {
-              agg_name => {
+              f => {
                 "terms" => {
                   "field" => facet,
                   "order" => { type => dir },
