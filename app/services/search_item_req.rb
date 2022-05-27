@@ -115,30 +115,32 @@ class SearchItemReq
         condition = original[/(?<=\[).+?(?=\])/]
         subject = condition.split("|").first
         predicate = condition.split("|").last
-        aggs[f] = {
+        aggs[agg_name] = {
           "nested" => {
             "path" => path
           },
           "aggs" => {
-            "filter" => {
-              "term" => {
-                subject => predicate
-              }
-            },
-            "aggs" => {
-              f => {
-                "terms" => {
-                  "field" => facet,
-                  "order" => { type => dir },
-                  "size" => size
-                },
-                "aggs" => {
-                  "top_matches" => {
-                    "top_hits" => {
-                      "_source" => {
-                        "includes" => [ agg_name ]
-                      },
-                      "size" => 1
+            agg_name => {
+              "filter" => {
+                "term" => {
+                  subject => predicate
+                }
+              },
+              "aggs" => {
+                agg_name => {
+                  "terms" => {
+                    "field" => facet,
+                    "order" => { type => dir },
+                    "size" => size
+                  },
+                  "aggs" => {
+                    "top_matches" => {
+                      "top_hits" => {
+                        "_source" => {
+                          "includes" => [ agg_name ]
+                        },
+                        "size" => 1
+                      }
                     }
                   }
                 }
@@ -220,7 +222,7 @@ class SearchItemReq
             "query" => {
               "bool" => {
                 "must" => {
-                  "term" => {
+                  "terms" => {
                     # "person.name" => "oliver wendell holmes"
                     # Remove CR's added by hidden input field values with returns
                     facet => filter[1].gsub(/\r/, ""),
