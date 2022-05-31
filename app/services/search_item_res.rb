@@ -18,7 +18,6 @@ class SearchItemRes
     # strip out only the fields for the item response
     items = combine_highlights
     facets = reformat_facets
-
     {
       "code" => 200,
       "count" => count,
@@ -89,8 +88,7 @@ class SearchItemRes
       facets = {}
       raw_facets.each do |field, info|
         facets[field] = {}
-        # nested fields do not have buckets at this level of response structure
-        buckets = info.key?("buckets") ? info["buckets"] : info.dig(field, "buckets")
+        buckets = get_buckets(info, field)
         if buckets
           buckets.each { |b| format_bucket_value(facets, field, b) }
         else
@@ -110,4 +108,18 @@ class SearchItemRes
     transliterated.gsub(/<\/?(?:em|strong|u)>|\W/, "").downcase
   end
 
+  def get_buckets(info, field)
+    buckets = nil
+    # ordinary facet
+    if info.key?("buckets")
+      buckets = info["buckets"]
+    # nested facet
+    elsif info.dig(field, "buckets")
+      buckets = info.dig(field, "buckets")
+    # filtered facet
+    else
+      buckets = info.dig(field, field, "buckets")
+    end
+    buckets
+  end
 end
