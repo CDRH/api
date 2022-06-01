@@ -113,8 +113,8 @@ class SearchItemReq
         facet = original.split("[")[0]
         path = facet.split(".").first
         condition = original[/(?<=\[).+?(?=\])/]
-        subject = condition.split("|").first
-        predicate = condition.split("|").last
+        subject = condition.split("#").first
+        predicate = condition.split("#").last
         aggs[agg_name] = {
           "nested" => {
             "path" => path
@@ -212,8 +212,8 @@ class SearchItemReq
         facet = original.split("[")[0]
         path = facet.split(".").first
         condition = original[/(?<=\[).+?(?=\])/]
-        subject = condition.split("|").first
-        predicate = condition.split("|").last
+        subject = condition.split("#").first
+        predicate = condition.split("#").last
         # this is a nested field and must be treated differently
         nested = {
           "nested" => {
