@@ -205,10 +205,9 @@ class SearchItemReq
     # (type 2 will only be used for dates)
     filters = fields.map {|f| f.split(@@filter_separator, 3) }
     filters.each do |filter|
-      # NESTED matching
+      # filter aggregation with nesting
       if filter[0].include?("[")
-        options = JSON.parse(f)
-        original = options[1]
+        original = filter[0]
         facet = original.split("[")[0]
         path = facet.split(".").first
         condition = original[/(?<=\[).+?(?=\])/]
@@ -217,17 +216,14 @@ class SearchItemReq
         # this is a nested field and must be treated differently
         nested = {
           "nested" => {
-      
             "path" => path,
             "query" => {
               "bool" => {
                 "must" => {
-                  "terms" => {
+                  "term" => {
                     # "person.name" => "oliver wendell holmes"
                     # Remove CR's added by hidden input field values with returns
-                    facet => filter[1].gsub(/\r/, ""),
-                    # "person.role" => "judge"
-                    subject => predicate
+                    facet => filter[1].gsub(/\r/, "")
                   }
                 }
               }
