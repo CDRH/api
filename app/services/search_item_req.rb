@@ -222,28 +222,33 @@ class SearchItemReq
       if filter[0].include?("[")
         original = filter[0]
         facet = original.split("[")[0]
-        path = facet.split(".").first
+        nested = facet.include?(".")
+        if nested
+          path = facet.split(".").first
+        end
         condition = original[/(?<=\[).+?(?=\])/]
         subject = condition.split("#").first
         predicate = condition.split("#").last
-        # this is a nested field and must be treated differently
-        nested = {
-          "nested" => {
-            "path" => path,
-            "query" => {
-              "bool" => {
-                "must" => {
-                  "term" => {
-                    # "person.name" => "oliver wendell holmes"
-                    # Remove CR's added by hidden input field values with returns
-                    facet => filter[1].gsub(/\r/, "")
-                  }
+        query = {
+          "term" => {
+            # "person.name" => "oliver wendell holmes"
+            # Remove CR's added by hidden input field values with returns
+            facet => filter[1].gsub(/\r/, "")
+          }
+        }
+        if nested
+          query = {
+            "nested" => {
+              "path" => path,
+              "query" => {
+                "bool" => {
+                  "must" => query
                 }
               }
             }
           }
-        }
-        filter_list << nested
+        end
+        filter_list << query
       #ordinary nested facet
       elsif filter[0].include?(".")
         path = filter[0].split(".").first
