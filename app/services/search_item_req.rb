@@ -107,48 +107,61 @@ class SearchItemReq
       
       elsif f.include?("[")
         # will be an array including the original, and an alternate aggregation name
+      
+
         options = JSON.parse(f)
         original = options[0]
         agg_name = options[1]
         facet = original.split("[")[0]
-        path = facet.split(".").first
+        # may or may not be nested
+        nested = facet.include?(".")
+        if nested
+          path = facet.split(".").first
+        end
         condition = original[/(?<=\[).+?(?=\])/]
         subject = condition.split("#").first
         predicate = condition.split("#").last
-        aggs[agg_name] = {
-          "nested" => {
-            "path" => path
-          },
-          "aggs" => {
-            agg_name => {
-              "filter" => {
-                "term" => {
-                  subject => predicate
-                }
-              },
-              "aggs" => {
-                agg_name => {
-                  "terms" => {
-                    "field" => facet,
-                    "order" => { type => dir },
-                    "size" => size
-                  },
-                  "aggs" => {
-                    "top_matches" => {
-                      "top_hits" => {
-                        "_source" => {
-                          "includes" => [ agg_name ]
-                        },
-                        "size" => 1
-                      }
+        aggregation = {
+            # common to nested and non-nested
+            "filter" => {
+              "term" => {
+                subject => predicate
+              }
+            },
+            "aggs" => {
+              agg_name => {
+                "terms" => {
+                  "field" => facet,
+                  "order" => { type => dir },
+                  "size" => size
+                },
+                "aggs" => {
+                  "top_matches" => {
+                    "top_hits" => {
+                      "_source" => {
+                        "includes" => [ agg_name ]
+                      },
+                      "size" => 1
                     }
                   }
                 }
               }
             }
           }
-        }
-      # ordinary nested facet
+        #interpolate above hash into nested query
+        if nested
+          aggs[agg_name] = {
+            "nested" => {
+              "path" => path
+            },
+            "aggs" => {
+              agg_name => aggregation
+            }
+          }
+        else
+          #otherwise it is the whole query
+          aggs[agg_name] = aggregation
+        end
       elsif f.include?(".")
         path = f.split(".").first
         aggs[f] = {
