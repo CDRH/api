@@ -229,12 +229,13 @@ class SearchItemReq
         condition = original[/(?<=\[).+?(?=\])/]
         subject = condition.split("#").first
         predicate = condition.split("#").last
-        query = {
-          "term" => {
-            # "person.name" => "oliver wendell holmes"
-            # Remove CR's added by hidden input field values with returns
-            facet => filter[1].gsub(/\r/, "")
-          }
+        term_match = {
+          # "person.name" => "oliver wendell holmes"
+          # Remove CR's added by hidden input field values with returns
+          facet => filter[1].gsub(/\r/, "")
+        }
+        term_filter = {
+          subject => predicate
         }
         if nested
           query = {
@@ -242,7 +243,10 @@ class SearchItemReq
               "path" => path,
               "query" => {
                 "bool" => {
-                  "must" => query
+                  "must" => [
+                    { "match" => term_filter },
+                    { "match" => term_match }
+                  ]
                 }
               }
             }
