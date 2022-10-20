@@ -51,6 +51,8 @@ class SearchItemReq
 
     # add bool to request body
     req["query"]["bool"] = bool
+    # uncomment below line to log ES query for debugging
+    # puts req.to_json()
     return req
   end
 
@@ -136,12 +138,17 @@ class SearchItemReq
                   "size" => size
                 },
                 "aggs" => {
-                  "top_matches" => {
-                    "top_hits" => {
-                      "_source" => {
-                        "includes" => [ agg_name ]
-                      },
-                      "size" => 1
+                  "field_to_item" => {
+                    "reverse_nested" => {},
+                    "aggs" => {
+                      "top_matches" => {
+                        "top_hits" => {
+                          "_source" => {
+                            "includes" => [ agg_name ]
+                          },
+                          "size" => 1
+                        }
+                      }
                     }
                   }
                 }
