@@ -65,7 +65,7 @@ class SearchItemRes
     # dates return in wonktastic ways, so grab key_as_string instead of gibberish number
     # but otherwise just grab the key if key_as_string unavailable
     key = bucket.key?("key_as_string") ? bucket["key_as_string"] : bucket["key"]
-    val = bucket["doc_count"]
+    val = bucket.key?("field_to_item") ? bucket["field_to_item"]["doc_count"] : bucket["doc_count"]
     source = key
     # top_matches is a top_hits aggregation which returns a list of terms
     # which were used for the facet.
