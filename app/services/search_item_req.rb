@@ -99,7 +99,7 @@ class SearchItemReq
         aggs[f] = {
           "date_histogram" => {
             "field" => field,
-            "interval" => interval,
+            "calendar_interval" => interval,
             "format" => formatted,
             "min_doc_count" => 1,
             "order" => { f_type => dir },
