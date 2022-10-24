@@ -74,7 +74,7 @@ class SearchItemReq
     dir = "desc"
     if @params["facet_sort"].present?
       sort_type, sort_dir = @params["facet_sort"].split(@@filter_separator)
-      type = "_term" if sort_type == "term"
+      type = "term" if sort_type == "term"
       dir = sort_dir if sort_dir == "asc"
     end
 
@@ -85,7 +85,7 @@ class SearchItemReq
     aggs = {}
     Array.wrap(@params["facet"]).each do |f|
       # histograms use a different ordering terminology than normal aggs
-      f_type = type == "_term" ? "_key" : "_count"
+      f_type = (type == "term") ? "_key" : "_count"
       if f.include?("date") || f[/_d$/]
         # NOTE: if nested fields will ever have dates we will
         # need to refactor this to be available to both
@@ -134,7 +134,7 @@ class SearchItemReq
               agg_name => {
                 "terms" => {
                   "field" => facet,
-                  "order" => { type => dir },
+                  "order" => {f_type => dir},
                   "size" => size
                 },
                 "aggs" => {
@@ -179,7 +179,7 @@ class SearchItemReq
             f => {
               "terms" => {
                 "field" => f,
-                "order" => { type => dir },
+                "order" => {f_type => dir},
                 "size" => size
               },
               "aggs" => {
@@ -199,7 +199,7 @@ class SearchItemReq
         aggs[f] = {
           "terms" => {
             "field" => f,
-            "order" => { type => dir },
+            "order" => { f_type => dir },
             "size" => size
           },
           "aggs" => {

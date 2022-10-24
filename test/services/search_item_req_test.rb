@@ -44,7 +44,7 @@ class SearchItemReqTest < ActiveSupport::TestCase
       "facet" => [ "title", "subcategory" ]
     }).facets
     assert_equal(
-      {"title"=>{"terms"=>{"field"=>"title", "order"=>{"_term"=>"asc"}, "size"=>10}, "aggs"=>{"top_matches"=>{"top_hits"=>{"_source"=>{"includes"=>["title"]}, "size"=>1}}}}, "subcategory"=>{"terms"=>{"field"=>"subcategory", "order"=>{"_term"=>"asc"}, "size"=>10}, "aggs"=>{"top_matches"=>{"top_hits"=>{"_source"=>{"includes"=>["subcategory"]}, "size"=>1}}}}},
+      {"title"=>{"terms"=>{"field"=>"title", "order"=>"asc", "size"=>10}, "aggs"=>{"top_matches"=>{"top_hits"=>{"_source"=>{"includes"=>["title"]}, "size"=>1}}}}, "subcategory"=>{"terms"=>{"field"=>"subcategory", "order"=>"asc", "size"=>10}, "aggs"=>{"top_matches"=>{"top_hits"=>{"_source"=>{"includes"=>["subcategory"]}, "size"=>1}}}}},
       facets
     ) 
 
@@ -69,7 +69,7 @@ class SearchItemReqTest < ActiveSupport::TestCase
       "facet" => [ "creator.name" ]
     }).facets
     assert_equal(
-      {"creator.name"=>{"nested"=>{"path"=>"creator"}, "aggs"=>{"creator.name"=>{"terms"=>{"field"=>"creator.name", "order"=>{"_term"=>"desc"}, "size"=>20}, "aggs"=>{"top_matches"=>{"top_hits"=>{"_source"=>{"includes"=>["creator.name"]}, "size"=>1}}}}}}},
+      {"creator.name"=>{"nested"=>{"path"=>"creator"}, "aggs"=>{"creator.name"=>{"terms"=>{"field"=>"creator.name", "order"=>"desc", "size"=>20}, "aggs"=>{"top_matches"=>{"top_hits"=>{"_source"=>{"includes"=>["creator.name"]}, "size"=>1}}}}}}},
       facets
     )
 
@@ -83,14 +83,14 @@ class SearchItemReqTest < ActiveSupport::TestCase
     # sort term order specified
     facets = SearchItemReq.new({ "facet" => ["title", "format"], "facet_sort" => "term|desc" }).facets
     assert_equal(
-      {"title"=>{"terms"=>{"field"=>"title", "order"=>{"_term"=>"desc"}, "size"=>20}, "aggs"=>{"top_matches"=>{"top_hits"=>{"_source"=>{"includes"=>["title"]}, "size"=>1}}}}, "format"=>{"terms"=>{"field"=>"format", "order"=>{"_term"=>"desc"}, "size"=>20}, "aggs"=>{"top_matches"=>{"top_hits"=>{"_source"=>{"includes"=>["format"]}, "size"=>1}}}}},
+      {"title"=>{"terms"=>{"field"=>"title", "order"=>"desc", "size"=>20}, "aggs"=>{"top_matches"=>{"top_hits"=>{"_source"=>{"includes"=>["title"]}, "size"=>1}}}}, "format"=>{"terms"=>{"field"=>"format", "order"=>"desc", "size"=>20}, "aggs"=>{"top_matches"=>{"top_hits"=>{"_source"=>{"includes"=>["format"]}, "size"=>1}}}}},
       facets
     )
 
     # sort term no order specified
     facets = SearchItemReq.new({ "facet" => ["title", "format"], "facet_sort" => "term" }).facets
     assert_equal(
-      {"title"=>{"terms"=>{"field"=>"title", "order"=>{"_term"=>"desc"}, "size"=>20}, "aggs"=>{"top_matches"=>{"top_hits"=>{"_source"=>{"includes"=>["title"]}, "size"=>1}}}}, "format"=>{"terms"=>{"field"=>"format", "order"=>{"_term"=>"desc"}, "size"=>20}, "aggs"=>{"top_matches"=>{"top_hits"=>{"_source"=>{"includes"=>["format"]}, "size"=>1}}}}},
+      {"title"=>{"terms"=>{"field"=>"title", "order"=>"desc", "size"=>20}, "aggs"=>{"top_matches"=>{"top_hits"=>{"_source"=>{"includes"=>["title"]}, "size"=>1}}}}, "format"=>{"terms"=>{"field"=>"format", "order"=>"desc", "size"=>20}, "aggs"=>{"top_matches"=>{"top_hits"=>{"_source"=>{"includes"=>["format"]}, "size"=>1}}}}},
       facets
     )
 
