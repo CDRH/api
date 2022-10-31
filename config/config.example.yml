@@ -18,7 +18,7 @@ default: &default
     # highlight fragment number
     hl_num: 3
     # number of results returned per "page"
-    num: 5000
+    num: 20
     # default sorting field and direction (field|asc)
     sort_fl: "identifier|asc"
     # starting document in results list (0 == 1st result)
