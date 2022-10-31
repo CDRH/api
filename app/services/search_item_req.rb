@@ -79,8 +79,7 @@ class SearchItemReq
     end
 
     # FACET_SETTINGS["start"]
-    size = SETTINGS["num"]
-    size = @params["facet_num"].blank? ? SETTINGS["num"] : @params["facet_num"]
+    size = @params["facet_limit"].blank? ? SETTINGS["num"] : @params["facet_limit"]
 
     aggs = {}
     Array.wrap(@params["facet"]).each do |f|
