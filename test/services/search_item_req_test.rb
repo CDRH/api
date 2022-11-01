@@ -39,7 +39,7 @@ class SearchItemReqTest < ActiveSupport::TestCase
 
     # normal with pagination overrides, multiple facets
     facets = SearchItemReq.new({
-      "facet_num" => 10,
+      "facet_limit" => 10,
       "facet_sort" => "term|asc",
       "facet" => [ "title", "subcategory" ]
     }).facets
@@ -50,7 +50,7 @@ class SearchItemReqTest < ActiveSupport::TestCase
 
     # should be blank if there are no facets provided
     facets = SearchItemReq.new({
-      "facet_num" => 1,
+      "facet_limit" => 1,
       "facet_sort" => "nonterm|asc",
       "facet" => []
     }).facets
