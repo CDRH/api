@@ -61,7 +61,7 @@ Markdown Spec](https://github.github.com/gfm/).
 - changes reflect new api schemas in Datura, which make heavy use of nested fields
 
 ### Migration
-- in Datura repos config `private.yml` api to `"api_version": "2.0"` to take advantage of new bucket aggregation functionality (or `"api_version": "1.0"` for legacy repos that have not been updated for the new schema). Please note that a running API index can only use one ES index at a time, and each ES index is restricted to one version of the schema. See new schema (2.0) documentation [here](https://github.com/CDRH/datura/docs/schema_v2.md)
+- in the config files of your Datura repos, (`private.yml` or `public.yml`, set the api to `"api_version": "2.0"` to take advantage of new bucket aggregation functionality (or `"api_version": "1.0"` for legacy repos that have not been updated for the new schema). Please note that a running API index can only use one ES index at a time, and each ES index is restricted to one version of the schema. See new schema (2.0) documentation [here](https://github.com/CDRH/datura/docs/schema_v2.md).
 - Use Elasticsearch 8.5 or later. See [dev docs instructions](https://github.com/CDRH/cdrh_dev_docs/blob/update_elasticsearch_documentation/publishing/2_basic_requirements.md#downloading-elasticsearch).
 - If you are using ES with security enabled, you must configure credentials with Rails in the API repo. See https://guides.rubyonrails.org/v6.1/security.html. Configure the VSCode editor. Run `EDITOR="code --wait" rails credentials:edit` and add
 ```
