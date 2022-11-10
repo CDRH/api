@@ -35,7 +35,8 @@ Markdown Spec](https://github.github.com/gfm/).
 - "api_version" added to all response "res" objects
 
 ### Changed
-- upgraded to Rails 6
+- upgraded to Rails 6.1.7 and Ruby 3
+- changes reflect new api schemas in Datura, which make heavy use of nested fields
 - Added support for aggregating buckets by normalized keyword and returning
   the "top_hits" first document result for a non-normalized display
 - Changes response format of `facets` key
@@ -55,6 +56,20 @@ Markdown Spec](https://github.github.com/gfm/).
   ```
   Not only is the response format itself different, but there may be fewer
   facets returned since normalized values which match are combined
+
+### Migration
+- in Datura repos config `private.yml` api to `"api_version": "2.0"` to take advantage of new bucket aggregation functionality (or `"api_version": "1.0"` for legacy repos that have not been updated for the new schema). Please note that a running API index can only use one ES index at a time, and each ES index is restricted to one version of the schema. See new schema (2.0) documentation [here](https://github.com/CDRH/datura/docs/schema_v2.md)
+- Use Elasticsearch 8.5 or later. See [dev docs instructions](https://github.com/CDRH/cdrh_dev_docs/blob/update_elasticsearch_documentation/publishing/2_basic_requirements.md#downloading-elasticsearch).
+- If you are using ES with security enabled, you must configure credentials with Rails in the API repo. See https://guides.rubyonrails.org/v6.1/security.html. Configure the VSCode editor. Run `EDITOR="code --wait" rails credentials:edit` and add
+```
+elasticsearch:
+  user: username
+  password: *****
+```
+to the secrets file and then close the window to save. Do not commit `config/master.key` (it should be in `gitignore`)
+- Orchid apps that connect to the API should use `facet_limit` instead of `facet_num` in options.
+- Add nested facets as described above, if desired.
+
 
 ## [v1.0.4](https://github.com/CDRH/api/compare/v1.0....v1.0.4) - Updates & license
 
