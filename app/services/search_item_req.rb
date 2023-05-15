@@ -17,6 +17,7 @@ class SearchItemReq
     start = @params["start"].blank? ? SETTINGS["start"] : @params["start"]
 
     req = {
+      "track_total_hits": true, 
       "aggs" => {},
       "from" => start,
       "highlight" => {},
