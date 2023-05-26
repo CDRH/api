@@ -78,7 +78,7 @@ class SearchItemRes
     end
     facets[field][key] = {
       "num" => val,
-      "source" => source
+      "source" => source.to_s
     }
   end
 

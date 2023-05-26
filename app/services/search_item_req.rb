@@ -188,7 +188,7 @@ class SearchItemReq
                     "top_matches" => {
                       "top_hits" => {
                         "_source" => {
-                          "includes" => [ agg_name ]
+                          "includes" => [ f ]
                         },
                         "size" => 1
                       }
