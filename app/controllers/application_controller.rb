@@ -3,7 +3,8 @@ require 'rest-client'
 class ApplicationController < ActionController::API
 
   def post_search(json, error_method=method(:display_error))
-    res = RestClient.post("#{ES_URI}/_search", json.to_json, { "content-type" => "json" })
+    auth_hash = { "Authorization" => "Basic #{Base64::encode64("#{ES_USER}:#{ES_PASSWORD}")}" }
+    res = RestClient.post("#{ES_URI}/_search", json.to_json, auth_hash.merge({ "content-type" => "json" }))
     raise
     return JSON.parse(res.body)
   rescue => e

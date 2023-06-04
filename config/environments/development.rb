@@ -61,4 +61,5 @@ Rails.application.configure do
   # CDRH CONFIGURATION
 
   config.hosts << "cdrhdev1.unl.edu"
+  config.hosts << "whitman-dev.unl.edu"
 end
