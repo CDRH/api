@@ -11,8 +11,8 @@ class SearchService
   end
 
   def post(url_ending, json)
-    auth_hash = { "Authorization" => "Basic #{Base64::encode64("#{Rails.application.credentials.elasticsearch[:user]}:#{Rails.application.credentials.elasticsearch[:password]}")}" }
-    res = RestClient.post("#{@url}/#{url_ending}", json.to_json, auth_hash.merge({ "content-type" => "json" } ))
+#    auth_hash = { "Authorization" => "Basic #{Base64::encode64("#{Rails.application.credentials.elasticsearch[:user]}:#{Rails.application.credentials.elasticsearch[:password]}")}" }
+    res = RestClient.post("#{@url}/#{url_ending}", json.to_json, { "content-type" => "json" }) #, auth_hash.merge({ "content-type" => "json" } ))
     JSON.parse(res.body)
   rescue => e
     e
