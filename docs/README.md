@@ -65,13 +65,13 @@ facet[]=date
 
 Number of facets returned and sorting alphabetically (by default sorts by count)
 
-`facet_num=number&facet_sort=term|direction`
+`facet_limit=number&facet_sort=term|direction`
 
 ```
-facet_num=100
+facet_limit=100
 facet_sort=term|asc
 
-facet_num=30&facet_sort=term|desc
+facet_limit=30&facet_sort=term|desc
 ```
 
 __Sorting facets__
