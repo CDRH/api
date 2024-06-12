@@ -50,6 +50,12 @@ __Nested fields__
 facet[]=creator.name
 facet[]=creator.name&facet[]=creator.role
 ```
+you can also match on another nested field with the new API schema
+`facet[]=nested_field.keyword_field1[nested_field.keyword_field2#value]`
+```
+facet[]=person.name[person.role#judge]
+```
+the above will select all names of persons, where the role of that person is "judge".
 
 __Date ranges__ (currently supports days or years)
 

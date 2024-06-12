@@ -18,7 +18,6 @@ class SearchItemRes
     # strip out only the fields for the item response
     items = combine_highlights
     facets = reformat_facets
-
     {
       "code" => 200,
       "count" => count,
@@ -50,9 +49,9 @@ class SearchItemRes
     if hit.class == Array
       # I don't love this, because we will have to match exactly the logic
       # that got us the key to get this to work
-      match_index = hit
-        .map { |s| remove_nonword_chars(s) }
-        .index(remove_nonword_chars(key))
+        match_index = hit
+          .map { |s| remove_nonword_chars(s) }
+          .index(remove_nonword_chars(key))
       # if nothing matches the original key, return the entire source hit
       # should return a string, regardless
       return match_index ? hit[match_index] : hit.join(" ")
@@ -65,8 +64,8 @@ class SearchItemRes
   def format_bucket_value(facets, field, bucket)
     # dates return in wonktastic ways, so grab key_as_string instead of gibberish number
     # but otherwise just grab the key if key_as_string unavailable
-    key = bucket.key?("key_as_string") ? bucket["key_as_string"] : bucket["key"]
-    val = bucket["doc_count"]
+    key = bucket.key?("key_as_string") ? bucket["key_as_string"].titleize : bucket["key"].titleize
+    val = bucket.key?("field_to_item") ? bucket["field_to_item"]["doc_count"] : bucket["doc_count"]
     source = key
     # top_matches is a top_hits aggregation which returns a list of terms
     # which were used for the facet.
@@ -79,7 +78,7 @@ class SearchItemRes
     end
     facets[field][key] = {
       "num" => val,
-      "source" => source
+      "source" => source.to_s
     }
   end
 
@@ -89,8 +88,7 @@ class SearchItemRes
       facets = {}
       raw_facets.each do |field, info|
         facets[field] = {}
-        # nested fields do not have buckets at this level of response structure
-        buckets = info.key?("buckets") ? info["buckets"] : info.dig(field, "buckets")
+        buckets = get_buckets(info, field)
         if buckets
           buckets.each { |b| format_bucket_value(facets, field, b) }
         else
@@ -110,4 +108,18 @@ class SearchItemRes
     transliterated.gsub(/<\/?(?:em|strong|u)>|\W/, "").downcase
   end
 
+  def get_buckets(info, field)
+    buckets = nil
+    # ordinary facet
+    if info.key?("buckets")
+      buckets = info["buckets"]
+    # nested facet
+    elsif info.dig(field, "buckets")
+      buckets = info.dig(field, "buckets")
+    # filtered facet
+    else
+      buckets = info.dig(field, field, "buckets")
+    end
+    buckets
+  end
 end
