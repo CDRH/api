@@ -56,7 +56,18 @@ class SearchItemRes
         .index(remove_nonword_chars(key))
       # if nothing matches the original key, return the entire source hit
       # should return a string, regardless
-      return match_index ? hit[match_index] : hit.join(" ")
+      if match_index 
+        #matching item may be an array
+        if hit[match_index].class == Array
+          return hit[match_index][0]
+        else
+          #just return the match
+          return hit[match_index]
+        end
+      else
+        # if there is an array of values but no match, just return the key
+        return key
+      end
     else
       # it must be single-valued and therefore we are good to go
       return hit
@@ -105,13 +116,10 @@ class SearchItemRes
   end
 
   def remove_nonword_chars(term)
-    #in case of nested arrays, etc.
+    
     if term.class == Array
-      new_term = []
-      term.each do |ele|
-        new_term << remove_nonword_chars(ele)
-      end
-      return new_term
+      #ensure that term is a string value, not an array
+      term = term[0]
     end
     # transliterate to ascii (ø -> o)
     transliterated = I18n.transliterate(term)
