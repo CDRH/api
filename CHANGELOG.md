@@ -36,17 +36,27 @@ Markdown Spec](https://github.github.com/gfm/).
 
 - "api_version" added to all response "res" objects
 - support for elasticsearch 8.5
-- user/password basic authentication with ES 8.5, when querying the index or posting from Datura
+- user/password basic authentication with ES 8.5, when querying the index or 
+  posting from Datura
 - better support for nested fields
-- support for nested bucket aggregations, matching a nested value on another nested value. `person.name[person.role#judge]` will return all names of persons where role="judge".
+- support for nested bucket aggregations, matching a nested value on another 
+  nested value. 
+  `person.name[person.role#judge]` will return all names of persons where 
+  role="judge".
 - "api_version" added to all response "res" objects
+- updated documentation for new features
+- "net-smtp" gem
+- `track total hits` option added to ES queries, to return counts of search
+   results higher than 10000
 
 ### Changed
 
 - upgraded to Rails 6.1.7 and Ruby 3
 - changes reflect new api schemas in Datura, which make heavy use of nested fields
 - Added support for aggregating buckets by normalized keyword and returning
-  the "top_hits" first document result for a non-normalized display
+  the "top_hits" first document result for a non-normalized display. internal logic
+  has been changed because of nested fields, this may cause subtle differences in
+  how facet labels are displayed
 - Changes response format of `facets` key
 
   From:
@@ -67,16 +77,18 @@ Markdown Spec](https://github.github.com/gfm/).
   ```
 
   Not only is the response format itself different, but there may be fewer
-  facets returned since normalized values which match are combined
-
-### Changed
-
-- upgraded to Rails 6.1.7 and Ruby 3
-- changes reflect new api schemas in Datura, which make heavy use of nested fields
+  facets returned since matching normalized values  are combined
+- gemset changed to `api-v2`
 
 ### Migration
 
-- in the config files of your Datura repos, (`private.yml` or `public.yml`, set the api to `"api_version": "2.0"` to take advantage of new bucket aggregation functionality (or `"api_version": "1.0"` for legacy repos that have not been updated for the new schema). Please note that a running API index can only use one ES index at a time, and each ES index is restricted to one version of the schema. See new schema (2.0) documentation [here](https://github.com/CDRH/datura/docs/schema_v2.md).
+- in the config files of your Datura repos, (`private.yml` or `public.yml`, set
+  the api to `"api_version": "2.0"` to take advantage of new bucket aggregation 
+  functionality (or `"api_version": "1.0"` for legacy repos that have not been 
+  updated for the new schema). Please note that a running API index can only use 
+  one ES index at a time, and each ES index is restricted to one version of the
+  schema. See new schema (2.0) documentation 
+  [here](https://github.com/CDRH/datura/docs/schema_v2.md).
 - Use Elasticsearch 8.5 or later. See [dev docs instructions](https://github.com/CDRH/cdrh_dev_docs/blob/update_elasticsearch_documentation/publishing/2_basic_requirements.md#downloading-elasticsearch).
 - If you are using ES with security enabled, you must configure credentials with Rails in the API repo. See https://guides.rubyonrails.org/v6.1/security.html. Configure the VSCode editor. Run `EDITOR="code --wait" rails credentials:edit` and add
 
