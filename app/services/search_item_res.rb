@@ -47,6 +47,9 @@ class SearchItemRes
     # if this is a multivalued field (for example: works or places),
     # ALL of the values come back as the source, but we only want
     # the single value from which the key was derived
+    if hit.class == Hash
+      hit = [hit]
+    end
     if hit.class == Array
       hit = hit.map { |i| i[nested_child] }.compact
       # I don't love this, because we will have to match exactly the logic
