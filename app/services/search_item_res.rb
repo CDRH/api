@@ -50,7 +50,9 @@ class SearchItemRes
     if hit.class == Hash
       hit = [hit]
     end
-    if hit.class == Array
+    if !hit
+      return key
+    elsif hit.class == Array
       hit = hit.map { |i| i[nested_child] }.compact
       # I don't love this, because we will have to match exactly the logic
       # that got us the key to get this to work
@@ -88,7 +90,6 @@ class SearchItemRes
     #   Example: "Willa Cather" and "WILLA CATHER"
     # Those terms will both have been normalized as "willa cather" but
     # we will want to display one of the non-normalized terms instead
-
     top_hits = bucket.dig("field_to_item", "top_matches", "hits", "hits")
     if top_hits
       source = find_source_from_top_hits(top_hits, field, key)
