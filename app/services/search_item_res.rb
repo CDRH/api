@@ -42,7 +42,9 @@ class SearchItemRes
   def find_source_from_top_hits(top_hits, field, key)
     # elasticsearch stores nested source results without the "path"
     parent = field.split(".").first
-    nested_child = field.split(".").last
+    if field.include?(".")
+      nested_child = field.split(".").last
+    end
     hit = top_hits.first.dig("_source", parent)
     # if this is a multivalued field (for example: works or places),
     # ALL of the values come back as the source, but we only want
@@ -53,7 +55,9 @@ class SearchItemRes
     if !hit
       return key
     elsif hit.class == Array
-      hit = hit.map { |i| i[nested_child] }.compact
+      if nested_child
+        hit = hit.map { |i| i[nested_child] }.compact
+      end
       # I don't love this, because we will have to match exactly the logic
       # that got us the key to get this to work
       match_index = hit
@@ -90,7 +94,7 @@ class SearchItemRes
     #   Example: "Willa Cather" and "WILLA CATHER"
     # Those terms will both have been normalized as "willa cather" but
     # we will want to display one of the non-normalized terms instead
-    top_hits = bucket.dig("field_to_item", "top_matches", "hits", "hits")
+    top_hits = bucket.key?("field_to_item") ? bucket.dig("field_to_item", "top_matches", "hits", "hits") : bucket.dig("top_matches", "hits", "hits")
     if top_hits
       source = find_source_from_top_hits(top_hits, field, key)
     end
