@@ -114,6 +114,7 @@ class SearchItemReq
         options = JSON.parse(f)
         original = options[0]
         agg_name = options[1]
+
         facet = original.split("[")[0]
         # may or may not be nested
         nested = facet.include?(".")
@@ -123,6 +124,10 @@ class SearchItemReq
         condition = original[/(?<=\[).+?(?=\])/]
         subject = condition.split("#").first
         predicate = condition.split("#").last
+        if f_type == "_count"
+          #make sure sort is on the acutal count of documents
+          f_type = "field_to_item"
+        end
         aggregation = {
             # common to nested and non-nested
             "filter" => {
@@ -171,6 +176,10 @@ class SearchItemReq
         end
       elsif f.include?(".")
         path = f.split(".").first
+        if f_type == "_count"
+          #make sure sort is on the acutal count of documents
+          f_type = "field_to_item"
+        end
         aggs[f] = {
           "nested" => {
             "path" => path
