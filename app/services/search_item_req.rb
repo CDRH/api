@@ -149,7 +149,7 @@ class SearchItemReq
                       "top_matches" => {
                         "top_hits" => {
                           "_source" => {
-                            "includes" => [ agg_name ]
+                            "includes" => [ facet ]
                           },
                           "size" => 1
                         }
