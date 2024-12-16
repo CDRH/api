@@ -57,6 +57,7 @@ class SearchItemRes
       return key
     elsif hit.class == Array
       if nested_child
+        #TODO solve bug where this returns a hash value instead of an array
         hit = hit.map { |i| i[nested_child] }.compact
       end
       # I don't love this, because we will have to match exactly the logic
