@@ -41,6 +41,7 @@ class SearchItemRes
 
   def find_source_from_top_hits(top_hits, field, key)
     # elasticsearch stores nested source results without the "path"
+
     parent = field.split(".").first
     if field.include?(".")
       nested_child = field.split(".").last
@@ -124,15 +125,18 @@ class SearchItemRes
   end
 
   def remove_nonword_chars(term)
-    
+
     if term.class == Array
       #ensure that term is a string value, not an array
       term = term[0]
     end
-    # transliterate to ascii (ø -> o)
-    transliterated = I18n.transliterate(term)
-    # remove html tags like em, u, and strong, then strip remaining non-alpha characters
-    transliterated.gsub(/<\/?(?:em|strong|u)>|\W/, "").downcase
+    if term.class == String
+      # it should not be a hash, but this is a failsafe
+      # transliterate to ascii (ø -> o)
+      transliterated = I18n.transliterate(term)
+      # remove html tags like em, u, and strong, then strip remaining non-alpha characters
+      transliterated.gsub(/<\/?(?:em|strong|u)>|\W/, "").downcase
+    end
   end
 
   def get_buckets(info, field)
