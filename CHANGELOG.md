@@ -72,7 +72,7 @@ elasticsearch:
 to the secrets file and then close the window to save. Do not commit `config/master.key` (it should be in `gitignore`)
 - Orchid apps that connect to the API should use `facet_limit` instead of `facet_num` in options.
 - Add nested facets as described above, if desired
-
+- Orchid apps should update the local version of `config/initializers/config.rb` to match latest version of Orchid (see `lib/generators/templates/config.rb` and in particular the `get_facets` method). This is required if using nested bucket aggregation functionality.
 
 ## [v1.0.4](https://github.com/CDRH/api/compare/v1.0....v1.0.4) - Updates & license
 
