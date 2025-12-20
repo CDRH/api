@@ -79,7 +79,8 @@ class SearchService
     raw_res = post("_search", req)
     if raw_res.class == RuntimeError
       on_error(raw_res, req)
-    elsif raw_res.class == RestClient::ExceptionWithResponse
+    elsif raw_res.class == RestClient::ExceptionWithResponse ||
+      raw_res.class == RestClient::BadRequest
       on_error(JSON.parse(raw_res.response), req)
     else
       res = build_item_response(raw_res)
@@ -92,7 +93,8 @@ class SearchService
     raw_res = post("_search", req)
     if raw_res.class == RuntimeError
       on_error(raw_res.inspect, req)
-    elsif raw_res.class == RestClient::ExceptionWithResponse
+    elsif raw_res.class == RestClient::ExceptionWithResponse ||
+      raw_res.class == RestClient::BadRequest
       on_error(JSON.parse(raw_res.response), req)
     else
       res = build_item_response(raw_res)
