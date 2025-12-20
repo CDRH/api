@@ -45,7 +45,6 @@ Markdown Spec](https://github.github.com/gfm/).
   role="judge".
 - "api_version" added to all response "res" objects
 - updated documentation for new features
-- "net-smtp" gem
 - `track total hits` option added to ES queries, to return counts of search
    results higher than 10000
 
