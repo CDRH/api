@@ -54,7 +54,7 @@ class SearchItemRes
       hit = [hit]
     end
     if !hit
-      return key
+      key
     elsif hit.class == Array
       if nested_child
         #TODO solve bug where this returns a hash value instead of an array
@@ -70,18 +70,18 @@ class SearchItemRes
       if match_index 
         #matching item may be an array
         if hit[match_index].class == Array
-          return hit[match_index][0]
+          hit[match_index][0]
         else
           #just return the match
-          return hit[match_index]
+          hit[match_index]
         end
       else
         # if there is an array of values but no match, just return the key
-        return key
+        key
       end
     else
       # it must be single-valued and therefore we are good to go
-      return hit
+      hit
     end
   end
 
@@ -141,17 +141,15 @@ class SearchItemRes
   end
 
   def get_buckets(info, field)
-    buckets = nil
     # ordinary facet
     if info.key?("buckets")
-      buckets = info["buckets"]
+      info["buckets"]
     # nested facet
     elsif info.dig(field, "buckets")
-      buckets = info.dig(field, "buckets")
+      info.dig(field, "buckets")
     # filtered facet
     else
-      buckets = info.dig(field, field, "buckets")
+      info.dig(field, field, "buckets")
     end
-    buckets
   end
 end
