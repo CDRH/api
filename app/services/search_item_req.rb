@@ -105,7 +105,7 @@ class SearchItemReq
             "order" => { f_type => dir },
           }
         }
-      #nested facet, matching on another nested facet
+      # nested facet, matching on another nested facet
       
       elsif f.include?("[")
         # will be an array including the original, and an alternate aggregation name
@@ -116,43 +116,37 @@ class SearchItemReq
         agg_name = options[1]
 
         facet = original.split("[")[0]
-        # may or may not be nested
-        nested = facet.include?(".")
-        if nested
-          path = facet.split(".").first
-        end
         condition = original[/(?<=\[).+?(?=\])/]
         subject = condition.split("#").first
         predicate = condition.split("#").last
         if f_type == "_count"
-          #make sure sort is on the acutal count of documents
+          # make sure sort is on the actual count of documents
           f_type = "field_to_item"
         end
         aggregation = {
-            # common to nested and non-nested
-            "filter" => {
-              "term" => {
-                subject => predicate
-              }
-            },
-            "aggs" => {
-              agg_name => {
-                "terms" => {
-                  "field" => facet,
-                  "order" => {f_type => dir},
-                  "size" => size
-                },
-                "aggs" => {
-                  "field_to_item" => {
-                    "reverse_nested" => {},
-                    "aggs" => {
-                      "top_matches" => {
-                        "top_hits" => {
-                          "_source" => {
-                            "includes" => [ facet ]
-                          },
-                          "size" => 1
-                        }
+          # common to nested and non-nested
+          "filter" => {
+            "term" => {
+              subject => predicate
+            }
+          },
+          "aggs" => {
+            agg_name => {
+              "terms" => {
+                "field" => facet,
+                "order" => {f_type => dir},
+                "size" => size
+              },
+              "aggs" => {
+                "field_to_item" => {
+                  "reverse_nested" => {},
+                  "aggs" => {
+                    "top_matches" => {
+                      "top_hits" => {
+                        "_source" => {
+                          "includes" => [ facet ]
+                        },
+                        "size" => 1
                       }
                     }
                   }
@@ -160,29 +154,29 @@ class SearchItemReq
               }
             }
           }
-        #interpolate above hash into nested query
-        if nested
+        }
+        # interpolate above hash into nested query
+        if facet.include?(".")
           aggs[agg_name] = {
             "nested" => {
-              "path" => path
+              "path" => facet.split(".").first
             },
             "aggs" => {
               agg_name => aggregation
             }
           }
         else
-          #otherwise it is the whole query
+          # otherwise it is the whole query
           aggs[agg_name] = aggregation
         end
       elsif f.include?(".")
-        path = f.split(".").first
         if f_type == "_count"
-          #make sure sort is on the acutal count of documents
+          # make sure sort is on the acutal count of documents
           f_type = "field_to_item"
         end
         aggs[f] = {
           "nested" => {
-            "path" => path
+            "path" => f.split(".").first
           },
           "aggs" => {
             f => {
@@ -243,10 +237,6 @@ class SearchItemReq
       if filter[0].include?("[")
         original = filter[0]
         facet = original.split("[")[0]
-        nested = facet.include?(".")
-        if nested
-          path = facet.split(".").first
-        end
         condition = original[/(?<=\[).+?(?=\])/]
         subject = condition.split("#").first
         predicate = condition.split("#").last
@@ -258,10 +248,10 @@ class SearchItemReq
         term_filter = {
           subject => predicate
         }
-        if nested
+        if facet.include?(".")
           query = {
             "nested" => {
-              "path" => path,
+              "path" => facet.split(".").first,
               "query" => {
                 "bool" => {
                   "must" => [
@@ -274,13 +264,12 @@ class SearchItemReq
           }
         end
         filter_list << query
-      #ordinary nested facet
+      # ordinary nested facet
       elsif filter[0].include?(".")
-        path = filter[0].split(".").first
         # this is a nested field and must be treated differently
         nested = {
           "nested" => {
-            "path" => path,
+            "path" => filter[0].split(".").first,
             "query" => {
               "term" => {
                 # Remove CR's added by hidden input field values with returns
