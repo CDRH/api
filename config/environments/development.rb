@@ -61,7 +61,7 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  # LOCAL
+  # LOCAL CHANGES
   # Custom dev env logger to empty log more frequently
   config.logger = ActiveSupport::TaggedLogging.new(
     ActiveSupport::Logger.new(File.join(Rails.root.to_s, "log", "development.log"),
@@ -69,8 +69,5 @@ Rails.application.configure do
       1, 32 * 1024 * 1024
     )
   )
-
-  # CDRH CONFIGURATION
-
-  config.hosts << "cdrhdev1.unl.edu"
+  config.hosts << ENV.fetch("RAILS_DEV_HOST") { "localhost" }
 end

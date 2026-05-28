@@ -17,6 +17,7 @@ class SearchItemReq
     start = @params["start"].blank? ? SETTINGS["start"] : @params["start"]
 
     req = {
+      "track_total_hits": true, 
       "aggs" => {},
       "from" => start,
       "highlight" => {},
@@ -51,6 +52,8 @@ class SearchItemReq
 
     # add bool to request body
     req["query"]["bool"] = bool
+    # uncomment below line to log ES query for debugging
+    # puts req.to_json()
     return req
   end
 
@@ -72,19 +75,17 @@ class SearchItemReq
     dir = "desc"
     if @params["facet_sort"].present?
       sort_type, sort_dir = @params["facet_sort"].split(@@filter_separator)
-      type = "_term" if sort_type == "term"
+      type = "term" if sort_type == "term"
       dir = sort_dir if sort_dir == "asc"
     end
 
     # FACET_SETTINGS["start"]
-    size = SETTINGS["num"]
-    size = @params["facet_num"].blank? ? SETTINGS["num"] : @params["facet_num"]
+    size = @params["facet_limit"].blank? ? SETTINGS["num"] : @params["facet_limit"]
 
     aggs = {}
     Array.wrap(@params["facet"]).each do |f|
       # histograms use a different ordering terminology than normal aggs
-      f_type = type == "_term" ? "_key" : "_count"
-
+      f_type = (type == "term") ? "_key" : "_count"
       if f.include?("date") || f[/_d$/]
         # NOTE: if nested fields will ever have dates we will
         # need to refactor this to be available to both
@@ -98,33 +99,104 @@ class SearchItemReq
         aggs[f] = {
           "date_histogram" => {
             "field" => field,
-            "interval" => interval,
+            "calendar_interval" => interval,
             "format" => formatted,
             "min_doc_count" => 1,
             "order" => { f_type => dir },
           }
         }
-      # if nested, has extra syntax
+      # nested facet, matching on another nested facet
+      
+      elsif f.include?("[")
+        # will be an array including the original, and an alternate aggregation name
+      
+
+        options = JSON.parse(f)
+        original = options[0]
+        agg_name = options[1]
+
+        facet = original.split("[")[0]
+        condition = original[/(?<=\[).+?(?=\])/]
+        subject = condition.split("#").first
+        predicate = condition.split("#").last
+        if f_type == "_count"
+          # make sure sort is on the actual count of documents
+          f_type = "field_to_item"
+        end
+        aggregation = {
+          # common to nested and non-nested
+          "filter" => {
+            "term" => {
+              subject => predicate
+            }
+          },
+          "aggs" => {
+            agg_name => {
+              "terms" => {
+                "field" => facet,
+                "order" => {f_type => dir},
+                "size" => size
+              },
+              "aggs" => {
+                "field_to_item" => {
+                  "reverse_nested" => {},
+                  "aggs" => {
+                    "top_matches" => {
+                      "top_hits" => {
+                        "_source" => {
+                          "includes" => [ facet ]
+                        },
+                        "size" => 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        # interpolate above hash into nested query
+        if facet.include?(".")
+          aggs[agg_name] = {
+            "nested" => {
+              "path" => facet.split(".").first
+            },
+            "aggs" => {
+              agg_name => aggregation
+            }
+          }
+        else
+          # otherwise it is the whole query
+          aggs[agg_name] = aggregation
+        end
       elsif f.include?(".")
-        path = f.split(".").first
+        if f_type == "_count"
+          # make sure sort is on the acutal count of documents
+          f_type = "field_to_item"
+        end
         aggs[f] = {
           "nested" => {
-            "path" => path
+            "path" => f.split(".").first
           },
           "aggs" => {
             f => {
               "terms" => {
                 "field" => f,
-                "order" => { type => dir },
+                "order" => {f_type => dir},
                 "size" => size
               },
               "aggs" => {
-                "top_matches" => {
-                  "top_hits" => {
-                    "_source" => {
-                      "includes" => [ f ]
-                    },
-                    "size" => 1
+                "field_to_item" => {
+                  "reverse_nested" => {},
+                  "aggs" => {
+                    "top_matches" => {
+                      "top_hits" => {
+                        "_source" => {
+                          "includes" => [ f ]
+                        },
+                        "size" => 1
+                      }
+                    }
                   }
                 }
               }
@@ -135,7 +207,7 @@ class SearchItemReq
         aggs[f] = {
           "terms" => {
             "field" => f,
-            "order" => { type => dir },
+            "order" => { f_type => dir },
             "size" => size
           },
           "aggs" => {
@@ -161,13 +233,43 @@ class SearchItemReq
     # (type 2 will only be used for dates)
     filters = fields.map {|f| f.split(@@filter_separator, 3) }
     filters.each do |filter|
-      # NESTED FIELD FILTER
-      if filter[0].include?(".")
-        path = filter[0].split(".").first
+      # filter aggregation with nesting
+      if filter[0].include?("[")
+        original = filter[0]
+        facet = original.split("[")[0]
+        condition = original[/(?<=\[).+?(?=\])/]
+        subject = condition.split("#").first
+        predicate = condition.split("#").last
+        term_match = {
+          # "person.name" => "oliver wendell holmes"
+          # Remove CR's added by hidden input field values with returns
+          facet => filter[1].gsub(/\r/, "")
+        }
+        term_filter = {
+          subject => predicate
+        }
+        if facet.include?(".")
+          query = {
+            "nested" => {
+              "path" => facet.split(".").first,
+              "query" => {
+                "bool" => {
+                  "must" => [
+                    { "match" => term_filter },
+                    { "match" => term_match }
+                  ]
+                }
+              }
+            }
+          }
+        end
+        filter_list << query
+      # ordinary nested facet
+      elsif filter[0].include?(".")
         # this is a nested field and must be treated differently
         nested = {
           "nested" => {
-            "path" => path,
+            "path" => filter[0].split(".").first,
             "query" => {
               "term" => {
                 # Remove CR's added by hidden input field values with returns

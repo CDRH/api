@@ -1,11 +1,11 @@
 default: &default
   metadata:
     # api metadata / description
-    api_updated: "TODO 2017"
+    api_updated: "TODO"
     contact: "cdrhdev@unl.edu"
     description: "API to access all public Center for Digital Research in the Humanities resources"
-    documentation: "https://cdrhapi.unl.edu/docs"
-    license: "TODO"
+    documentation: "https://github.com/CDRH/api/tree/main/docs"
+    license: "MIT License"
     terms_of_service: "TODO"
 
   settings:
