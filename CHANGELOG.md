@@ -29,7 +29,7 @@ Markdown Spec](https://github.github.com/gfm/).
 -->
 
 ## [v2.0.0] - Nested bucket aggregation/query functionality
-[v2.0.0]: https://github.com/CDRH/api/compare/v1.0.4...v2.0.0
+[v2.0.0]: https://github.com/CDRH/api/compare/v1.0.5...v2.0.0
 
 ### Added
 
