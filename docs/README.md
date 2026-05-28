@@ -50,6 +50,12 @@ __Nested fields__
 facet[]=creator.name
 facet[]=creator.name&facet[]=creator.role
 ```
+you can also match on another nested field with the new API schema
+`facet[]=nested_field.keyword_field1[nested_field.keyword_field2#value]`
+```
+facet[]=person.name[person.role#judge]
+```
+the above will select all names of persons, where the role of that person is "judge".
 
 __Date ranges__ (currently supports days or years)
 
@@ -65,13 +71,13 @@ facet[]=date
 
 Number of facets returned and sorting alphabetically (by default sorts by count)
 
-`facet_num=number&facet_sort=term|direction`
+`facet_limit=number&facet_sort=term|direction`
 
 ```
-facet_num=100
+facet_limit=100
 facet_sort=term|asc
 
-facet_num=30&facet_sort=term|desc
+facet_limit=30&facet_sort=term|desc
 ```
 
 __Sorting facets__

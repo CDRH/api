@@ -11,10 +11,32 @@ class SearchService
   end
 
   def post(url_ending, json)
-    res = RestClient.post("#{@url}/#{url_ending}", json.to_json, { "content-type" => "json" } )
-    return JSON.parse(res.body)
+    # Add Basic Authentication header if credentials present
+    if Rails.application.credentials.elasticsearch.present? &&
+      Rails.application.credentials.elasticsearch[:user].present? &&
+      Rails.application.credentials.elasticsearch[:password].present?
+      auth_hash = {
+        "Authorization" => "Basic " +
+          Base64::encode64(
+            Rails.application.credentials.elasticsearch[:user] +
+            ":" + Rails.application.credentials.elasticsearch[:password]
+          )
+      }
+      res = RestClient.post(
+        @url + "/" + url_ending,
+        json.to_json,
+        auth_hash.merge({ "content-type" => "json" })
+      )
+    else
+      res = RestClient.post(
+        @url + "/" + url_ending,
+        json.to_json,
+        {"content-type" => "json"}
+      )
+    end
+    JSON.parse(res.body)
   rescue => e
-    return e
+    e
   end
 
   def search_collections
@@ -57,7 +79,8 @@ class SearchService
     raw_res = post("_search", req)
     if raw_res.class == RuntimeError
       on_error(raw_res, req)
-    elsif raw_res.class == RestClient::BadRequest
+    elsif raw_res.class == RestClient::ExceptionWithResponse ||
+      raw_res.class == RestClient::BadRequest
       on_error(JSON.parse(raw_res.response), req)
     else
       res = build_item_response(raw_res)
@@ -70,7 +93,8 @@ class SearchService
     raw_res = post("_search", req)
     if raw_res.class == RuntimeError
       on_error(raw_res.inspect, req)
-    elsif raw_res.class == RestClient::BadRequest
+    elsif raw_res.class == RestClient::ExceptionWithResponse ||
+      raw_res.class == RestClient::BadRequest
       on_error(JSON.parse(raw_res.response), req)
     else
       res = build_item_response(raw_res)
@@ -108,7 +132,7 @@ class SearchService
     if @params["debug"].present?
       json["req"]["query_obj"] = req
     end
-    return json
+    json
   end
 
   def build_collections_response(res)

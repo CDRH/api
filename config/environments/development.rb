@@ -61,10 +61,7 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  # Uncomment if you wish to allow Action Cable access from any origin.
-  # config.action_cable.disable_request_forgery_protection = true
-  
-  # LOCAL
+  # LOCAL CHANGES
   # Custom dev env logger to empty log more frequently
   config.logger = ActiveSupport::TaggedLogging.new(
     ActiveSupport::Logger.new(File.join(Rails.root.to_s, "log", "development.log"),
@@ -72,4 +69,5 @@ Rails.application.configure do
       1, 32 * 1024 * 1024
     )
   )
+  config.hosts << ENV.fetch("RAILS_DEV_HOST") { "localhost" }
 end
