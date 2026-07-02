@@ -10,35 +10,6 @@ class SearchService
     @user_req = user_req
   end
 
-  def post(url_ending, json)
-    # Add Basic Authentication header if credentials present
-    if Rails.application.credentials.elasticsearch.present? &&
-      Rails.application.credentials.elasticsearch[:user].present? &&
-      Rails.application.credentials.elasticsearch[:password].present?
-      auth_hash = {
-        "Authorization" => "Basic " +
-          Base64::encode64(
-            Rails.application.credentials.elasticsearch[:user] +
-            ":" + Rails.application.credentials.elasticsearch[:password]
-          )
-      }
-      res = RestClient.post(
-        @url + "/" + url_ending,
-        json.to_json,
-        auth_hash.merge({ "content-type" => "json" })
-      )
-    else
-      res = RestClient.post(
-        @url + "/" + url_ending,
-        json.to_json,
-        {"content-type" => "json"}
-      )
-    end
-    res
-  rescue => e
-    e
-  end
-
   def search_collections
     req = {
       "aggs" => {
@@ -79,6 +50,18 @@ class SearchService
 
   protected
 
+  def build_collections_response(res)
+    SearchCollRes.new(res).build_response
+  end
+
+  def build_item_request
+    SearchItemReq.new(@params).build_request
+  end
+
+  def build_item_response(res)
+    SearchItemRes.new(res).build_response
+  end
+
   def on_error(error_msg, req, friendly_msg="Search service error")
     {
       "req" => {
@@ -110,6 +93,35 @@ class SearchService
     json
   end
 
+  def post(url_ending, json)
+    # Add Basic Authentication header if credentials present
+    if Rails.application.credentials.elasticsearch.present? &&
+      Rails.application.credentials.elasticsearch[:user].present? &&
+      Rails.application.credentials.elasticsearch[:password].present?
+      auth_hash = {
+        "Authorization" => "Basic " +
+          Base64::encode64(
+            Rails.application.credentials.elasticsearch[:user] +
+            ":" + Rails.application.credentials.elasticsearch[:password]
+          )
+      }
+      res = RestClient.post(
+        @url + "/" + url_ending,
+        json.to_json,
+        auth_hash.merge({ "content-type" => "json" })
+      )
+    else
+      res = RestClient.post(
+        @url + "/" + url_ending,
+        json.to_json,
+        {"content-type" => "json"}
+      )
+    end
+    res
+  rescue => e
+    e
+  end
+
   def search(req)
     res = post("_search", req)
     if res.class == RuntimeError
@@ -133,17 +145,4 @@ class SearchService
       on_success(req, res)
     end
   end
-
-  def build_collections_response(res)
-    SearchCollRes.new(res).build_response
-  end
-
-  def build_item_request
-    SearchItemReq.new(@params).build_request
-  end
-
-  def build_item_response(res)
-    SearchItemRes.new(res).build_response
-  end
-
 end
