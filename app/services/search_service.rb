@@ -126,7 +126,7 @@ class SearchService
     res = post("_search", req)
     if res.class == RuntimeError
       on_error(res.inspect, req,
-               "There was an error communicating with to the search service")
+               "There was an error communicating with the search service")
     elsif res.class == RestClient::Forbidden
       on_error(res.response, req,
                "Communication with the search service was denied (40x "\
