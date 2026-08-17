@@ -28,6 +28,20 @@ Markdown Spec](https://github.github.com/gfm/).
 ### Contributors
 -->
 
+## [v2.1.0] - Improved Error Messages; DRY search service code
+[v2.1.0]: https://github.com/CDRH/api/compare/v2.0.0...v2.1.0
+
+### Changed
+- Return raw `res` from `post` for handling differently depending on response
+  from search service
+- DRY up and alphabetize search service methods
+- Default error message now less generic, indicates search service error
+- Send message in response to indicate errors with search service
+  - Runtime error - Problem communicating with search service
+  - 40x Forbidden - Bad auth / access denied responses
+  - 400 Bad Request - Likely mix of smart and regular quotes in search query
+  - Default fallback error message
+
 ## [v2.0.0] - Nested bucket aggregation/query functionality
 [v2.0.0]: https://github.com/CDRH/api/compare/v1.0.5...v2.0.0
 
